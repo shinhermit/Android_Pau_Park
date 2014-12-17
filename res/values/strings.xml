@@ -3,7 +3,8 @@
 
     <string name="app_name">PauPark</string>
     
-    <string name="settings_menu">Préférences</string>
+    <string name="settings_action">Préférences</string>
+    <string name="search_action">Trouver</string>
     
     <string name="tab_parkings">Parkings</string>
     <string name="tab_tips">Bons plans</string>
