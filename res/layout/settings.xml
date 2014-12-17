@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+ 		android:weightSum="1.0" >
+
+        <TextView
+            android:id="@+id/prefGeolocTextView"
+            android:layout_height="wrap_content"
+            android:layout_width="0dip"
+			android:layout_weight=".5"
+            android:text="@string/pref_geoloc_text_view" />
+
+        <Switch
+            android:id="@+id/prefGeolocSwitch"
+            android:layout_width="0dip"
+			android:layout_weight=".5"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+ 		android:weightSum="1.0" >
+
+        <TextView
+            android:id="@+id/prefPaginationTextView"
+            android:layout_width="0dip"
+			android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_pagination_text_view" />
+
+        <Switch
+            android:id="@+id/prefPaginationSwitch"
+            android:layout_width="0dip"
+			android:layout_weight=".5"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+ 		android:weightSum="1.0" >
+
+        <TextView
+            android:id="@+id/prefPseudoTextView"
+            android:layout_width="0dip"
+			android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_pseudo_text_view" />
+
+        <EditText
+            android:id="@+id/prefPseudoEditText"
+            android:layout_width="0dip"
+			android:layout_weight=".5"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/pref_pseudo_edit_text_hint"
+            android:inputType="textPersonName" >
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+    
+</LinearLayout>
