@@ -13,10 +13,21 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Switch;
 
+/**
+ * The activity which allows to enter the settings.
+ * 
+ * @author Josuah Aron
+ *
+ */
 public class SettingsActivity extends Activity
 {
+	/** The switch widgets which tells whether the user want to use geolocation or not. */
 	private Switch useGeolocSwitch;
+	
+	/** The switch widgets which tells whether the user want to use pagination for parking list display or not. */
 	private Switch usePaginationSwitch;
+	
+	/** The EditText widget which allows the user to enter his nickname. */
 	private EditText nickNameEditText;
 	
 	@Override
@@ -50,7 +61,7 @@ public class SettingsActivity extends Activity
 				this.getPreferences(Activity.MODE_PRIVATE);
 		
 		useGeoloc = preferences.getBoolean(
-				PauParkPreferences.GEOLOCALISATION_PREF_KEY, true);
+				PauParkPreferences.GEOLOCATION_PREF_KEY, true);
 		
 		usePagination = preferences.getBoolean(
 				PauParkPreferences.PAGINATION_PREF_KEY, true);
@@ -90,6 +101,9 @@ public class SettingsActivity extends Activity
 		return true;
 	}
 	
+	/**
+	 * Saves the user inputs.
+	 */
 	private void saveSettings()
 	{
 		// register preferences
@@ -99,7 +113,7 @@ public class SettingsActivity extends Activity
 		Editor preferenceEditor = preferences.edit();
 		
 		preferenceEditor.putBoolean(
-				PauParkPreferences.GEOLOCALISATION_PREF_KEY,
+				PauParkPreferences.GEOLOCATION_PREF_KEY,
 				this.useGeolocSwitch.isChecked());
 		
 		preferenceEditor.putBoolean(
@@ -112,6 +126,9 @@ public class SettingsActivity extends Activity
 		preferenceEditor.commit();
 	}
 	
+	/**
+	 * Ends this activity, so that the application can go back to the main activity.
+	 */
 	private void terminate()
 	{
 		Intent data = new Intent();
