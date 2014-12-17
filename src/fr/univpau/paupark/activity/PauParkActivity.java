@@ -1,6 +1,8 @@
 package fr.univpau.paupark.activity;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.fragment.ParkingsFragment;
+import fr.univpau.paupark.fragment.TipsTabFragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -14,7 +16,7 @@ public class PauParkActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.parkings_tab);
+//		setContentView(R.layout.parkings_tab)<;
 		
 		this.createActionBarTabs();
 	}
@@ -36,13 +38,31 @@ public class PauParkActivity extends Activity
 	    bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	    
 	    Tab tab = bar.newTab();
-        tab.setText(R.string.tab_parkings);
-        tab.setTabListener(new ParkingsTabListener(this));
+
+        tab.setText(R.string.tab_parkings)
+           .setTabListener(
+    		   new TabListener<TipsTabFragment>(
+                   this, 
+                   "tipsTab", 
+                   TipsTabFragment.class
+               )
+           );
         bar.addTab(tab);
-        
+
 	    tab = bar.newTab();
         tab.setText(R.string.tab_tips);
-        tab.setTabListener(new TipsTabListener(this));
+        tab.setTabListener(
+     		   new TabListener<ParkingsFragment>(
+                       this, 
+                       "parkingsTab", 
+                       ParkingsFragment.class
+                   )
+                   );
         bar.addTab(tab);
+        
+		// setup action bar for tabs
+	    bar.setDisplayShowTitleEnabled(false);
+
+
 	}
 }
