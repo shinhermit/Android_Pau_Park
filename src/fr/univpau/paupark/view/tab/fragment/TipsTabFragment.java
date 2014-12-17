@@ -1,4 +1,4 @@
-package fr.univpau.paupark.fragment;
+package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
 import android.app.Fragment;

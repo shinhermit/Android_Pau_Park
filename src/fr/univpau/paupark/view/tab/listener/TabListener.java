@@ -1,4 +1,4 @@
-package fr.univpau.paupark.activity;
+package fr.univpau.paupark.view.tab.listener;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;

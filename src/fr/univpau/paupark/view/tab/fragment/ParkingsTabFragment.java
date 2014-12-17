@@ -1,4 +1,4 @@
-package fr.univpau.paupark.fragment;
+package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
 import android.app.Fragment;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ParkingsFragment extends Fragment {
+public class ParkingsTabFragment extends Fragment {
     @Override
     public View onCreateView(
 		LayoutInflater inflater, 

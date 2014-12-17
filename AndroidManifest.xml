@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:uiOptions="splitActionBarWhenNarrow"
-            android:name=".activity.PauParkActivity"
+            android:name="fr.univpau.paupark.view.PauParkActivity"
             android:label="@string/app_name" >
             
             <!-- Support for uiOptions on old versions -->
