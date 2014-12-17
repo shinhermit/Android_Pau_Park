@@ -2,18 +2,21 @@
 <resources>
 
     <string name="app_name">PauPark</string>
+    <string name="settings_name">Préférences</string>
     
     <string name="settings_action">Préférences</string>
     <string name="search_action">Trouver</string>
     <string name="add_parking_tip_action">+ bon plan</string>
     <string name="refresh_action">Recharger</string>
     
+    <string name="save_settings_action">Enregistrer</string>
+    
     <string name="tab_parkings">Parkings</string>
     <string name="tab_tips">Bons plans</string>
     
     <string name="pref_geoloc_text_view">Géolocalisation</string>
     <string name="pref_pagination_text_view">Pagination</string>
-    <string name="pref_pseudo_text_view">Pseudo</string>
-    <string name="pref_pseudo_edit_text_hint">Your name</string>
+    <string name="pref_nickname_text_view">Pseudo</string>
+    <string name="pref_nickname_edit_text_hint">Your name</string>
     
 </resources>

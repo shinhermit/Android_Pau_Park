@@ -55,17 +55,17 @@
         <TextView
             android:id="@+id/prefPseudoTextView"
             android:layout_width="0dip"
-			android:layout_weight=".5"
             android:layout_height="wrap_content"
-            android:text="@string/pref_pseudo_text_view" />
+            android:layout_weight=".5"
+            android:text="@string/pref_nickname_text_view" />
 
         <EditText
-            android:id="@+id/prefPseudoEditText"
+            android:id="@+id/prefNicknameEditText"
             android:layout_width="0dip"
-			android:layout_weight=".5"
             android:layout_height="wrap_content"
+            android:layout_weight=".5"
             android:ems="10"
-            android:hint="@string/pref_pseudo_edit_text_hint"
+            android:hint="@string/pref_nickname_edit_text_hint"
             android:inputType="textPersonName" >
 
             <requestFocus />

@@ -7,12 +7,15 @@ import fr.univpau.paupark.view.tab.listener.TabListener;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class PauParkActivity extends Activity
 {
+	private static final int SETTINGS_ACTIVITY_RESQUEST_CODE = 1; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -21,15 +24,48 @@ public class PauParkActivity extends Activity
 		this.createActionBarTabs();
 	}
 	
+	/* ** Option Menu** */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater =
 				this.getMenuInflater();
 		
-		inflater.inflate(R.menu.settings_menu, menu);
+		inflater.inflate(R.menu.main_activity_menu, menu);
 		
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+		case R.id.settingsAction:
+			this.startSettingsActivity();
+			break;
+		// Add other menu
+		}
+		
+		return true;
+	}
+	
+	/* ** Activity Navigation** */
+	@Override
+	protected void onActivityResult (int requestCode,
+			int resultCode, Intent data)
+	{
+		// update UI ? (user nickname)
+	}
+	
+	public void startSettingsActivity()
+	{
+		Intent intent = new Intent();
+		
+		intent.setClass(this, SettingsActivity.class);
+		
+		this.startActivityForResult(intent,
+				PauParkActivity.SETTINGS_ACTIVITY_RESQUEST_CODE);
 	}
 	
 	private void createActionBarTabs()
