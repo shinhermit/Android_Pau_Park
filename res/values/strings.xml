@@ -5,6 +5,8 @@
     
     <string name="settings_action">Préférences</string>
     <string name="search_action">Trouver</string>
+    <string name="add_parking_tip_action">+ bon plan</string>
+    <string name="refresh_action">Recharger</string>
     
     <string name="tab_parkings">Parkings</string>
     <string name="tab_tips">Bons plans</string>
