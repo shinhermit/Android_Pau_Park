@@ -2,6 +2,10 @@
 <resources>
 
     <string name="app_name">PauPark</string>
-    <string name="hello_world">Hello world!</string>
-
+    
+    <string name="settings_menu">Préférences</string>
+    
+    <string name="tab_parkings">Parkings</string>
+    <string name="tab_tips">Bons plans</string>
+    
 </resources>
