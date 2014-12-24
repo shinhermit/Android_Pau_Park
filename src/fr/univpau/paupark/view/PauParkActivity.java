@@ -1,6 +1,10 @@
 package fr.univpau.paupark.view;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.asynctask.DownloadJSONTask;
 import fr.univpau.paupark.view.tab.fragment.ParkingsTabFragment;
 import fr.univpau.paupark.view.tab.fragment.TipsTabFragment;
 import fr.univpau.paupark.view.tab.listener.TabListener;
@@ -22,6 +26,15 @@ public class PauParkActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		this.createActionBarTabs();
+		URL url;
+		try {
+			url = new URL("http://opendata.agglo-pau.fr/sc/webserv.php?serv=getSj&ui=542293D8B5&did=18&proj=WGS84");
+			new DownloadJSONTask().execute(url);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/* ** Option Menu** */
