@@ -1,7 +1,7 @@
 package fr.univpau.paupark.model;
 
 public class Parking {
-	private int _numPlaces;
+	private int _numVacancy;
 	private String _name;
 	private String _commune;
 	private double _lat;
@@ -9,22 +9,35 @@ public class Parking {
 	private boolean _free;
 	private String _type;
 	
-	public Parking() {
+	public Parking() 
+	{
 		
 	}
 
+	public Parking(int numVacancy, String name, String commune,	double lat,
+				   double lng, boolean free, String type)
+	{
+		this._numVacancy = numVacancy;
+		this._name = name;
+		this._commune = commune;
+		this._lat = lat;
+		this._lng = lng;
+		this._free = free;
+		this._type = type;
+	}
+	
 	/**
-	 * @return the _numPlaces
+	 * @return the _numVacancy.
 	 */
-	public int getNumPlaces() {
-		return _numPlaces;
+	public int getNumVacancy() {
+		return _numVacancy;
 	}
 
 	/**
-	 * @param numPlaces the _numPlaces to set
+	 * @param numVacancy the _numVacancy to set.
 	 */
-	public void setNumPlaces(int numPlaces) {
-		this._numPlaces = numPlaces;
+	public void setNumVacancy(int numVacancy) {
+		this._numVacancy = numVacancy;
 	}
 
 	/**

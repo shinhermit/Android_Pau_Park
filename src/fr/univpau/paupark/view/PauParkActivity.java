@@ -79,10 +79,10 @@ public class PauParkActivity extends Activity
 
         tab.setText(R.string.tab_parkings);
         tab.setTabListener(
-    		   new TabListener<TipsTabFragment>(
+    		   new TabListener<ParkingsTabFragment>(
                    this, 
-                   "tipsTab", 
-                   TipsTabFragment.class)
+                   "parkingsTab", 
+                   ParkingsTabFragment.class)
            );
         bar.addTab(tab);
 
@@ -91,10 +91,10 @@ public class PauParkActivity extends Activity
 	    
         tab.setText(R.string.tab_tips);
         tab.setTabListener(
-     		   new TabListener<ParkingsTabFragment>(
+     		   new TabListener<TipsTabFragment>(
                        this, 
-                       "parkingsTab", 
-                       ParkingsTabFragment.class)
+                       "tipsTab", 
+                       TipsTabFragment.class)
                    );
         bar.addTab(tab);
         
