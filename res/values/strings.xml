@@ -34,5 +34,10 @@
     <string name="new_parking_coordinates_x_hint">Longitude en degrés</string>
     <string name="new_parking_coordinates_y_hint">Latitude en degrés</string>
     <string name="new_parking_comment_hint">Accessibilité, fréquentation, etc.</string>
-    
+
+    <string name="parking_isfree">Gratuit</string>
+    <string name="parking_isnotFree">Payant</string>
+    <string name="parking_vacancy">place</string>
+    <string name="parking_vacancyPlural">places</string>
+    <string name="parking_noVacancy">Complet</string>
 </resources>

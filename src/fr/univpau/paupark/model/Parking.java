@@ -26,6 +26,28 @@ public class Parking {
 		this._type = type;
 	}
 	
+	public String getCommuneTypePriceTagLine(String parkingIsFree, String parkingIsNotFree)
+	{
+		return this._commune + " - " + this._type + " - " + (this._free ? parkingIsFree : parkingIsNotFree);
+	}
+	
+	public String getVacancyTagLine(String vacancy, String vacancyPlural, String noVacancy)
+	{
+		String line = noVacancy;
+		
+		if (this._numVacancy > 0)
+		{
+			line = String.valueOf(this._numVacancy) + " " + vacancy;
+			
+			if (this._numVacancy > 1)
+			{
+				line = String.valueOf(this._numVacancy) + " " + vacancyPlural;
+			}
+		}
+
+		return line;
+	}
+	
 	/**
 	 * @return the _numVacancy.
 	 */
