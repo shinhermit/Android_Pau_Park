@@ -10,8 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ParkingsAdapter extends ArrayAdapter<Parking> {
-
+public class ParkingsAdapter extends ArrayAdapter<Parking> {	
 	public ParkingsAdapter(Context context, int resource, List<Parking> objects) 
 	{
 		super(context, resource, objects);
@@ -43,4 +42,5 @@ public class ParkingsAdapter extends ArrayAdapter<Parking> {
 		
 		return convertView;
 	}
+	
 }
