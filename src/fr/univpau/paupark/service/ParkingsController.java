@@ -18,8 +18,6 @@ public class ParkingsController  {
 	 * Singleton implementation.
 	 */
 	private static ParkingsController _INSTANCE = new ParkingsController();
-
-	private List<Parking> _parkings = null;
 		
 	/**
 	 * Parser used to extract parkings from _JSONString 
@@ -44,16 +42,6 @@ public class ParkingsController  {
 		return _INSTANCE;
 	}
 	
-//	public void setJsonParser(JSONParkingParser parser)
-//	{
-//		this._parser = parser;
-//	}
-//	
-//	public void setParkingsAdapter(ParkingsAdapter adapter)
-//	{
-//		this._adapter = adapter;
-//	}
-//	
 	public void downloadParkings(Activity activity, ParkingsAdapter adapter, JSONParkingParser parser)
 	{
 		this._parser = parser;
@@ -66,7 +54,7 @@ public class ParkingsController  {
 	/**
 	 * Loads list of parking through async task
 	 */
-	public void _loadParkings() 
+	private void _loadParkings() 
 	{
 		//Create a new list (erasing any previously loaded data)
 		this._adapter.clear();
@@ -113,7 +101,4 @@ public class ParkingsController  {
 
 	}
 
-//	public void setActivity(Activity activity) {
-//		this._activity = activity;
-//	}
 }
