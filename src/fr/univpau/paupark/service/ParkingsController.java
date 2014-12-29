@@ -9,6 +9,7 @@ import java.util.List;
 import android.app.Activity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import fr.univpau.paupark.R;
 import fr.univpau.paupark.asynctask.DownloadJSONTask;
 import fr.univpau.paupark.model.Parking;
 import fr.univpau.paupark.model.ParkingsAdapter;
@@ -61,8 +62,9 @@ public class ParkingsController  {
 		
 		try 
 		{
-			URL url = new URL("http://opendata.agglo-pau.fr/sc/webserv.php?serv=getSj&ui=542293D8B5&did=18&proj=WGS84");
-			new DownloadJSONTask(this._activity).execute(url);
+			String urlString = this._activity.getResources().getString(R.string.json_url);
+			
+			new DownloadJSONTask(this._activity).execute(new URL(urlString));
 		} 
 		catch (MalformedURLException e) 
 		{

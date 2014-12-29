@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<string name="json_url">http://opendata.agglo-pau.fr/sc/webserv.php?serv=getSj&amp;ui=542293D8B5&amp;did=18&amp;proj=WGS84</string>
     <string name="app_name">PauPark</string>
     <string name="settings_name">Préférences</string>
     
@@ -40,4 +40,7 @@
     <string name="parking_vacancy">place</string>
     <string name="parking_vacancyPlural">places</string>
     <string name="parking_noVacancy">Complet</string>
+    
+    <string name="google_maps_url">http://maps.google.com/maps</string>
+    <string name="google_maps_default_zoom">16</string>
 </resources>

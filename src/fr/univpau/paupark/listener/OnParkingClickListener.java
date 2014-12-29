@@ -1,10 +1,14 @@
 package fr.univpau.paupark.listener;
 
+import java.text.Format;
+
+import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.Parking;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 
 
@@ -21,8 +25,23 @@ public class OnParkingClickListener implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		String latLng = String.valueOf(this._parking.getLat()) + ", " + String.valueOf(this._parking.getLng());
-		Toast.makeText(_context, latLng , Toast.LENGTH_SHORT).show();;
+		//use of printf instead ??
+		
+		double latitude = this._parking.getLat();
+		double longitude = this._parking.getLng();
+		String label = this._parking.getName();		
+		String uriBegin = this._context.getResources().getString(R.string.google_maps_url);
+		String defaultZoom = this._context.getResources().getString(R.string.google_maps_default_zoom);
+		
+		String query = latitude + "," + longitude + "(" + label + ")";
+		String encodedQuery = Uri.encode(query);
+		
+		String uriString = uriBegin + "?q=" + encodedQuery + "&z=" + defaultZoom;
+		
+		Uri uri = Uri.parse(uriString);
+		
+		Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+		this._context.startActivity(intent);
 	}
 
 }
