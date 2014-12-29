@@ -9,14 +9,21 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+/**
+ * Main activity of the application.
+ * 
+ * @author Josuah Aron
+ *
+ */
 public class PauParkActivity extends Activity
 {
-	private static final int SETTINGS_ACTIVITY_RESQUEST_CODE = 1; 
+	/** The return code of the setting modification activity. */
+	private static final int SETTINGS_ACTIVITY_RESQUEST_CODE = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -57,9 +64,12 @@ public class PauParkActivity extends Activity
 	protected void onActivityResult (int requestCode,
 			int resultCode, Intent data)
 	{
-		// update UI ? (user nickname)
+		// update UI after setting update ? (user nickname)
 	}
 	
+	/**
+	 * Starts the activity which allows to change the settings.
+	 */
 	public void startSettingsActivity()
 	{
 		Intent intent = new Intent();
@@ -70,6 +80,9 @@ public class PauParkActivity extends Activity
 				PauParkActivity.SETTINGS_ACTIVITY_RESQUEST_CODE);
 	}
 	
+	/**
+	 * Starts the activity which allows to add a new parking tip.
+	 */
 	public void startAddTipActivity()
 	{
 		Intent intent = new Intent();
@@ -79,7 +92,9 @@ public class PauParkActivity extends Activity
 		this.startActivity(intent);
 	}
 	
-	@SuppressWarnings("deprecation")
+	/**
+	 * Creates the action bar of this activity.
+	 */
 	private void createActionBarTabs()
 	{
 		ActionBar bar = getActionBar();
