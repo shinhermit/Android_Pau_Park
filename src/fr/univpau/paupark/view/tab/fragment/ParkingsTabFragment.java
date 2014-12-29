@@ -38,6 +38,6 @@ public class ParkingsTabFragment extends Fragment {
     	parkingListView.setAdapter(adapter);
     	
     	//Download through async task
-    	controller.downloadParkings(getActivity(), adapter, new JSONParkingParser());
+    	controller.downloadParkings(getActivity(), adapter);
     }
 }

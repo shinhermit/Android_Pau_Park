@@ -9,6 +9,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,9 +45,10 @@ public class PauParkActivity extends Activity
 		case R.id.settingsAction:
 			this.startSettingsActivity();
 			break;
-		// Add other menu
+		case R.id.addParkingTipAction:
+			this.startAddTipActivity();
+			break;
 		}
-		
 		return true;
 	}
 	
@@ -68,6 +70,16 @@ public class PauParkActivity extends Activity
 				PauParkActivity.SETTINGS_ACTIVITY_RESQUEST_CODE);
 	}
 	
+	public void startAddTipActivity()
+	{
+		Intent intent = new Intent();
+		
+		intent.setClass(this, AddTipActivity.class);
+		
+		this.startActivity(intent);
+	}
+	
+	@SuppressWarnings("deprecation")
 	private void createActionBarTabs()
 	{
 		ActionBar bar = getActionBar();

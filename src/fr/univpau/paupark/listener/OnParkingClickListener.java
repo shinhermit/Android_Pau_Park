@@ -1,7 +1,5 @@
 package fr.univpau.paupark.listener;
 
-import java.text.Format;
-
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.Parking;
 import android.content.Context;

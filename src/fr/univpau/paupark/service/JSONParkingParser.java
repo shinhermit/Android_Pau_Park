@@ -85,6 +85,7 @@ public class JSONParkingParser implements Iterable<Parking> {
 					JSONObject properties = currentParking.getJSONObject("properties");
 					String type = properties.getString("Ouvrage");
 					boolean free = properties.getString("Pay_grat").equals("Gratuit");
+					//String commune = new String(properties.getString("COMMUNE").getBytes("ISO-8859-1"), "UTF-8");
 					String commune = properties.getString("COMMUNE");
 					String name = properties.getString("NOM");
 					int numVacancy = properties.getInt("Places");
@@ -98,7 +99,7 @@ public class JSONParkingParser implements Iterable<Parking> {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		
 	}
 }

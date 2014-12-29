@@ -161,21 +161,21 @@
             android:layout_weight=".1" />
 
         <EditText
-            android:id="@+id/newParkingCoordinateX"
+            android:id="@+id/newParkingCoordinateLongitude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
             android:ems="10"
-            android:hint="@string/new_parking_coordinates_x_hint"
+            android:hint="@string/new_parking_coordinates_longitude_hint"
             android:inputType="numberDecimal" />
 
         <EditText
-            android:id="@+id/newParkingCoordinateY"
+            android:id="@+id/newParkingCoordinateLatitude"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
             android:ems="10"
-            android:hint="@string/new_parking_coordinates_y_hint"
+            android:hint="@string/new_parking_coordinates_latitude_hint"
             android:inputType="numberDecimal" />
 
     </LinearLayout>

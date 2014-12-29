@@ -21,7 +21,7 @@
     
     <string name="new_parking_creator_nickname">Pseudo</string>
     <string name="new_parking_name">Nom du parking</string>
-    <string name="new_parking_city">Comune</string>
+    <string name="new_parking_city">Commune</string>
     <string name="new_parking_size">Nombre de places</string>
     <string name="new_parking_pricing">Payant</string>
     <string name="new_parking_type">Ouvrage</string>
@@ -30,9 +30,9 @@
     
     <string name="new_parking_creator_nickname_hint">Pseudo</string>
     <string name="new_parking_name_hint">Nom du parking</string>
-    <string name="new_parking_city_hint">Comune</string>
-    <string name="new_parking_coordinates_x_hint">Longitude en degrés</string>
-    <string name="new_parking_coordinates_y_hint">Latitude en degrés</string>
+    <string name="new_parking_city_hint">Commune</string>
+    <string name="new_parking_coordinates_longitude_hint">Longitude en degrés</string>
+    <string name="new_parking_coordinates_latitude_hint">Latitude en degrés</string>
     <string name="new_parking_comment_hint">Accessibilité, fréquentation, etc.</string>
 
     <string name="parking_isfree">Gratuit</string>
