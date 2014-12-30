@@ -41,6 +41,11 @@
     <string name="parking_vacancyPlural">places</string>
     <string name="parking_noVacancy">Complet</string>
     
+    <string-array name="parking_ouvrage_options">
+        <item>Plein air</item>
+        <item>Souterrain</item>
+    </string-array>
+    
     <string name="google_maps_url">http://maps.google.com/maps</string>
     <string name="google_maps_default_zoom">16</string>
 </resources>

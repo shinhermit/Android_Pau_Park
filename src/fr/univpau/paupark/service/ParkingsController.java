@@ -23,7 +23,7 @@ public class ParkingsController  {
 	/**
 	 * Constructor
 	 */
-	public ParkingsController() {}
+	private ParkingsController() {}
 	
 	/**
 	 * Singleton implementation.
@@ -66,9 +66,9 @@ public class ParkingsController  {
 	/**
 	 * Forces parking list to be reloaded.
 	 */
-	public void setExpired()
+	public void refreshParkings()
 	{
-		this._adapter.clear();
+		this._loadParkings();
 	}
 	
 	/**
