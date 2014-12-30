@@ -1,48 +1,37 @@
 package fr.univpau.paupark.service;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 
 import android.app.Activity;
-import fr.univpau.paupark.R;
+import android.widget.ArrayAdapter;
 import fr.univpau.paupark.asynctask.DownloadJSONTask;
 import fr.univpau.paupark.model.Parking;
-import fr.univpau.paupark.model.ParkingsAdapter;
 
-public class ParkingsController  {
-	/**
-	 * Singleton implementation.
-	 */
-	private static ParkingsController _INSTANCE = new ParkingsController();
-	
-	private ParkingsAdapter _adapter;
+public abstract class ParkingsController  {
+	private ArrayAdapter<Parking> _adapter;
 	
 	private Activity _activity;
 	
-	/**
-	 * Constructor
-	 */
-	private ParkingsController() {}
-	
-	/**
-	 * Singleton implementation.
-	 * @return
-	 */
-	public static ParkingsController getInstance() 
-	{
-		return _INSTANCE;
-	}
-	
-	public void downloadParkings(Activity activity, ParkingsAdapter adapter)
+	private URL _serviceURL;
+		
+	public void initialize(Activity activity, ArrayAdapter<Parking> adapter, URL serviceURL)
 	{
 		this._activity = activity;
 		this._adapter = adapter;
-		
+		this._serviceURL = serviceURL;
+	}
+	
+	/**
+	 * TODO clean up interface
+	 */
+	public void downloadParkings()
+	{
 		this._loadParkings();
 	}
 	
 	/**
+	 * TODO clean up interface
 	 * Loads list of parking through async task
 	 */
 	private void _loadParkings() 
@@ -50,20 +39,11 @@ public class ParkingsController  {
 		//Create a new list (erasing any previously loaded data)
 		this._adapter.clear();
 		
-		try 
-		{
-			String urlString = this._activity.getResources().getString(R.string.json_url);
-			
-			new DownloadJSONTask(this._activity).execute(new URL(urlString));
-		} 
-		catch (MalformedURLException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		new DownloadJSONTask(this, this._activity).execute(this._serviceURL);		
 	}
 	
 	/**
+	 * TODO clean up interface
 	 * Forces parking list to be reloaded.
 	 */
 	public void refreshParkings()

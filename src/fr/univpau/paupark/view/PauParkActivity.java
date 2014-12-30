@@ -1,6 +1,7 @@
 package fr.univpau.paupark.view;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.service.OpenDataParkings;
 import fr.univpau.paupark.service.ParkingsController;
 import fr.univpau.paupark.view.tab.fragment.ParkingsTabFragment;
 import fr.univpau.paupark.view.tab.fragment.TipsTabFragment;
@@ -57,7 +58,7 @@ public class PauParkActivity extends Activity
 			this.startAddTipActivity();
 			break;
 		case R.id.refreshAction:
-			ParkingsController.getInstance().refreshParkings();
+			OpenDataParkings.getInstance().refreshParkings();
 			break;
 		}
 		return true;

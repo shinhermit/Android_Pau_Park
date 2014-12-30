@@ -2,7 +2,6 @@ package fr.univpau.paupark.asynctask;
 
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Iterator;
 
 import fr.univpau.paupark.service.Downloader;
 import fr.univpau.paupark.service.JSONParkingParser;
@@ -14,13 +13,17 @@ import android.util.Log;
 public class DownloadJSONTask extends AsyncTask<URL, Integer, Long> 
 {
 	private Activity _activity;
+
+	private ParkingsController _controller;
+	
 	/**
 	 * TODO
 	 * ???? Use of interface or superclass to abstract ????
 	 */
-	public DownloadJSONTask(Activity activity) 
+	public DownloadJSONTask(ParkingsController controller, Activity activity) 
 	{
 		this._activity = activity;
+		this._controller = controller;
 	}
 	
 	@Override
@@ -45,7 +48,8 @@ public class DownloadJSONTask extends AsyncTask<URL, Integer, Long>
 				this._activity.runOnUiThread(new Runnable() {
 				     @Override
 				     public void run() {
-				    	 ParkingsController.getInstance().handleDownloadResult(parser.iterator());
+				    	 _controller.handleDownloadResult(parser.iterator());
+//				    	 OpenDataParkings.getInstance().handleDownloadResult(parser.iterator());
 				    }
 				});
 				

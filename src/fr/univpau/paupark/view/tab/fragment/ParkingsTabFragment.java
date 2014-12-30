@@ -1,12 +1,15 @@
 package fr.univpau.paupark.view.tab.fragment;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.Parking;
 import fr.univpau.paupark.model.ParkingsAdapter;
-import fr.univpau.paupark.service.ParkingsController;
+import fr.univpau.paupark.service.OpenDataParkings;
 import android.app.Fragment;
+import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +32,37 @@ public class ParkingsTabFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
     	super.onActivityCreated(savedInstanceState);
-    	ParkingsController controller = ParkingsController.getInstance();
+    	//ParkingsController controller = ParkingsController.getInstance();
+    	OpenDataParkings service = OpenDataParkings.getInstance();
+    	
     	
     	ParkingsAdapter adapter = new ParkingsAdapter(getActivity(), 0, new ArrayList<Parking>());
     	
     	ListView parkingListView = (ListView) getActivity().findViewById(R.id.parkingsListHolder);
     	parkingListView.setAdapter(adapter);
     	
-    	//Download through async task
-    	controller.downloadParkings(getActivity(), adapter);
+    	
+		try 
+		{
+			
+			URL serviceUrl = new URL(getResources().getString(R.string.json_url));
+	    	service.initialize(getActivity(), adapter, serviceUrl);
+	    	
+	    	//Download through async task
+	    	service.downloadParkings();
+	    	
+		} 
+		catch (MalformedURLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (NotFoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
     }
 }
