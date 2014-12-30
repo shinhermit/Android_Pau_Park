@@ -15,37 +15,99 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class AddTipActivity extends Activity implements LocationListener
 {
+	/* Hold the form fields, in order to get the user's input. */
+	/** The field which allows the user to provide a nickname. */
+	private EditText _nicknameEdit;
+	
+	/** The field which allows the user to provide a name for the parking. */
+	private EditText _parkingNameEdit;
+	
+	/** The field which allows the user to provide the town where the parking is. */
+	private EditText _cityEdit;
+	
+	/** The field which allows the user to provide the number of places in the parking. */
+	private EditText _parkingSize;
+	
+	/** The field which allows the user to tell whether the parking is charged or not. */
+	private CheckBox _isChargedCheck;
+	
+	/** The field which allows the user to provide the type of craft of the parking (underground, opened). */
+	private Spinner _craftTypeSpinner;
+	
+	/** The field which allows the user to provide the latitude coordinate of the parking. */
 	private EditText _latitudeEdit;
+	
+	/** The field which allows the user to provide the latitude coordinate of the parking. */
 	private EditText _longitudeEdit;
-	private EditText _townEdit;
+	
+	/** The field which allows the user to provide a comment on the parking. */
+	private EditText _commentEdit;
+	
+	/** */ // TODO
 	private Geocoder _geocoder;
+	
+	/** */ // TODO
 	private boolean _hasCoordinates = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
 		this.setContentView(R.layout.new_parking_tip);
 		
-		this._latitudeEdit = (EditText) findViewById(R.id.newParkingCoordinateLatitude);
-		this._longitudeEdit = (EditText) findViewById(R.id.newParkingCoordinateLongitude);
-		this._townEdit = (EditText) findViewById(R.id.newParkingCity);
+		this._nicknameEdit = (EditText)
+				findViewById(R.id.newParkingCreatorNickname);
+		this._parkingNameEdit = (EditText)
+				findViewById(R.id.newParkingName);
+		this._cityEdit = (EditText)
+				findViewById(R.id.newParkingCity);
+		this._parkingSize = (EditText)
+				findViewById(R.id.newParkingSize);
+		this._isChargedCheck = (CheckBox)
+				findViewById(R.id.newParkingPricing);
+		this._craftTypeSpinner = (Spinner)
+				findViewById(R.id.newParkingCraftType);
+		this._latitudeEdit = (EditText) 
+				findViewById(R.id.newParkingCoordinateLatitude);
+		this._longitudeEdit = (EditText)
+				findViewById(R.id.newParkingCoordinateLongitude);
+		this._commentEdit = (EditText)
+				findViewById(R.id.newParkingComment);
+		
 		this._geocoder = new Geocoder(this, Locale.getDefault());
+	}
+	
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
 		
-		
-		//Register the current class with the Location Manager to receive location updates
+		// Location Manager: register the current class to receive location updates
 		LocationManager locationManager = 
 				(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		
 		Criteria crit = new Criteria();
 		crit.setAccuracy(Criteria.ACCURACY_FINE);
+		
 		String provider = locationManager.getBestProvider(crit, true);
+		
 		Location loc = locationManager.getLastKnownLocation(provider);
-		this.onLocationChanged(loc);
+		
+		if(loc != null)
+		{
+			this.onLocationChanged(loc);
+		}
+		
+		// set CraftType spinner
 	}
 
 	private void _getTown()
@@ -60,7 +122,7 @@ public class AddTipActivity extends Activity implements LocationListener
 				
 				if (addresses.size() > 0)
 				{
-					this._townEdit.setText(addresses.get(0).getLocality());
+					this._cityEdit.setText(addresses.get(0).getLocality());
 				}
 				
 			} catch (NumberFormatException e) {
@@ -74,17 +136,15 @@ public class AddTipActivity extends Activity implements LocationListener
 	}
 
 	@Override
-	public void onLocationChanged(Location location) {
+	public void onLocationChanged(Location location)
+	{
 		//Make use of new location
 		this._hasCoordinates = true;
 		
-		if(location != null)
-		{
-			this._latitudeEdit.setText(String.valueOf(location.getLatitude()));
-			this._longitudeEdit.setText(String.valueOf(location.getLongitude()));
-			
-			this._getTown();
-		}
+		this._latitudeEdit.setText(String.valueOf(location.getLatitude()));
+		this._longitudeEdit.setText(String.valueOf(location.getLongitude()));
+		
+		this._getTown();
 	}
 
 	@Override
