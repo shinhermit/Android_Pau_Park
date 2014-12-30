@@ -59,7 +59,7 @@ public class PauParkActivity extends Activity
 		return true;
 	}
 	
-	/* ** Activity Navigation** */
+	/* ** Activity Navigation ** */
 	@Override
 	protected void onActivityResult (int requestCode,
 			int resultCode, Intent data)
@@ -93,7 +93,7 @@ public class PauParkActivity extends Activity
 	}
 	
 	/**
-	 * Creates the action bar of this activity.
+	 * Creates the tabs of this activity.
 	 */
 	private void createActionBarTabs()
 	{
