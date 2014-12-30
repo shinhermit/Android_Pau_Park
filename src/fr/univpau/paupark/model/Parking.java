@@ -9,6 +9,18 @@ public class Parking {
 	private boolean _free;
 	private String _type;
 	
+	/**
+	 * Represents the "Ouvrage" field.
+	 * 
+	 * @author Josuah Aron
+	 *
+	 */
+	public enum CraftType
+	{
+		UNDERGROUND,
+		OPENED
+	}
+	
 	public Parking() 
 	{
 		

@@ -135,7 +135,7 @@
             android:text="@string/new_parking_type" />
 
         <Spinner
-            android:id="@+id/newParkingType"
+            android:id="@+id/newParkingCraftType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5" />
