@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.Parking;
-import fr.univpau.paupark.model.ParkingsAdapter;
+import fr.univpau.paupark.model.OpenDataParkingsAdapter;
 import fr.univpau.paupark.service.OpenDataParkings;
 import android.app.Fragment;
 import android.content.res.Resources.NotFoundException;
@@ -35,10 +35,9 @@ public class ParkingsTabFragment extends Fragment {
     	//ParkingsController controller = ParkingsController.getInstance();
     	OpenDataParkings service = OpenDataParkings.getInstance();
     	
+    	OpenDataParkingsAdapter adapter = new OpenDataParkingsAdapter(getActivity(), 0, new ArrayList<Parking>());
     	
-    	ParkingsAdapter adapter = new ParkingsAdapter(getActivity(), 0, new ArrayList<Parking>());
-    	
-    	ListView parkingListView = (ListView) getActivity().findViewById(R.id.parkingsListHolder);
+    	ListView parkingListView = (ListView) getActivity().findViewById(R.id.openDataParkingsListHolder);
     	parkingListView.setAdapter(adapter);
     	
     	

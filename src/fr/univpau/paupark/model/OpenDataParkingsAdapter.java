@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ParkingsAdapter extends ArrayAdapter<Parking> {	
-	public ParkingsAdapter(Context context, int resource, List<Parking> objects) 
+public class OpenDataParkingsAdapter extends ArrayAdapter<Parking> {	
+	public OpenDataParkingsAdapter(Context context, int resource, List<Parking> objects) 
 	{
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
@@ -26,7 +26,7 @@ public class ParkingsAdapter extends ArrayAdapter<Parking> {
 		//Check if an existing view has been passed
 		if (convertView == null)
 		{
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.parking_as_list_item, parent, false);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.opendata_parking_as_list_item, parent, false);
 		}
 		
 		TextView parkingTown = (TextView) convertView.findViewById(R.id.parkingAsListItem_TownTypePrice);
