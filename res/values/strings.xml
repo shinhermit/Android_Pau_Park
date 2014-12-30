@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="json_url">http://opendata.agglo-pau.fr/sc/webserv.php?serv=getSj&amp;ui=542293D8B5&amp;did=18&amp;proj=WGS84</string>
     <string name="app_name">PauPark</string>
     <string name="settings_name">Préférences</string>
     
@@ -48,4 +47,16 @@
     
     <string name="google_maps_url">http://maps.google.com/maps</string>
     <string name="google_maps_default_zoom">16</string>
+    
+    <string name="json_url">http://opendata.agglo-pau.fr/sc/webserv.php?serv=getSj&amp;ui=542293D8B5&amp;did=18&amp;proj=WGS84</string>
+    
+    <string name="add_tip_url">http://paupark.novacrea.fr/addTip.php?</string>
+<!--     <string name="add_tip_url_params">name=%s&town=%s&comment=%s&free=%d&ouvrage=%s&lat=%f&lng=%f&description=%s&pseudo=%s&vacancy=%d</string> -->
+    <string name="get_tip_url">http://paupark.novacrea.fr/getTip.php?</string>
+<!--     <string name="get_tip_url_params">id=%d</string> -->
+    <string name="list_tips_url">http://paupark.novacrea.fr/getTips.php</string>
+    <string name="upvote_tip_url">http://paupark.novacrea.fr/upvote.php</string>
+<!--     <string name="upvote_tip_url_params">id=%d</string> -->
+    <string name="downvote_tip_url">http://paupark.novacrea.fr/downvote.php</string>
+<!--     <string name="downvote_tip_url_params">id=%d</string> -->
 </resources>
