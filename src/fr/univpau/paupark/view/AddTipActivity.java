@@ -50,7 +50,7 @@ public class AddTipActivity extends Activity implements LocationListener
 
 	private void _getTown()
 	{
-		if (this._hasCoordinates && this._geocoder.isPresent()) //no geocoder on emulator
+		if (this._hasCoordinates && Geocoder.isPresent()) //no geocoder on emulator
 		{
 			try {
 				List<Address> addresses = this._geocoder.getFromLocation(
@@ -102,6 +102,5 @@ public class AddTipActivity extends Activity implements LocationListener
 		//handle disabling of location provider
 		Log.i("provider", "disabled " + provider);
 	}
-	
 	
 }

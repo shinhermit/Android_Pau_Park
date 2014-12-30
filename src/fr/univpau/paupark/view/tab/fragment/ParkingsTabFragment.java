@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.Parking;
 import fr.univpau.paupark.model.ParkingsAdapter;
-import fr.univpau.paupark.service.JSONParkingParser;
 import fr.univpau.paupark.service.ParkingsController;
 import android.app.Fragment;
 import android.os.Bundle;
