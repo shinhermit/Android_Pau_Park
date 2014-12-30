@@ -78,10 +78,13 @@ public class AddTipActivity extends Activity implements LocationListener
 		//Make use of new location
 		this._hasCoordinates = true;
 		
-		this._latitudeEdit.setText(String.valueOf(location.getLatitude()));
-		this._longitudeEdit.setText(String.valueOf(location.getLongitude()));
-		
-		this._getTown();
+		if(location != null)
+		{
+			this._latitudeEdit.setText(String.valueOf(location.getLatitude()));
+			this._longitudeEdit.setText(String.valueOf(location.getLongitude()));
+			
+			this._getTown();
+		}
 	}
 
 	@Override
