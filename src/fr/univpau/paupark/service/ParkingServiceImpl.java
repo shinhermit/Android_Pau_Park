@@ -140,7 +140,6 @@ public class ParkingServiceImpl implements ParkingServices
 			ParkingListAdapter adapter)
 	{
 		URL base = ParkingServiceImpl.ADD_USER_TIP;
-		URL query = null;
 		GeoCoordinate coordinates = parking.getCoordinates();
 		
 		Uri queryURI = Uri.parse(base.toString())
@@ -158,7 +157,7 @@ public class ParkingServiceImpl implements ParkingServices
 		
 		try
 		{
-			query = URI.create(queryURI.toString()).toURL();
+			URL query = URI.create(queryURI.toString()).toURL();
 			
 			new SaveParkingAsyncTask(adapter).execute(query);
 		}

@@ -51,7 +51,7 @@ public class GeoCoordinate implements Serializable
 	public GeoCoordinate(GeoCoordinate other)
 	{
 		this.latitude = other.latitude;
-		this.longitude = other.latitude;
+		this.longitude = other.longitude;
 	}
 	
 	/**

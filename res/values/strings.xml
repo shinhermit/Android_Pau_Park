@@ -23,17 +23,24 @@
     <string name="new_parking_name">Nom du parking</string>
     <string name="new_parking_city">Commune</string>
     <string name="new_parking_size">Nombre de places</string>
+    <string name="new_parking_size_error">Veuillez fournir le nombre de places du parking</string>
     <string name="new_parking_pricing">Payant</string>
     <string name="new_parking_type">Ouvrage</string>
     <string name="new_parking_coordinates">Coordonnées</string>
     <string name="new_parking_comment">Commentaire</string>
+    <string name="new_parking_comment_error">Veuillez fournir un commentaire</string>
     
     <string name="new_parking_creator_nickname_hint">Pseudo</string>
     <string name="new_parking_creator_nickname_default">Anonyme</string>
+    <string name="new_parking_creator_nickname_error">Veuillez fournir un pseudo</string>
     <string name="new_parking_name_hint">Nom du parking</string>
+    <string name="new_parking_name_error">Veuillez fournir un nom pour le parking</string>
     <string name="new_parking_city_hint">Commune</string>
+    <string name="new_parking_city_error">Veuillez fournir un nom de commune</string>
     <string name="new_parking_coordinates_longitude_hint">Longitude en degrés</string>
+    <string name="new_parking_coordinates_longitude_error">Veuillez fournir la longitude</string>
     <string name="new_parking_coordinates_latitude_hint">Latitude en degrés</string>
+    <string name="new_parking_coordinates_latitude_error">Veuillez fournir la latitude</string>
     <string name="new_parking_comment_hint">Accessibilité, fréquentation, etc.</string>
 
     <string name="parking_isfree">Gratuit</string>
