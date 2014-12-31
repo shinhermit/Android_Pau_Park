@@ -8,11 +8,13 @@ import java.util.Locale;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.OfficialParking;
+import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.model.AbstractParking.CraftType;
 import fr.univpau.paupark.model.UserTipParking;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -138,6 +140,18 @@ public class AddTipActivity extends Activity implements LocationListener
 				android.R.layout.simple_spinner_item,
 				OfficialParking.CraftType.values());
 		this._craftTypeSpinner.setAdapter(adapter);
+		
+		// Pre-set user nickname from settings
+		SharedPreferences preferences =
+				this.getSharedPreferences(
+						PauParkPreferences.class.getName(),
+						Activity.MODE_PRIVATE);
+		
+		String nickName =
+				preferences.getString(
+						PauParkPreferences.NICKNAME_KEY, "");
+		
+		this._nicknameEdit.setText(nickName);
 	}
 	
 	/* ** Option Menu ** */
@@ -158,7 +172,7 @@ public class AddTipActivity extends Activity implements LocationListener
 		switch(item.getItemId())
 		{
 		case R.id.saveParkingTipAction:
-			this.saveParkingTip();
+			this.prepareIntent();
 			this.terminate();
 			break;
 		// Add other menu
@@ -204,7 +218,7 @@ public class AddTipActivity extends Activity implements LocationListener
 	/**
 	 * Saves the user inputs.
 	 */
-	private void saveParkingTip()
+	private void prepareIntent()
 	{
 		OfficialParking.CraftType craftTypes[] =
 				OfficialParking.CraftType.values();
@@ -240,16 +254,6 @@ public class AddTipActivity extends Activity implements LocationListener
 				craftType, description, authorNickName);
 		
 		this.intent.putExtra(AddTipActivity.PARKING_EXTRA, (Serializable)parking);
-		
-//		this.intent.putExtra("userNickname", authorNickName);
-//		this.intent.putExtra("parkingName", name);
-//		this.intent.putExtra("city", town);
-//		this.intent.putExtra("parkingSize", capacity);
-//		this.intent.putExtra("isFree", !isCharged);
-//		this.intent.putExtra("craftType", craftType.toString());
-//		this.intent.putExtra("coordLatitude", coordLatitude);
-//		this.intent.putExtra("coordLongitude", coordLongitude);
-//		this.intent.putExtra("comment", description);
 	}
 	
 	/**

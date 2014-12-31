@@ -58,7 +58,9 @@ public class SettingsActivity extends Activity
 		
 		// Retrieve preferences
 		SharedPreferences preferences =
-				this.getPreferences(Activity.MODE_PRIVATE);
+				this.getSharedPreferences(
+						PauParkPreferences.class.getName(),
+						Activity.MODE_PRIVATE);
 		
 		useGeoloc = preferences.getBoolean(
 				PauParkPreferences.GEOLOCATION_PREF_KEY, true);
@@ -108,7 +110,9 @@ public class SettingsActivity extends Activity
 	{
 		// register preferences
 		SharedPreferences preferences =
-				this.getPreferences(Activity.MODE_PRIVATE);
+				this.getSharedPreferences(
+						PauParkPreferences.class.getName(),
+						Activity.MODE_PRIVATE);
 		
 		Editor preferenceEditor = preferences.edit();
 		

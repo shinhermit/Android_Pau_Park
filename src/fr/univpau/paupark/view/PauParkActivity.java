@@ -110,16 +110,6 @@ public class PauParkActivity extends Activity
 	
 			services.saveParkingTip(
 					(UserTipParking)data.getSerializableExtra(AddTipActivity.PARKING_EXTRA),
-//				new UserTipParking(
-//						data.getIntExtra("parkingSize", 0),
-//						data.getStringExtra("parkingName"),
-//						data.getStringExtra("city"),
-//						new GeoCoordinate(data.getDoubleExtra("coordLatitude", 0),
-//								data.getDoubleExtra("coordLongitude", 0)),
-//						data.getBooleanExtra("isFree", true),
-//						AbstractParking.CraftType.valueOf(data.getStringExtra("craftType")),
-//						data.getStringExtra("comment"),
-//						data.getStringExtra("userNickname")),
 				this.parkingTipListAdapter);
 			break;
 		}

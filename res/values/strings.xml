@@ -29,6 +29,7 @@
     <string name="new_parking_comment">Commentaire</string>
     
     <string name="new_parking_creator_nickname_hint">Pseudo</string>
+    <string name="new_parking_creator_nickname_default">Anonyme</string>
     <string name="new_parking_name_hint">Nom du parking</string>
     <string name="new_parking_city_hint">Commune</string>
     <string name="new_parking_coordinates_longitude_hint">Longitude en degrés</string>
