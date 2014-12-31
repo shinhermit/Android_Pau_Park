@@ -136,7 +136,8 @@ public class ParkingServiceImpl implements ParkingServices
 	}
 
 	@Override
-	public void saveParkingTip(UserTipParking parking, ParkingListAdapter adapter)
+	public void saveParkingTip(UserTipParking parking,
+			ParkingListAdapter adapter)
 	{
 		URL base = ParkingServiceImpl.ADD_USER_TIP;
 		URL query = null;
@@ -159,7 +160,7 @@ public class ParkingServiceImpl implements ParkingServices
 		{
 			query = URI.create(queryURI.toString()).toURL();
 			
-			new SaveParkingAsyncTask(parking, adapter).execute(query);
+			new SaveParkingAsyncTask(adapter).execute(query);
 		}
 		catch (MalformedURLException e)
 		{

@@ -261,6 +261,7 @@ public class AddTipActivity extends Activity implements LocationListener
 	 */
 	private void terminate()
 	{
+		// Configure intent
 		if(this.intent == null)
 		{
 			this.intent = new Intent();
@@ -268,9 +269,19 @@ public class AddTipActivity extends Activity implements LocationListener
 		
 		this.intent.setClass(this, PauParkActivity.class);
 		
-		this.setResult(
-				PauParkActivity.ADD_TIP_ACTIVITY_RESQUEST_CODE,
-				this.intent);
+		// Set result
+		Activity parent = this.getParent();
+		
+		if (parent == null)
+		{
+		    this.setResult(Activity.RESULT_OK,
+		    		this.intent);
+		}
+		else
+		{
+		    parent.setResult(Activity.RESULT_OK,
+		    		this.intent);
+		}
 		
 		this.finish();
 	}
