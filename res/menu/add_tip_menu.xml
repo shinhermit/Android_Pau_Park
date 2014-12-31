@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/saveParkingTipAction"
+        android:title="@string/save_parking_tip_action"
+        android:icon="@android:drawable/ic_menu_save"
+        android:showAsAction="ifRoom"/>
+    
+</menu>

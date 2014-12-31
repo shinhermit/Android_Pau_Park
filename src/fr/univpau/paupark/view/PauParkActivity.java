@@ -1,8 +1,15 @@
 package fr.univpau.paupark.view;
 
+import java.util.ArrayList;
+
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.service.OpenDataParkings;
-import fr.univpau.paupark.service.ParkingsController;
+import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.model.OfficialParking;
+import fr.univpau.paupark.model.UserTipParking;
+import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.service.ParkingServiceImpl;
+import fr.univpau.paupark.service.ParkingServices;
+import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.tab.fragment.ParkingsTabFragment;
 import fr.univpau.paupark.view.tab.fragment.TipsTabFragment;
 import fr.univpau.paupark.view.tab.listener.TabListener;
@@ -23,8 +30,20 @@ import android.view.MenuItem;
  */
 public class PauParkActivity extends Activity
 {
-	/** The return code of the setting modification activity. */
-	private static final int SETTINGS_ACTIVITY_RESQUEST_CODE = 1;
+	/** Holds the current source of parking list (official vs user tips). */
+	private ParkingInfoSource parkingSource = null;
+	
+	/** The presenter of the official parking list. */
+	private ParkingListAdapter officialParkingListAdapter;
+	
+	/** The presenter of the parking tip list. */
+	private ParkingListAdapter parkingTipListAdapter;
+	
+	/** The return code of the setting modification activity. Package visibility.*/
+	static final int SETTINGS_ACTIVITY_RESQUEST_CODE = 1;
+	
+	/** The return code of the parking tip addition activity. Package visibility.*/
+	static final int ADD_TIP_ACTIVITY_RESQUEST_CODE = 2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -32,7 +51,21 @@ public class PauParkActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		this.createActionBarTabs();
+		
+		ParkingServiceImpl.create(this);
+		
+		// Allows internationalisation
+		OfficialParking.CraftType.init(this);
+		
+		this.officialParkingListAdapter =
+				new ParkingListAdapter(this, R.id.parkingsListHolder,
+						new ArrayList<AbstractParking>());
+		
+		this.parkingTipListAdapter =
+				new ParkingListAdapter(this, R.id.parkingsListHolder,
+						new ArrayList<AbstractParking>()); // TODO
 	}
+	
 	
 	/* ** Option Menu** */
 	@Override
@@ -58,7 +91,7 @@ public class PauParkActivity extends Activity
 			this.startAddTipActivity();
 			break;
 		case R.id.refreshAction:
-			OpenDataParkings.getInstance().refreshParkings();
+			this.refresh(this.parkingSource);
 			break;
 		}
 		return true;
@@ -69,7 +102,27 @@ public class PauParkActivity extends Activity
 	protected void onActivityResult (int requestCode,
 			int resultCode, Intent data)
 	{
-		// update UI after setting update ? (user nickname)
+		switch(requestCode)
+		{
+		case PauParkActivity.ADD_TIP_ACTIVITY_RESQUEST_CODE:
+			ParkingServices services = 
+				ParkingServiceImpl.getInstance();
+	
+			services.saveParkingTip(
+					(UserTipParking)data.getSerializableExtra(AddTipActivity.PARKING_EXTRA),
+//				new UserTipParking(
+//						data.getIntExtra("parkingSize", 0),
+//						data.getStringExtra("parkingName"),
+//						data.getStringExtra("city"),
+//						new GeoCoordinate(data.getDoubleExtra("coordLatitude", 0),
+//								data.getDoubleExtra("coordLongitude", 0)),
+//						data.getBooleanExtra("isFree", true),
+//						AbstractParking.CraftType.valueOf(data.getStringExtra("craftType")),
+//						data.getStringExtra("comment"),
+//						data.getStringExtra("userNickname")),
+				this.parkingTipListAdapter);
+			break;
+		}
 	}
 	
 	/**
@@ -97,6 +150,68 @@ public class PauParkActivity extends Activity
 		this.startActivity(intent);
 	}
 	
+	/**
+	 * Refreshes the list of parking from the specified source.
+	 * 
+	 * @param source the parking information source (official/users tips).
+	 */
+	private void refresh(ParkingInfoSource source)
+	{
+		// Query load parking service
+		ParkingServices services =
+				ParkingServiceImpl.getInstance();
+		
+		ParkingListAdapter adapter =
+				(source == ParkingInfoSource.OFFICIAL) ?
+				this.officialParkingListAdapter :
+					this.parkingTipListAdapter;
+		
+		services.loadParkingList(source, adapter);
+	}
+
+	/**
+	 * Provides the presenter of the official parking list (useful for tab fragments).
+	 * 
+	 * @return the presenter of the official parking list.
+	 */
+	public ParkingListAdapter getOfficialParkingListAdapter()
+	{
+		return officialParkingListAdapter;
+	}
+
+	/**
+	 * Provides the presenter of the parking tip list (useful for tab fragments).
+	 * 
+	 * @return the presenter of the parking tip list.
+	 */
+	public ParkingListAdapter getParkingTipListAdapter()
+	{
+		return parkingTipListAdapter;
+	}
+	
+	/**
+	 * Provides the current source of parking list (official vs user tips).
+	 * 
+	 * @return the current source of parking list.
+	 */
+	public ParkingInfoSource getSource()
+	{
+		return parkingSource;
+	}
+
+	/**
+	 * Defines the current source of parking list (official vs user tips).
+	 * 
+	 * <p>Useful for  feedback from the tab listener.</p>
+	 * 
+	 * @param source the current source of parking list.
+	 */
+	public void setParkingSource(ParkingInfoSource source)
+	{
+		this.parkingSource = source;
+	}
+
+
 	/**
 	 * Creates the tabs of this activity.
 	 */

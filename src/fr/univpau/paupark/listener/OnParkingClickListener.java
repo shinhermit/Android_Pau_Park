@@ -1,7 +1,8 @@
 package fr.univpau.paupark.listener;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.model.Parking;
+import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.model.GeoCoordinate;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,26 +13,24 @@ import android.view.View.OnClickListener;
 
 public class OnParkingClickListener implements OnClickListener {
 
-	private Parking _parking;
+	private AbstractParking _parking;
 	private Context _context;
 	
-	public OnParkingClickListener(Context context, Parking parking)
+	public OnParkingClickListener(Context context, AbstractParking parking)
 	{
 		this._context = context;
 		this._parking = parking;
 	}
 	
 	@Override
-	public void onClick(View v) {
-		//use of printf instead ??
-		
-		double latitude = this._parking.getLat();
-		double longitude = this._parking.getLng();
+	public void onClick(View v)
+	{
+		GeoCoordinate coordinates = this._parking.getCoordinates();
 		String label = this._parking.getName();		
 		String uriBegin = this._context.getResources().getString(R.string.google_maps_url);
 		String defaultZoom = this._context.getResources().getString(R.string.google_maps_default_zoom);
 		
-		String query = latitude + "," + longitude + "(" + label + ")";
+		String query = coordinates.getLatitude() + "," + coordinates.getLongitude() + "(" + label + ")";
 		String encodedQuery = Uri.encode(query);
 		
 		String uriString = uriBegin + "?q=" + encodedQuery + "&z=" + defaultZoom;

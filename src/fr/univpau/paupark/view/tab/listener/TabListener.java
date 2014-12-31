@@ -1,4 +1,7 @@
 package fr.univpau.paupark.view.tab.listener;
+import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
+import fr.univpau.paupark.view.PauParkActivity;
+import fr.univpau.paupark.view.tab.fragment.ParkingsTabFragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -55,6 +58,18 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener
         {
             // If it exists, simply attach it in order to show it
             ft.attach(mFragment);
+        }
+        
+        // Feed back to activity
+        if(mClass.equals(ParkingsTabFragment.class))
+        {
+        	((PauParkActivity)mActivity).setParkingSource(
+        			ParkingInfoSource.OFFICIAL);
+        }
+        else
+        {
+        	((PauParkActivity)mActivity).setParkingSource(
+        			ParkingInfoSource.USERS);
         }
     }
 

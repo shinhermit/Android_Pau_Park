@@ -1,9 +1,10 @@
-package fr.univpau.paupark.model;
+package fr.univpau.paupark.presenter;
 
 import java.util.List;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.listener.OnParkingClickListener;
+import fr.univpau.paupark.model.AbstractParking;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class OpenDataParkingsAdapter extends ArrayAdapter<Parking> {	
-	public OpenDataParkingsAdapter(Context context, int resource, List<Parking> objects) 
+public class ParkingListAdapter extends ArrayAdapter<AbstractParking> {	
+	public ParkingListAdapter(Context context, int resource, List<AbstractParking> objects) 
 	{
 		super(context, resource, objects);
 		// TODO Auto-generated constructor stub
@@ -22,11 +23,11 @@ public class OpenDataParkingsAdapter extends ArrayAdapter<Parking> {
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
 		//Current parking
-		Parking parking = this.getItem(position);
+		AbstractParking parking = this.getItem(position);
 		//Check if an existing view has been passed
 		if (convertView == null)
 		{
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.opendata_parking_as_list_item, parent, false);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.parking_as_list_item, parent, false);
 		}
 		
 		TextView parkingTown = (TextView) convertView.findViewById(R.id.parkingAsListItem_TownTypePrice);

@@ -7,7 +7,7 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <ListView 
-        android:id="@+id/openDataParkingsListHolder"
+        android:id="@+id/parkingsListHolder"
         android:layout_width="match_parent"
         android:layout_height="fill_parent" />
     

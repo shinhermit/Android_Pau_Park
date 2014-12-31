@@ -1,77 +1,50 @@
 package fr.univpau.paupark.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.univpau.paupark.model.Parking;
+import android.util.Log;
+import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.model.GeoCoordinate;
+import fr.univpau.paupark.model.OfficialParking;
+import fr.univpau.paupark.model.AbstractParking.CraftType;
+import fr.univpau.paupark.model.UserTipParking;
 
-public class JSONParkingParser implements Iterable<Parking> {
-	private ArrayList<Parking> _parkings = new ArrayList<Parking>();
-	
-	private String _jsonString;
-	
-	public JSONParkingParser() {}
-
-	
-	public void setJsonString(String json)
-	{
-		this._jsonString = json;
-		this.parse();
-	}
-	
-	@Override
-	public Iterator<Parking> iterator() {
-		Iterator<Parking> parkingIterator = this._parkings.iterator();
-		
-		return parkingIterator;
-	}
-
+public class JSONParkingParser
+{
 	/**
-	 * {
-	 *   "name": "Parking_WGS84",
-	 *   "type": "FeatureCollection",
-	 *   "features": [
-	 *     {
-	 *       "type": "Feature",
-	 *       "geometry": {
-	 *         "type": "Point",
-	 *         "coordinates": [
-	 *           -0.36805447415889,
-	 *           43.293705019517
-	 *         ]
-	 *       },
-	 *       "properties": {
-	 *         "Ouvrage": "Souterrain", (ou "Plein air")
-	 *         "Pay_grat": "Payant", (ou "Gratuit")
-	 *         "COMMUNE": "PAU",
-	 *         "NOM": "Parking Aragon",
-	 *         "Places": 418
-	 *       }
-	 *     },
-	 *     …
-	 *   ]
-	 * }
-	 * @return
+	 * Official parking list type displayed as top level property.
 	 */
-	private void parse()
+	public static String TYPE_OFFICIAL_PARKING_LIST = "Parking_WGS84";
+	/**
+	 * User tips parking list type displayed as top level property.
+	 */
+	public static String TYPE_USERTIPS_PARKING_LIST = "Parking_AndroidGPSData";
+	
+	public List<AbstractParking> parse(String jsonString)
 	{
-		this._parkings.clear();
+		ArrayList<AbstractParking> parkings =
+				new ArrayList<AbstractParking>();
 		
 		try {
-			JSONObject json = new JSONObject(this._jsonString);
+			JSONObject json = new JSONObject(jsonString);
+			
+			//The type of list being parsed
+			boolean isOfficialParkingList = json.getString("name").equals(TYPE_OFFICIAL_PARKING_LIST);
 			
 			//List of parkings
-			JSONArray parkings = json.getJSONArray("features");
+			JSONArray parkingArray = json.getJSONArray("features");
 			
 			//Iterate through parkings and build corresponding Parking objects
-			int count = parkings.length();
+			int count = parkingArray.length();
 			for (int i = 0; i < count; i++) 
 			{
-				JSONObject currentParking = parkings.getJSONObject(i);
+				JSONObject currentParking = parkingArray.getJSONObject(i);
 				
 				//type should be "Feature"
 				if (currentParking.getString("type").equals("Feature")) {
@@ -83,23 +56,64 @@ public class JSONParkingParser implements Iterable<Parking> {
 					
 					//Other properties
 					JSONObject properties = currentParking.getJSONObject("properties");
-					String type = properties.getString("Ouvrage");
+					OfficialParking.CraftType craftType = this.craftEnumFromJson(properties.getString("Ouvrage"));
 					boolean free = properties.getString("Pay_grat").equals("Gratuit");
 					//String commune = new String(properties.getString("COMMUNE").getBytes("ISO-8859-1"), "UTF-8");
-					String commune = properties.getString("COMMUNE");
+					String town = properties.getString("COMMUNE");
 					String name = properties.getString("NOM");
-					int numVacancy = properties.getInt("Places");
+					int capacity = properties.getInt("Places");
 					
-					this._parkings.add(
-						new Parking(numVacancy, name, commune, lat, lng, free,type)
-					);
+
+					AbstractParking p;
+					
+					if (isOfficialParkingList)
+					{
+						p = new OfficialParking(capacity, name, town,
+								new GeoCoordinate(lat, lng), free,craftType); 
+					}
+					else 
+					{
+						//Read additionnal properties if dealing with users tips parking list
+						long id = properties.getLong("id");
+						String authorNickName = properties.getString("pseudo");
+						String description = properties.getString("comment");
+						long upvotes = properties.getLong("upvotes");
+						long downvotes = properties.getLong("downvotes");
+
+						p = new UserTipParking(id, capacity, name, town,
+								new GeoCoordinate(lat, lng), free, craftType,
+								description, authorNickName, upvotes, downvotes);
+					}
+					
+					parkings.add(p);
+						
 				}
 			}
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		}
+		catch (JSONException e)
+		{
+			Log.e(this.getClass().getName(), null, e);
+		}
 		
+		return parkings;
+	}
+	
+	private AbstractParking.CraftType craftEnumFromJson(String jsonValue)
+	{
+		String lowerCased = jsonValue.toLowerCase(Locale.FRANCE);
+		
+		AbstractParking.CraftType craftType = null;
+		
+		if(lowerCased.equals("plein air"))
+		{
+			craftType =  AbstractParking.CraftType.OPENED;
+		}
+		else if(lowerCased.equals("souterrain"))
+		{
+			
+			craftType = AbstractParking.CraftType.UNDERGROUND;
+		}
+		
+		return craftType;
 	}
 }

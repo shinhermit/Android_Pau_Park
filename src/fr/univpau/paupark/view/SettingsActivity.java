@@ -74,7 +74,7 @@ public class SettingsActivity extends Activity
 		this.nickNameEditText.setText(nickName);
 	}
 	
-	/* ** Option Menu** */
+	/* ** Option Menu ** */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -134,7 +134,10 @@ public class SettingsActivity extends Activity
 		Intent data = new Intent();
 		data.setClass(this, PauParkActivity.class);
 		
-		this.setResult(1, data);
+		this.setResult(
+				PauParkActivity.SETTINGS_ACTIVITY_RESQUEST_CODE,
+				data);
+		
 		this.finish();
 	}
 }
