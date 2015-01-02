@@ -6,7 +6,9 @@ import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.OfficialParking;
 import fr.univpau.paupark.model.UserTipParking;
+import fr.univpau.paupark.presenter.OfficialParkingPreparer;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.presenter.UserTipParkingPreparer;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
@@ -57,13 +59,17 @@ public class PauParkActivity extends Activity
 		// Allows internationalisation
 		OfficialParking.CraftType.init(this);
 		
+		//Parking list view preparer
+		OfficialParkingPreparer officialPreparer = new OfficialParkingPreparer();
+		UserTipParkingPreparer userTipPreparer = new UserTipParkingPreparer();
+		
 		this.officialParkingListAdapter =
 				new ParkingListAdapter(this, R.id.parkingsListHolder,
-						new ArrayList<AbstractParking>());
+						new ArrayList<AbstractParking>(), officialPreparer);
 		
 		this.parkingTipListAdapter =
-				new ParkingListAdapter(this, R.id.parkingsListHolder,
-						new ArrayList<AbstractParking>()); // TODO
+				new ParkingListAdapter(this, R.id.userTipsListHolder,
+						new ArrayList<AbstractParking>(), userTipPreparer);
 	}
 	
 	
