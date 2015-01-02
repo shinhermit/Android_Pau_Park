@@ -2,10 +2,13 @@ package fr.univpau.paupark.service.async;
 
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 import android.util.Log;
+import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.UserTipParking;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.service.JSONParkingParser;
 
 /**
  * An async task which allows to save a parking tip and updates a provided presenter (adapter) when it completes.
@@ -16,18 +19,16 @@ import fr.univpau.paupark.presenter.ParkingListAdapter;
 public class SaveParkingAsyncTask extends AsbtractAsyncTask
 {
 	/** The parking tip which is to be inserted. */
-	private UserTipParking parkingToInsert;
+	private UserTipParking inserted;
 	
 	/**
 	 * 
 	 * @param parkingToInsert the parking tip which is to be inserted.
 	 * @param adapterToUpdate the presenter to update.
 	 */
-	public SaveParkingAsyncTask(UserTipParking parkingToInsert, ParkingListAdapter adapterToUpdate)
+	public SaveParkingAsyncTask(ParkingListAdapter adapterToUpdate)
 	{
 		super(adapterToUpdate);
-		
-		this.parkingToInsert = parkingToInsert;
 	}
 	
 	@Override
@@ -41,11 +42,16 @@ public class SaveParkingAsyncTask extends AsbtractAsyncTask
 			{
 				String response = this.query(urls[0].toURI());
 				
-				long res = Long.parseLong(response);
+				JSONParkingParser parser =
+						new JSONParkingParser();
 				
-				if(res >= 0)
+				List<AbstractParking> res =
+						parser.parse(response);
+				
+				if(!res.isEmpty())
 				{
-					parkingToInsert.setId(res);
+					this.inserted =
+							(UserTipParking) res.get(0);
 				}
 			}
 			catch (URISyntaxException e)
@@ -62,9 +68,9 @@ public class SaveParkingAsyncTask extends AsbtractAsyncTask
 	@Override
 	protected void onPostExecute(Long result)
 	{
-		if(this.parkingToInsert.getId() >= 0)
+		if(this.inserted != null)
 		{
-			adapter.add(parkingToInsert);
+			this.adapter.add(this.inserted);
 		}
 		
 		super.onPostExecute(result);

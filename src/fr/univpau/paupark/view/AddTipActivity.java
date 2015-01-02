@@ -31,6 +31,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 /**
  * The activity (view) which allows to add a new parking tip.
@@ -49,7 +50,7 @@ public class AddTipActivity extends Activity implements LocationListener
 	private EditText _parkingNameEdit;
 	
 	/** The field which allows the user to provide the town where the parking is. */
-	private EditText _cityEdit;
+	private EditText _townEdit;
 	
 	/** The field which allows the user to provide the number of places in the parking. */
 	private EditText _parkingSizeEdit;
@@ -67,7 +68,7 @@ public class AddTipActivity extends Activity implements LocationListener
 	private EditText _longitudeEdit;
 	
 	/** The field which allows the user to provide a comment on the parking. */
-	private EditText _commentEdit;
+	private EditText _descriptionEdit;
 	
 	/** */ // TODO
 	private Geocoder _geocoder;
@@ -93,7 +94,7 @@ public class AddTipActivity extends Activity implements LocationListener
 				findViewById(R.id.newParkingCreatorNickname);
 		this._parkingNameEdit = (EditText)
 				findViewById(R.id.newParkingName);
-		this._cityEdit = (EditText)
+		this._townEdit = (EditText)
 				findViewById(R.id.newParkingCity);
 		this._parkingSizeEdit = (EditText)
 				findViewById(R.id.newParkingSize);
@@ -105,7 +106,7 @@ public class AddTipActivity extends Activity implements LocationListener
 				findViewById(R.id.newParkingCoordinateLatitude);
 		this._longitudeEdit = (EditText)
 				findViewById(R.id.newParkingCoordinateLongitude);
-		this._commentEdit = (EditText)
+		this._descriptionEdit = (EditText)
 				findViewById(R.id.newParkingComment);
 		
 		this._geocoder = new Geocoder(this, Locale.getDefault());
@@ -172,8 +173,10 @@ public class AddTipActivity extends Activity implements LocationListener
 		switch(item.getItemId())
 		{
 		case R.id.saveParkingTipAction:
-			this.prepareIntent();
-			this.terminate();
+			if ( this.checkInputs() )
+			{
+				this.terminate();
+			}
 			break;
 		// Add other menu
 		}
@@ -216,44 +219,126 @@ public class AddTipActivity extends Activity implements LocationListener
 	/* ** Private helpers. ** */
 	
 	/**
-	 * Saves the user inputs.
+	 * Check is the compulsory fields of the form have been filled and keeps the values if validated.
+	 * 
+	 * @return true if the input is valid, false othewise.
 	 */
-	private void prepareIntent()
+	private boolean checkInputs()
 	{
+		boolean valid = true;
+		String errMess = "";
+		
 		OfficialParking.CraftType craftTypes[] =
 				OfficialParking.CraftType.values();
 		
-		// Get from UI
-		String authorNickName =
+		String authorNickName = null;
+		String name = null;
+		String town = null;
+		String description = null;
+		int capacity = 0;
+		double coordLatitude = 0;
+		double coordLongitude = 0;
+		boolean isCharged = false;
+		CraftType craftType = null;
+		
+		/* Compulsory */
+		
+		// NICKNAME
+		authorNickName =
 				this._nicknameEdit.getText().toString();
-		String name =
-				this._parkingNameEdit.getText().toString();
-		String town =
-				this._cityEdit.getText().toString();
-		int capacity =
-				Integer.parseInt(
-				this._parkingSizeEdit.getText().toString());
-		boolean isCharged =
-				this._isChargedCheck.isSelected();
-		CraftType craftType =
+		if(authorNickName.equals(""))
+		{
+			errMess += this.getString(
+					R.string.new_parking_creator_nickname_error) + "";
+			valid = false;
+		}
+		else
+		{
+			// PARKING NAME
+			name = 
+					this._parkingNameEdit.getText().toString();
+			if(name.equals(""))
+			{
+				errMess += this.getString(
+						R.string.new_parking_name_error) + "";
+				valid = false;
+			}
+			else
+			{
+				// TOWN
+				town =
+						this._townEdit.getText().toString();
+				if(town.equals(""))
+				{
+					errMess += this.getString(R.string.new_parking_city_error) + "";
+					valid = false;
+				}
+				else
+				{
+					// LATITUDE
+					if(this._latitudeEdit.getText().toString().equals(""))
+					{
+						errMess += this.getString(R.string.new_parking_coordinates_latitude_error) + "";
+						valid = false;
+					}
+					else
+					{
+						coordLatitude =
+								Double.parseDouble(
+								this._latitudeEdit.getText().toString());
+						
+						// LONGITUDE
+						if(this._longitudeEdit.getText().toString().equals(""))
+						{
+							errMess += this.getString(R.string.new_parking_coordinates_longitude_error) + "";
+							valid = false;
+						}
+						else
+						{
+							coordLongitude =
+									Double.parseDouble(
+									this._longitudeEdit.getText().toString());
+						}
+					}
+				}
+			}
+		}
+		
+		/* No need for control */
+		isCharged =
+				this._isChargedCheck.isChecked();
+		
+		craftType =
 				craftTypes[this._craftTypeSpinner.getSelectedItemPosition()];
-		double coordLatitude =
-				Double.parseDouble(
-				this._latitudeEdit.getText().toString());
-		double coordLongitude =
-				Double.parseDouble(
-				this._longitudeEdit.getText().toString());
-		String description =
-				this._commentEdit.getText().toString();
 		
-		// Set intent data
-		this.intent = new Intent();
+		description =
+				this._descriptionEdit.getText().toString();
 		
-		UserTipParking parking = new UserTipParking(capacity, name, town,
-				new GeoCoordinate(coordLatitude, coordLongitude), isCharged,
-				craftType, description, authorNickName);
+		capacity =
+				(!this._longitudeEdit.getText().toString().equals("")) ?
+				Integer.parseInt(
+						this._parkingSizeEdit.getText().toString())
+				: 0;
 		
-		this.intent.putExtra(AddTipActivity.PARKING_EXTRA, (Serializable)parking);
+		if(!valid)
+		{
+			Toast toast = Toast.makeText(this, errMess, Toast.LENGTH_SHORT);
+			toast.show();
+		}
+		
+		/* Set data intent*/
+		if(valid)
+		{
+			this.intent = new Intent();
+			
+			UserTipParking parking = new UserTipParking(capacity, name, town,
+					new GeoCoordinate(coordLatitude, coordLongitude), isCharged,
+					craftType, description, authorNickName);
+			
+			this.intent.putExtra(AddTipActivity.PARKING_EXTRA, (Serializable)parking);
+		}
+		
+		return valid;
 	}
 	
 	/**
@@ -261,6 +346,7 @@ public class AddTipActivity extends Activity implements LocationListener
 	 */
 	private void terminate()
 	{
+		// Configure intent
 		if(this.intent == null)
 		{
 			this.intent = new Intent();
@@ -268,9 +354,19 @@ public class AddTipActivity extends Activity implements LocationListener
 		
 		this.intent.setClass(this, PauParkActivity.class);
 		
-		this.setResult(
-				PauParkActivity.ADD_TIP_ACTIVITY_RESQUEST_CODE,
-				this.intent);
+		// Set result
+		Activity parent = this.getParent();
+		
+		if (parent == null)
+		{
+		    this.setResult(Activity.RESULT_OK,
+		    		this.intent);
+		}
+		else
+		{
+		    parent.setResult(Activity.RESULT_OK,
+		    		this.intent);
+		}
 		
 		this.finish();
 	}
@@ -288,7 +384,7 @@ public class AddTipActivity extends Activity implements LocationListener
 				
 				if (addresses.size() > 0)
 				{
-					this._cityEdit.setText(addresses.get(0).getLocality());
+					this._townEdit.setText(addresses.get(0).getLocality());
 				}
 				
 			} catch (NumberFormatException e) {

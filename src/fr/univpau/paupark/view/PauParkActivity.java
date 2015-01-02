@@ -111,12 +111,15 @@ public class PauParkActivity extends Activity
 		switch(requestCode)
 		{
 		case PauParkActivity.ADD_TIP_ACTIVITY_RESQUEST_CODE:
-			ParkingServices services = 
-				ParkingServiceImpl.getInstance();
-	
-			services.saveParkingTip(
-					(UserTipParking)data.getSerializableExtra(AddTipActivity.PARKING_EXTRA),
-				this.parkingTipListAdapter);
+			if(data != null)
+			{
+				ParkingServices services = 
+					ParkingServiceImpl.getInstance();
+		
+				services.saveParkingTip(
+						(UserTipParking)data.getSerializableExtra(AddTipActivity.PARKING_EXTRA),
+					this.parkingTipListAdapter);
+			}
 			break;
 		}
 	}
@@ -143,7 +146,8 @@ public class PauParkActivity extends Activity
 		
 		intent.setClass(this, AddTipActivity.class);
 		
-		this.startActivity(intent);
+		this.startActivityForResult(intent,
+				PauParkActivity.ADD_TIP_ACTIVITY_RESQUEST_CODE);
 	}
 	
 	/**
