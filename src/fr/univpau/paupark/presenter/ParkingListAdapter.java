@@ -2,15 +2,11 @@ package fr.univpau.paupark.presenter;
 
 import java.util.List;
 
-import fr.univpau.paupark.R;
-import fr.univpau.paupark.listener.OnParkingClickListener;
 import fr.univpau.paupark.model.AbstractParking;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 public class ParkingListAdapter extends ArrayAdapter<AbstractParking> {	
 	private AbstractViewPreparer preparer;
@@ -34,7 +30,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking> {
 			convertView = this.preparer.buildConvertView(getContext(), parent);
 		}
 		
-		convertView = this.preparer.getView(convertView, parking);
+		convertView = this.preparer.populateView(convertView, parking);
 		
 		return convertView;
 	}

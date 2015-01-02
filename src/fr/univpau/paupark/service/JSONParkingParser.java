@@ -76,7 +76,7 @@ public class JSONParkingParser
 						//Read additionnal properties if dealing with users tips parking list
 						long id = properties.getLong("id");
 						String authorNickName = properties.getString("pseudo");
-						String description = properties.getString("comment");
+						String description = properties.getString("description");
 						long upvotes = properties.getLong("upvotes");
 						long downvotes = properties.getLong("downvotes");
 

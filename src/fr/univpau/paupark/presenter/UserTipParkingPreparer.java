@@ -11,10 +11,9 @@ import android.widget.TextView;
 
 public class UserTipParkingPreparer extends AbstractViewPreparer {	
 	@Override
-	public View getView(View convertView, Object data) {
+	public View populateView(View convertView, Object data) {
 		UserTipParking parking = (UserTipParking) data;
-		Context context = convertView.getContext();
-		Resources res = context.getResources();
+		Resources res = convertView.getContext().getResources();
 		
 		// Author of the tip
 		TextView author = (TextView) 

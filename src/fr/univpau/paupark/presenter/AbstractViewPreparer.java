@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 /**
  * 
- * Delegaton of the getView method of ArrayAdapter<AbstractParking> 
+ * Delegation of the getView method of ArrayAdapter<AbstractParking> 
  *
  */
 abstract class AbstractViewPreparer {
@@ -16,10 +16,10 @@ abstract class AbstractViewPreparer {
 	 * @param data data used to populate the view
 	 * @return
 	 */
-	abstract public View getView(View convertView, Object data);
+	abstract public View populateView(View convertView, Object data);
 	
 	/**
-	 * Builds the view passed to getView
+	 * Builds the view passed to prepare
 	 * @return
 	 */
 	abstract public View buildConvertView(Context context, ViewGroup parent);

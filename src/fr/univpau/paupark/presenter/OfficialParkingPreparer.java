@@ -4,6 +4,7 @@ import fr.univpau.paupark.R;
 import fr.univpau.paupark.listener.OnParkingClickListener;
 import fr.univpau.paupark.model.OfficialParking;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,19 @@ import android.widget.TextView;
 public class OfficialParkingPreparer extends AbstractViewPreparer {	
 	
 	@Override
-	public View getView(View convertView, Object data) {
+	public View populateView(View convertView, Object data) {
 		OfficialParking parking = (OfficialParking) data;
 		
 		Context context = convertView.getContext();
 		
+		Resources res = context.getResources();
+		
+		
 		TextView parkingTown = (TextView) convertView.findViewById(R.id.parkingAsListItem_TownTypePrice);
 		parkingTown.setText(
 			parking.getCommuneTypePriceTagLine(
-					context.getResources().getString(R.string.parking_isfree), 
-					context.getResources().getString(R.string.parking_isnotFree)
+					res.getString(R.string.parking_isfree), 
+					res.getString(R.string.parking_isnotFree)
 			)
 		);		
 		
@@ -30,9 +34,9 @@ public class OfficialParkingPreparer extends AbstractViewPreparer {
 		
 		TextView parkingVacancy = (TextView) convertView.findViewById(R.id.parkingAsListItem_parkingVacancy);
 		parkingVacancy.setText(parking.getVacancyTagLine(
-				context.getResources().getString(R.string.parking_vacancy), 
-				context.getResources().getString(R.string.parking_vacancyPlural),
-				context.getResources().getString(R.string.parking_noVacancy)
+				res.getString(R.string.parking_vacancy), 
+				res.getString(R.string.parking_vacancyPlural),
+				res.getString(R.string.parking_noVacancy)
 			)
 		);
 		
