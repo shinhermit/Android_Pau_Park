@@ -1,6 +1,6 @@
 package fr.univpau.paupark.listener;
 
-import fr.univpau.paupark.view.menu.cab.UserTipContextualActionModeCallBack;
+import fr.univpau.paupark.view.menu.contextual.UserTipContextualActionModeCallBack;
 import android.app.Activity;
 import android.content.Context;
 import android.view.ActionMode;
@@ -27,5 +27,4 @@ public class OnUserTipListItemClickListener implements OnItemClickListener
 		
         view.setSelected(true);
 	}
-
 }

@@ -1,4 +1,4 @@
-package fr.univpau.paupark.view.menu.cab;
+package fr.univpau.paupark.view.menu.contextual;
 
 import fr.univpau.paupark.R;
 import android.view.ActionMode;
@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 public class UserTipContextualActionModeCallBack implements ActionMode.Callback
 {
-
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu)
 	{
@@ -24,17 +23,32 @@ public class UserTipContextualActionModeCallBack implements ActionMode.Callback
 	{
 		return false;
 	}
-
+	
 	@Override
-	public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item)
 	{
-		return false;
-	}
+        switch (item.getItemId())
+        {
+            case R.id.upVoteTipAction:
+            	// TODO
+            	
+                mode.finish();
+                return true;
+            case R.id.downVoteTipAction:
+            	// TODO
+            
+                mode.finish();
+                return true;
+            case R.id.locateParkingAction:
+            	// TODO
+                mode.finish();
+                return true;
+            default:
+                return false;
+        }
+    }
 
 	@Override
 	public void onDestroyActionMode(ActionMode mode)
-	{
-		
-	}
-	
+	{}
 }

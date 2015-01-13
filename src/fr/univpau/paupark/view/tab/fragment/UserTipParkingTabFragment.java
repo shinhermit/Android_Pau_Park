@@ -42,7 +42,8 @@ public class UserTipParkingTabFragment extends Fragment {
     			activity.getParkingTipListAdapter();
     	
     	parkingListView.setAdapter(adapter);
-    	parkingListView.setOnItemClickListener(new OnUserTipListItemClickListener());
+    	parkingListView.setOnItemClickListener(
+    			new OnUserTipListItemClickListener());
     	
 		// Query load parking service
 		ParkingServices services =
