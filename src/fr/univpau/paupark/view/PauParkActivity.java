@@ -12,8 +12,8 @@ import fr.univpau.paupark.presenter.UserTipParkingPreparer;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
-import fr.univpau.paupark.view.tab.fragment.ParkingsTabFragment;
-import fr.univpau.paupark.view.tab.fragment.TipsTabFragment;
+import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
+import fr.univpau.paupark.view.tab.fragment.UserTipParkingTabFragment;
 import fr.univpau.paupark.view.tab.listener.TabListener;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -226,10 +226,10 @@ public class PauParkActivity extends Activity
 
         tab.setText(R.string.tab_parkings);
         tab.setTabListener(
-    		   new TabListener<ParkingsTabFragment>(
+    		   new TabListener<OfficialParkingTabFragment>(
                    this, 
                    "parkingsTab", 
-                   ParkingsTabFragment.class)
+                   OfficialParkingTabFragment.class)
            );
         bar.addTab(tab);
 
@@ -238,10 +238,10 @@ public class PauParkActivity extends Activity
 	    
         tab.setText(R.string.tab_tips);
         tab.setTabListener(
-     		   new TabListener<TipsTabFragment>(
+     		   new TabListener<UserTipParkingTabFragment>(
                        this, 
                        "tipsTab", 
-                       TipsTabFragment.class)
+                       UserTipParkingTabFragment.class)
                    );
         bar.addTab(tab);
         

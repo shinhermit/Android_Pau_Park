@@ -11,12 +11,12 @@ import android.view.View.OnClickListener;
 
 
 
-public class OnParkingClickListener implements OnClickListener {
+public class OnOfficialParkingClickListener implements OnClickListener {
 
 	private AbstractParking _parking;
 	private Context _context;
 	
-	public OnParkingClickListener(Context context, AbstractParking parking)
+	public OnOfficialParkingClickListener(Context context, AbstractParking parking)
 	{
 		this._context = context;
 		this._parking = parking;

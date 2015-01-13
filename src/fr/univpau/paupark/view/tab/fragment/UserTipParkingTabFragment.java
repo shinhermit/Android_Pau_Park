@@ -1,6 +1,7 @@
 package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.listener.OnUserTipListItemClickListener;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
@@ -13,18 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class ParkingsTabFragment extends Fragment
-{
+public class UserTipParkingTabFragment extends Fragment {
     @Override
     public View onCreateView(
 		LayoutInflater inflater, 
 		ViewGroup container,
         Bundle savedInstanceState) 
     {
-        return inflater.inflate(
-        		R.layout.parkings_tab, container, false);
+        // Inflate the layout for this fragment
+    	// and return the root of the fragment layout
+        return inflater.inflate(R.layout.tips_tab, container, false);
     }
-    
+        
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
@@ -35,16 +36,17 @@ public class ParkingsTabFragment extends Fragment
     			this.getActivity();
     	
     	ListView parkingListView = (ListView)
-    			activity.findViewById(R.id.parkingsListHolder);
+    			activity.findViewById(R.id.userTipsListHolder);
     	
     	ParkingListAdapter adapter =
-    			activity.getOfficialParkingListAdapter();
+    			activity.getParkingTipListAdapter();
     	
     	parkingListView.setAdapter(adapter);
+    	parkingListView.setOnItemClickListener(new OnUserTipListItemClickListener());
     	
 		// Query load parking service
 		ParkingServices services =
 				ParkingServiceImpl.getInstance();
-		services.loadParkingList(ParkingInfoSource.OFFICIAL, adapter);
+		services.loadParkingList(ParkingInfoSource.USERS, adapter);
     }
 }

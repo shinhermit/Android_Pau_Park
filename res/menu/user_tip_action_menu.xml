@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+        
+    <item android:id="@+id/upVoteTipAction"
+        android:title="@string/up_vote_tip_action"
+        android:icon="@drawable/ic_action_good"
+        android:showAsAction="ifRoom|withText"/>
+     
+    <item android:id="@+id/downVoteTipAction"
+        android:title="@string/down_vote_tip_action"
+        android:icon="@drawable/ic_action_bad"
+        android:showAsAction="ifRoom|withText"/>
+     
+    <item android:id="@+id/locateParkingAction"
+        android:title="@string/locate_parking_action"
+        android:icon="@drawable/ic_action_place"
+        android:showAsAction="ifRoom|withText"/>
+    
+</menu>

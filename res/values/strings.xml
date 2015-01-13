@@ -11,6 +11,10 @@
     <string name="save_settings_action">Enregistrer</string>
     <string name="save_parking_tip_action">Enregistrer</string>
     
+    <string name="up_vote_tip_action">Up vote</string>
+    <string name="down_vote_tip_action">Down vote</string>
+    <string name="locate_parking_action">Show on map</string>
+    
     <string name="tab_parkings">Parkings</string>
     <string name="tab_tips">Bons plans</string>
     

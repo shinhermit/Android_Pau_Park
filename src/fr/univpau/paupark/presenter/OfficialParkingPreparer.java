@@ -1,7 +1,7 @@
 package fr.univpau.paupark.presenter;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.listener.OnParkingClickListener;
+import fr.univpau.paupark.listener.OnOfficialParkingClickListener;
 import fr.univpau.paupark.model.OfficialParking;
 import android.content.Context;
 import android.content.res.Resources;
@@ -40,8 +40,8 @@ public class OfficialParkingPreparer extends AbstractViewPreparer {
 			)
 		);
 		
-		OnParkingClickListener listener = new OnParkingClickListener(context, parking);
-		convertView.setOnClickListener(listener);
+		convertView.setOnClickListener(
+				new OnOfficialParkingClickListener(context, parking));
 		
 		return convertView;
 	}

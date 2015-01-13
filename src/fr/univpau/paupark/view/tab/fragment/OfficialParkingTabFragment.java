@@ -13,18 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class TipsTabFragment extends Fragment {
+public class OfficialParkingTabFragment extends Fragment
+{
     @Override
     public View onCreateView(
 		LayoutInflater inflater, 
 		ViewGroup container,
         Bundle savedInstanceState) 
     {
-        // Inflate the layout for this fragment
-    	// and return the root of the fragment layout
-        return inflater.inflate(R.layout.tips_tab, container, false);
+        return inflater.inflate(
+        		R.layout.parkings_tab, container, false);
     }
-        
+    
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
@@ -35,16 +35,16 @@ public class TipsTabFragment extends Fragment {
     			this.getActivity();
     	
     	ListView parkingListView = (ListView)
-    			activity.findViewById(R.id.userTipsListHolder);
+    			activity.findViewById(R.id.parkingsListHolder);
     	
     	ParkingListAdapter adapter =
-    			activity.getParkingTipListAdapter();
+    			activity.getOfficialParkingListAdapter();
     	
     	parkingListView.setAdapter(adapter);
     	
 		// Query load parking service
 		ParkingServices services =
 				ParkingServiceImpl.getInstance();
-		services.loadParkingList(ParkingInfoSource.USERS, adapter);
+		services.loadParkingList(ParkingInfoSource.OFFICIAL, adapter);
     }
 }
