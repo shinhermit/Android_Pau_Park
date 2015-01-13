@@ -15,24 +15,24 @@ import android.util.Log;
  * @author Josuah Aron
  *
  */
-public class LoadParkingListTask extends AsbtractAsyncTask
+public class LoadParkingListAsyncTask extends AsbtractAsyncTask
 {
 	/** The loaded list of parkings. */
 	private List<AbstractParking> parkings;
 	
 	/**
 	 * 
-	 * @param adapter the adapter to update when completed.
+	 * @param adapterToUpdate the adapter to update when completed.
 	 */
-	public LoadParkingListTask(ParkingListAdapter adapter)
+	public LoadParkingListAsyncTask(ParkingListAdapter adapterToUpdate)
 	{
-		super(adapter);
+		super(adapterToUpdate);
 	}
 	
 	@Override
 	protected Long doInBackground(URL... urls)
 	{
-		long status = AsbtractAsyncTask.SUCCESS;
+		long status = AsbtractAsyncTask.FAILURE;
 		
 		if(urls.length == 1)
 		{
@@ -44,12 +44,15 @@ public class LoadParkingListTask extends AsbtractAsyncTask
 						new JSONParkingParser();
 				
 				this.parkings = parser.parse(response);
+				
+				if(!this.parkings.isEmpty())
+				{
+					status = AsbtractAsyncTask.SUCCESS;
+				}
 
 			}
 			catch (URISyntaxException e)
 			{
-				status = AsbtractAsyncTask.FAILURE;
-				
 				Log.e(this.getClass().getName(), null, e);
 			}
 		}

@@ -12,7 +12,6 @@ import android.util.Log;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.OfficialParking;
-import fr.univpau.paupark.model.AbstractParking.CraftType;
 import fr.univpau.paupark.model.UserTipParking;
 
 public class JSONParkingParser

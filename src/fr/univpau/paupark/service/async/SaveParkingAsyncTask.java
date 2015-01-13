@@ -19,7 +19,7 @@ import fr.univpau.paupark.service.JSONParkingParser;
 public class SaveParkingAsyncTask extends AsbtractAsyncTask
 {
 	/** The parking tip which is to be inserted. */
-	private UserTipParking inserted;
+	private UserTipParking inserted = null;
 	
 	/**
 	 * 
@@ -34,7 +34,7 @@ public class SaveParkingAsyncTask extends AsbtractAsyncTask
 	@Override
 	protected Long doInBackground(URL... urls)
 	{
-		long status = AsbtractAsyncTask.SUCCESS;
+		long status = AsbtractAsyncTask.FAILURE;
 		
 		if(urls.length == 1)
 		{
@@ -52,12 +52,12 @@ public class SaveParkingAsyncTask extends AsbtractAsyncTask
 				{
 					this.inserted =
 							(UserTipParking) res.get(0);
+					
+					status = AsbtractAsyncTask.SUCCESS;
 				}
 			}
 			catch (URISyntaxException e)
 			{
-				status = AsbtractAsyncTask.FAILURE;
-				
 				Log.e(this.getClass().getName(), null, e);
 			}
 		}
@@ -70,7 +70,7 @@ public class SaveParkingAsyncTask extends AsbtractAsyncTask
 	{
 		if(this.inserted != null)
 		{
-			this.adapter.add(this.inserted);
+			this.adapter.insert(this.inserted, 0);
 		}
 		
 		super.onPostExecute(result);

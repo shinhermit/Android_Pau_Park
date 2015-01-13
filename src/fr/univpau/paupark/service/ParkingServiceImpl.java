@@ -11,10 +11,9 @@ import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.UserTipParking;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
-import fr.univpau.paupark.service.async.DownVoteParkingTipAsyncTask;
-import fr.univpau.paupark.service.async.LoadParkingListTask;
+import fr.univpau.paupark.service.async.LoadParkingListAsyncTask;
 import fr.univpau.paupark.service.async.SaveParkingAsyncTask;
-import fr.univpau.paupark.service.async.UpVoteParkingTipAsyncTask;
+import fr.univpau.paupark.service.async.VoteParkingTipAsyncTask;
 
 /**
  * Implementation of the services available on parking.
@@ -122,7 +121,7 @@ public class ParkingServiceImpl implements ParkingServices
 			break;
 		}
 		
-		new LoadParkingListTask(adapter).execute(query);
+		new LoadParkingListAsyncTask(adapter).execute(query);
 	}
 
 	@Override
@@ -169,7 +168,7 @@ public class ParkingServiceImpl implements ParkingServices
 
 	@Override
 	public void updateParkingTip(long id,
-			UserTipParking newparking, ParkingListAdapter uodateMe)
+			UserTipParking newparking, ParkingListAdapter updateMe)
 	{
 		// TODO
 	}
@@ -194,7 +193,7 @@ public class ParkingServiceImpl implements ParkingServices
 		{
 			query = URI.create(queryURI.toString()).toURL();
 			
-			new UpVoteParkingTipAsyncTask(updateMe).execute(query);
+			new VoteParkingTipAsyncTask(updateMe).execute(query);
 		}
 		catch (MalformedURLException e)
 		{
@@ -216,7 +215,7 @@ public class ParkingServiceImpl implements ParkingServices
 		{
 			query = URI.create(queryURI.toString()).toURL();
 			
-			new DownVoteParkingTipAsyncTask(updateMe).execute(query);
+			new VoteParkingTipAsyncTask(updateMe).execute(query);
 		}
 		catch (MalformedURLException e)
 		{
