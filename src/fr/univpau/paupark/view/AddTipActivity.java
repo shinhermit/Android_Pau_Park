@@ -1,6 +1,5 @@
 package fr.univpau.paupark.view;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
@@ -198,10 +197,8 @@ public class AddTipActivity extends Activity implements LocationListener
 	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onStatusChanged(String provider, int status, Bundle extras)
+	{}
 
 	@Override
 	public void onProviderEnabled(String provider) {
@@ -387,12 +384,9 @@ public class AddTipActivity extends Activity implements LocationListener
 					this._townEdit.setText(addresses.get(0).getLocality());
 				}
 				
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e)
+			{
+				Log.e(this.getClass().getName(), null, e);
 			}
 		}
 	}

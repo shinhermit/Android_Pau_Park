@@ -39,7 +39,7 @@ public class PauParkActivity extends Activity
 	private ParkingListAdapter officialParkingListAdapter;
 	
 	/** The presenter of the parking tip list. */
-	private ParkingListAdapter parkingTipListAdapter;
+	private ParkingListAdapter userTipParkingListAdapter;
 	
 	/** The return code of the setting modification activity. Package visibility.*/
 	static final int SETTINGS_ACTIVITY_RESQUEST_CODE = 1;
@@ -67,7 +67,7 @@ public class PauParkActivity extends Activity
 				new ParkingListAdapter(this, R.id.parkingsListHolder,
 						new ArrayList<AbstractParking>(), officialPreparer);
 		
-		this.parkingTipListAdapter =
+		this.userTipParkingListAdapter =
 				new ParkingListAdapter(this, R.id.userTipsListHolder,
 						new ArrayList<AbstractParking>(), userTipPreparer);
 	}
@@ -118,7 +118,7 @@ public class PauParkActivity extends Activity
 		
 				services.saveParkingTip(
 						(UserTipParking)data.getSerializableExtra(AddTipActivity.PARKING_EXTRA),
-					this.parkingTipListAdapter);
+					this.userTipParkingListAdapter);
 			}
 			break;
 		}
@@ -164,7 +164,7 @@ public class PauParkActivity extends Activity
 		ParkingListAdapter adapter =
 				(source == ParkingInfoSource.OFFICIAL) ?
 				this.officialParkingListAdapter :
-					this.parkingTipListAdapter;
+					this.userTipParkingListAdapter;
 		
 		services.loadParkingList(source, adapter);
 	}
@@ -184,10 +184,12 @@ public class PauParkActivity extends Activity
 	 * 
 	 * @return the presenter of the parking tip list.
 	 */
-	public ParkingListAdapter getParkingTipListAdapter()
+	public ParkingListAdapter getUSerTipParkingListAdapter()
 	{
-		return parkingTipListAdapter;
+		return userTipParkingListAdapter;
 	}
+	
+//	public void setOfficialListView
 	
 	/**
 	 * Provides the current source of parking list (official vs user tips).
@@ -210,7 +212,6 @@ public class PauParkActivity extends Activity
 	{
 		this.parkingSource = source;
 	}
-
 
 	/**
 	 * Creates the tabs of this activity.
