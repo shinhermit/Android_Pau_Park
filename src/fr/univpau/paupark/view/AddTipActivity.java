@@ -1,8 +1,9 @@
 package fr.univpau.paupark.view;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.GeoCoordinate;
@@ -10,16 +11,11 @@ import fr.univpau.paupark.model.OfficialParking;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.model.AbstractParking.CraftType;
 import fr.univpau.paupark.model.UserTipParking;
+import fr.univpau.paupark.service.PauParkLocation;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,13 +30,17 @@ import android.widget.Toast;
 
 /**
  * The activity (view) which allows to add a new parking tip.
+ * Observes PauParkLocation for location updates.
  * 
  * @author Émilien Arino
  * @author Josuah Aron
  *
  */
-public class AddTipActivity extends Activity implements LocationListener
+public class AddTipActivity extends Activity implements Observer
 {
+	/** Handles location queries and updates */
+	private PauParkLocation _pauParkLocation;
+	
 	/* Hold the form fields, in order to get the user's input. */
 	/** The field which allows the user to provide a nickname. */
 	private EditText _nicknameEdit;
@@ -68,12 +68,6 @@ public class AddTipActivity extends Activity implements LocationListener
 	
 	/** The field which allows the user to provide a comment on the parking. */
 	private EditText _descriptionEdit;
-	
-	/** */ // TODO
-	private Geocoder _geocoder;
-	
-	/** */ // TODO
-	private boolean _hasCoordinates = false;
 	
 	/** Will hold the result to return to the main activity. */
 	private Intent intent;
@@ -108,31 +102,15 @@ public class AddTipActivity extends Activity implements LocationListener
 		this._descriptionEdit = (EditText)
 				findViewById(R.id.newParkingComment);
 		
-		this._geocoder = new Geocoder(this, Locale.getDefault());
+		//Request location updates.
+		this._pauParkLocation = PauParkLocation.getInstance();
+		this._pauParkLocation.addObserver(this);
 	}
 	
 	@Override
 	protected void onStart()
 	{
 		super.onStart();
-		
-		// Location Manager: register the current class to receive location updates
-		LocationManager locationManager = 
-				(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		
-		Criteria crit = new Criteria();
-		crit.setAccuracy(Criteria.ACCURACY_FINE);
-		
-		String provider = locationManager.getBestProvider(crit, true);
-		
-		Location loc = locationManager.getLastKnownLocation(provider);
-		
-		if(loc != null)
-		{
-			this.onLocationChanged(loc);
-		}
 		
 		// CraftType spinner
 		SpinnerAdapter adapter = new ArrayAdapter<OfficialParking.CraftType>(
@@ -152,6 +130,17 @@ public class AddTipActivity extends Activity implements LocationListener
 						PauParkPreferences.NICKNAME_KEY, "");
 		
 		this._nicknameEdit.setText(nickName);
+		
+		//Get coordinates and town name if geoloc is used
+		boolean useGeoLoc =
+				preferences.getBoolean(
+						PauParkPreferences.GEOLOCATION_PREF_KEY, false);
+
+		if (useGeoLoc)
+		{
+			//set coordinates and town name if known
+			this.updateCoordinates();
+		}
 	}
 	
 	/* ** Option Menu ** */
@@ -181,36 +170,6 @@ public class AddTipActivity extends Activity implements LocationListener
 		}
 		
 		return true;
-	}
-
-	/* ** Geo coding ** */
-	@Override
-	public void onLocationChanged(Location location)
-	{
-		//Make use of new location
-		this._hasCoordinates = true;
-		
-		this._latitudeEdit.setText(String.valueOf(location.getLatitude()));
-		this._longitudeEdit.setText(String.valueOf(location.getLongitude()));
-		
-		this._getTown();
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras)
-	{}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		//handle enabling of location provider
-		Log.i("provider", "enabled " + provider);
-		this._getTown();
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		//handle disabling of location provider
-		Log.i("provider", "disabled " + provider);
 	}
 	
 	/* ** Private helpers. ** */
@@ -368,26 +327,26 @@ public class AddTipActivity extends Activity implements LocationListener
 		this.finish();
 	}
 
-	// TODO : comment
-	private void _getTown()
+	/**
+	 * Retrieves and updates coordinates and town name
+	 */
+	private void updateCoordinates()
 	{
-		if (this._hasCoordinates && Geocoder.isPresent()) //no geocoder on emulator
-		{
-			try {
-				List<Address> addresses = this._geocoder.getFromLocation(
-					Double.parseDouble(this._latitudeEdit.getText().toString()),
-					Double.parseDouble(this._longitudeEdit.getText().toString()), 
-					1);
-				
-				if (addresses.size() > 0)
-				{
-					this._townEdit.setText(addresses.get(0).getLocality());
-				}
-				
-			} catch (Exception e)
-			{
-				Log.e(this.getClass().getName(), null, e);
-			}
-		}
+		//update fields with new data
+		Location newLoc = this._pauParkLocation.getLocation();
+		
+		this._latitudeEdit.setText(String.valueOf(newLoc.getLatitude()));
+		this._longitudeEdit.setText(String.valueOf(newLoc.getLongitude()));
+		
+		this._townEdit.setText(this._pauParkLocation.getTown());		
+	}
+	
+	/**
+	 * Receives location update notification from PauParkLocation.
+	 */
+	@Override
+	public void update(Observable observable, Object data) 
+	{
+		this.updateCoordinates();
 	}
 }

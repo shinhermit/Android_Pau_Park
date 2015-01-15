@@ -72,6 +72,8 @@
     <string name="google_maps_url">http://maps.google.com/maps</string>
     <string name="google_maps_default_zoom">16</string>
     
+    <string name="network_status_down">Connexion réseau interrompue</string>
+    
     <string name="parking_official_source">http://opendata.agglo-pau.fr/sc/webserv.php?serv=getSj&amp;ui=542293D8B5&amp;did=18&amp;proj=WGS84</string>
     
     <string name="parking_user_tip_all">http://paupark.novacrea.fr/getTips.php</string>
