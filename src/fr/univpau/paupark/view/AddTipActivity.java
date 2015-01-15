@@ -139,7 +139,7 @@ public class AddTipActivity extends Activity implements Observer
 		if (useGeoLoc)
 		{
 			//set coordinates and town name if known
-			this.updateLocationAndTown();
+			this.updateCoordinates();
 		}
 	}
 	
@@ -327,28 +327,26 @@ public class AddTipActivity extends Activity implements Observer
 		this.finish();
 	}
 
-	private void updateCoordinates(Location location)
-	{
-		this._latitudeEdit.setText(String.valueOf(location.getLatitude()));
-		this._longitudeEdit.setText(String.valueOf(location.getLongitude()));
-		
-		this._townEdit.setText(this._pauParkLocation.getTown());		
-	}
-	
-	private void updateLocationAndTown()
+	/**
+	 * Retrieves and updates coordinates and town name
+	 */
+	private void updateCoordinates()
 	{
 		//update fields with new data
 		Location newLoc = this._pauParkLocation.getLocation();
 		
-		this.updateCoordinates(newLoc);
+		this._latitudeEdit.setText(String.valueOf(newLoc.getLatitude()));
+		this._longitudeEdit.setText(String.valueOf(newLoc.getLongitude()));
+		
+		this._townEdit.setText(this._pauParkLocation.getTown());		
 	}
 	
 	/**
-	 * Receives location updates from PauParkLocation
+	 * Receives location update notification from PauParkLocation.
 	 */
 	@Override
 	public void update(Observable observable, Object data) 
 	{
-		this.updateLocationAndTown();
+		this.updateCoordinates();
 	}
 }

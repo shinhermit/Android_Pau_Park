@@ -29,7 +29,11 @@ public class PauParkLocation extends Observable implements LocationListener {
 	
 	/// Location manager to start or stop receiving location updates.
 	private LocationManager _locationManager;
-	 
+
+	/// Only one provider left (fused provider)
+	private boolean _hasProvider = false;
+	
+	/// First getInstance to call 
 	public static PauParkLocation getInstance(LocationManager manager, Context context)
 	{
 		if (INSTANCE == null)
@@ -45,14 +49,20 @@ public class PauParkLocation extends Observable implements LocationListener {
 		return INSTANCE;
 	}
 	
+	/// 
 	private PauParkLocation(LocationManager manager, Context context) {
 		_locationManager = manager;
 		
-		this._geocoder = new Geocoder(context, Locale.getDefault());
+		if (Geocoder.isPresent())
+		{
+			this._geocoder = new Geocoder(context, Locale.getDefault());
+		}
+		
+		_hasProvider = _locationManager.getAllProviders().size() > 0;
 	}
 	
 	/// Receives location updates. 
-	/// Records the update and notify observers that a location update has occured.
+	/// Records the update and notifies observers that a location update has occured.
 	@Override
 	public void onLocationChanged(Location location) {
 		this._location = location;
@@ -99,15 +109,13 @@ public class PauParkLocation extends Observable implements LocationListener {
 	@Override
 	public void onProviderEnabled(String provider) 
 	{
-		// TODO Auto-generated method stub
-		
+		this._hasProvider = true;
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) 
 	{
-		// TODO Auto-generated method stub
-		
+		this._hasProvider = false;
 	}
 	
 	/// Returns the last acquired location through LocationListener
@@ -139,7 +147,7 @@ public class PauParkLocation extends Observable implements LocationListener {
 			List<String> matchingProviders = _locationManager.getAllProviders();
 			
 			for (String provider: matchingProviders) {
-			    
+
 				Location location = _locationManager.getLastKnownLocation(provider);
 			    
 			    if (location != null) {
