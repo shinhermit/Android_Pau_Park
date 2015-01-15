@@ -6,10 +6,144 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <ListView 
+    <!-- Pager Header -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray" >
+
+        <TextView
+            android:id="@+id/pager_current_page_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/pager_default_current_page_indicator"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" /> <!-- Put some space -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/pager_per_page_label"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/pager_seek_bar_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/pager_per_page_default"
+            android:textSize="12sp" />
+
+        <SeekBar
+            android:id="@+id/pager_per_page_seek"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="10"
+            android:progress="1" />
+    </LinearLayout>
+
+    <!-- Item list -->
+
+    <ListView
         android:id="@+id/parkingsListHolder"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.17"
         android:listSelector="@drawable/list_selector" />
-    
+
+    <!-- Pager Footer -->
+
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center" >
+				        
+            <ImageButton
+                android:id="@+id/pager_button_first"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_first_item"
+                android:text="@string/pager_button_first"
+                android:contentDescription="@string/pager_button_first_description"
+                android:textSize="12sp"
+            	android:background="?android:attr/selectableItemBackground" />
+			
+	        <View
+	            android:layout_width="1dip"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="4dip"
+	            android:layout_marginTop="4dip"
+	            android:background="?android:attr/dividerVertical" />
+            
+            <ImageButton
+                android:id="@+id/pager_button_previous"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_previous_item"
+                android:text="@string/pager_button_previous"
+                android:contentDescription="@string/pager_button_previous_description"
+                android:textSize="12sp"
+            	android:background="?android:attr/selectableItemBackground" />
+			
+	        <View
+	            android:layout_width="1dip"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="4dip"
+	            android:layout_marginTop="4dip"
+	            android:background="?android:attr/dividerVertical" />
+	        
+	        <LinearLayout
+	            android:id="@+id/pager_buttons_container"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:orientation="horizontal" >
+            </LinearLayout>
+	        
+            <ImageButton
+                android:id="@+id/pager_button_next"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_next_item"
+                android:text="@string/pager_button_next"
+                android:contentDescription="@string/pager_button_next_description"
+                android:textSize="12sp"
+            	android:background="?android:attr/selectableItemBackground" />
+			
+	        <View
+	            android:layout_width="1dip"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="4dip"
+	            android:layout_marginTop="4dip"
+	            android:background="?android:attr/dividerVertical" />
+            
+            <ImageButton
+                android:id="@+id/pager_button_last"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_last_item"
+                android:text="@string/pager_button_last"
+                android:contentDescription="@string/pager_button_last_description"
+                android:textSize="12sp"
+            	android:background="?android:attr/selectableItemBackground" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
 </LinearLayout>

@@ -52,24 +52,25 @@ public class PauParkActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
+		// Create action bar and TABS
 		this.createActionBarTabs();
 		
+		// Initialise services provider 
 		ParkingServiceImpl.create(this);
 		
 		// Allows internationalisation
 		OfficialParking.CraftType.init(this);
 		
-		//Parking list view preparer
-		OfficialParkingPreparer officialPreparer = new OfficialParkingPreparer();
-		UserTipParkingPreparer userTipPreparer = new UserTipParkingPreparer();
-		
+		// Parking lists adapters
 		this.officialParkingListAdapter =
 				new ParkingListAdapter(this, R.id.parkingsListHolder,
-						new ArrayList<AbstractParking>(), officialPreparer);
+						new ArrayList<AbstractParking>(),
+						new OfficialParkingPreparer());
 		
 		this.userTipParkingListAdapter =
 				new ParkingListAdapter(this, R.id.userTipsListHolder,
-						new ArrayList<AbstractParking>(), userTipPreparer);
+						new ArrayList<AbstractParking>(),
+						new UserTipParkingPreparer());
 	}
 	
 	

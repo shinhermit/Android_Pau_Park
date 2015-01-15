@@ -18,6 +18,19 @@
     <string name="tab_parkings">Parkings</string>
     <string name="tab_tips">Bons plans</string>
     
+    <string name="pager_default_current_page_indicator">Page 1 sur 10</string>
+    <string name="pager_per_page_label">Par page: </string>
+    <string name="pager_per_page_default">10</string>
+    
+    <string name="pager_button_first">first</string>
+    <string name="pager_button_first_description">First page</string>
+    <string name="pager_button_previous">prev</string>
+    <string name="pager_button_previous_description">Previous page</string>
+    <string name="pager_button_next">next</string>
+    <string name="pager_button_next_description">Next page</string>
+    <string name="pager_button_last">last</string>
+    <string name="pager_button_last_description">Last page</string>
+    
     <string name="pref_geoloc_text_view">Géolocalisation</string>
     <string name="pref_pagination_text_view">Pagination</string>
     <string name="pref_nickname_text_view">Pseudo</string>
