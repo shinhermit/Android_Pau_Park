@@ -2,6 +2,7 @@ package fr.univpau.paupark.view;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.PauParkPreferences;
+import fr.univpau.paupark.service.PauParkLocation;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -95,6 +96,9 @@ public class SettingsActivity extends Activity
 		{
 		case R.id.saveSettingsAction:
 			this.saveSettings();
+			PauParkLocation.getInstance().setUpdates(
+				this.useGeolocSwitch.isChecked()
+			);
 			this.terminate();
 			break;
 		// Add other menu
