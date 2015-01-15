@@ -53,7 +53,7 @@ public class OfficialParkingTabFragment extends Fragment
     	this.seekBarIndicatorTextView =
     			(TextView) view.findViewById(R.id.pager_seek_bar_indicator);
     	
-    	// TODO: fetch preferences
+    	// Fetch preferences
     	Activity pauParkActivity = this.getActivity();
     	
     	SharedPreferences preferences =
@@ -114,15 +114,14 @@ public class OfficialParkingTabFragment extends Fragment
     	parkingListView.setOnItemClickListener(
     			new OnOfficialParkingListItemClickListener(adapter));
 		
-		// Compute pagination
-		this.nbPages = adapter.getCount() / this.nbItemsPerPage;
-		
-		int debut = this.currentPage * this.nbItemsPerPage;
-		int fin = debut + 4 * this.nbItemsPerPage - 1; // Load 3 pages in advance
+		// Configure pagination
+    	adapter.setPaging(this.currentPage, this.nbItemsPerPage);
+    	adapter.setPagingEnabled(this.isPagingOn);
     	
 		// Query load parking service
 		ParkingServices services =
 				ParkingServiceImpl.getInstance();
-		services.loadParkingList(ParkingInfoSource.OFFICIAL, adapter, debut, fin);
+		services.loadParkingList(
+				ParkingInfoSource.OFFICIAL, adapter);
     }
 }

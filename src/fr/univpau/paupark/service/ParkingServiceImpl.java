@@ -127,11 +127,39 @@ public class ParkingServiceImpl implements ParkingServices
 	@Override
 	public void loadParkingList(
 			ParkingInfoSource source,
-			ParkingListAdapter destination,
+			ParkingListAdapter adapter,
 			int startAt,
-			int endAt)
+			int nb)
 	{
-		this.loadParkingList(source, destination); // TODO
+		URL base = null;
+		
+		switch(source)
+		{
+		case OFFICIAL:
+			base = ParkingServiceImpl.QUERY_OFFICIAL_PARKING;
+			break;
+			
+		case USERS:
+			base = ParkingServiceImpl.QUERY_ALL_USER_TIPS;
+			break;
+		}
+		
+		Uri queryUri = Uri.parse(base.toString())
+				.buildUpon()
+				.appendQueryParameter("start", String.valueOf(startAt))
+				.appendQueryParameter("count", String.valueOf(nb))
+				.build();
+		
+		try
+		{
+			URL query = URI.create(queryUri.toString()).toURL();
+			
+			new LoadParkingListAsyncTask(adapter).execute(query);
+		}
+		catch (MalformedURLException e)
+		{
+			Log.e(this.getClass().getName(), null, e);
+		}
 	}
 
 	@Override
@@ -141,7 +169,7 @@ public class ParkingServiceImpl implements ParkingServices
 		URL base = ParkingServiceImpl.ADD_USER_TIP;
 		GeoCoordinate coordinates = parking.getCoordinates();
 		
-		Uri queryURI = Uri.parse(base.toString())
+		Uri queryUri = Uri.parse(base.toString())
 				.buildUpon()
 				.appendQueryParameter("name", parking.getName())
 				.appendQueryParameter("town", parking.getTown())
@@ -156,7 +184,7 @@ public class ParkingServiceImpl implements ParkingServices
 		
 		try
 		{
-			URL query = URI.create(queryURI.toString()).toURL();
+			URL query = URI.create(queryUri.toString()).toURL();
 			
 			new SaveParkingAsyncTask(adapter).execute(query);
 		}
@@ -184,14 +212,14 @@ public class ParkingServiceImpl implements ParkingServices
 	{
 		URL query = null;
 		
-		Uri queryURI = Uri.parse(ParkingServiceImpl.UPVOTE_USER_TIP.toString())
+		Uri queryUri = Uri.parse(ParkingServiceImpl.UPVOTE_USER_TIP.toString())
 				.buildUpon()
 				.appendQueryParameter("id", String.valueOf(id))
 				.build();
 		
 		try
 		{
-			query = URI.create(queryURI.toString()).toURL();
+			query = URI.create(queryUri.toString()).toURL();
 			
 			new VoteParkingTipAsyncTask(updateMe).execute(query);
 		}
@@ -206,14 +234,14 @@ public class ParkingServiceImpl implements ParkingServices
 	{
 		URL query = null;
 		
-		Uri queryURI = Uri.parse(ParkingServiceImpl.DOWNVOTE_USER_TIP.toString())
+		Uri queryUri = Uri.parse(ParkingServiceImpl.DOWNVOTE_USER_TIP.toString())
 				.buildUpon()
 				.appendQueryParameter("id", String.valueOf(id))
 				.build();
 		
 		try
 		{
-			query = URI.create(queryURI.toString()).toURL();
+			query = URI.create(queryUri.toString()).toURL();
 			
 			new VoteParkingTipAsyncTask(updateMe).execute(query);
 		}
