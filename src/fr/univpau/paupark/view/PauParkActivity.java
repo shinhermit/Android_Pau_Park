@@ -244,8 +244,6 @@ public class PauParkActivity extends Activity
 		return userTipParkingListAdapter;
 	}
 	
-//	public void setOfficialListView
-	
 	/**
 	 * Provides the current source of parking list (official vs user tips).
 	 * 

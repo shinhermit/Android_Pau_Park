@@ -40,10 +40,10 @@ public interface ParkingServices
 	 * @param source the type of parking information requested (official source or user tips).
 	 * @param destination the list adapter to fill with the loaded parking list.
 	 * @param startAt the starting position in the source list.
-	 * @param endAt the ending position in the source list.
+	 * @param nb the number of items to fetch.
 	 */
 	public void loadParkingList(ParkingInfoSource source,
-			ParkingListAdapter destination, int startAt, int endAt);
+			ParkingListAdapter destination, int startAt, int nb);
 	
 	/**
 	 * Save the parking tip in the remote data source.
