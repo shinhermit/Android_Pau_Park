@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 public class ParkingListAdapter extends ArrayAdapter<AbstractParking> {	
+	/** Creates the appropriate view according to the type of adapter needed (official parking list / user tip).*/
 	private AbstractViewPreparer preparer;
 	
 	public ParkingListAdapter(Context context, int resource, List<AbstractParking> objects, AbstractViewPreparer preparer) 
 	{
 		super(context, resource, objects);
-		// TODO Auto-generated constructor stub
 		
 		this.preparer = preparer;
 	}
