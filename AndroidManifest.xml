@@ -43,11 +43,11 @@
             android:label="@string/add_parking_tip_action" >
         </activity>
         
-        <receiver android:name=".service.NetworkStatusReceiver" >
-    		<intent-filter>
-       			<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-    		</intent-filter>
-		</receiver>
+<!--         <receiver android:name=".service.NetworkStatusReceiver" > -->
+<!--     		<intent-filter> -->
+<!--        			<action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
+<!--     		</intent-filter> -->
+<!-- 		</receiver> -->
     </application>
 
 </manifest>

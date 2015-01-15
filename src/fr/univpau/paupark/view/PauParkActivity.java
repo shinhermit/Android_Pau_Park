@@ -10,6 +10,7 @@ import fr.univpau.paupark.model.UserTipParking;
 import fr.univpau.paupark.presenter.OfficialParkingPreparer;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.presenter.UserTipParkingPreparer;
+import fr.univpau.paupark.service.NetworkStatusReceiver;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
@@ -22,6 +23,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -37,6 +39,9 @@ import android.view.MenuItem;
  */
 public class PauParkActivity extends Activity
 {
+	/** Handles network status updates and queries. */
+	private NetworkStatusReceiver networkStatusReceiver;
+	
 	/** Holds the current source of parking list (official vs user tips). */
 	private ParkingInfoSource parkingSource = null;
 	
@@ -130,6 +135,29 @@ public class PauParkActivity extends Activity
 		return true;
 	}
 	
+	
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		
+		this.networkStatusReceiver = new NetworkStatusReceiver();
+		IntentFilter netStatIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+		
+		registerReceiver(this.networkStatusReceiver, netStatIntentFilter);
+	}
+
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		
+		unregisterReceiver(this.networkStatusReceiver);
+	}
+
+
 	/* ** Activity Navigation ** */
 	@Override
 	protected void onActivityResult (int requestCode,
