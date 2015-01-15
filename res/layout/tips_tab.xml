@@ -10,6 +10,6 @@
         android:id="@+id/userTipsListHolder"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-       android:listSelector="@drawable/list_selector" />
+        android:listSelector="@drawable/list_selector" />
     
 </LinearLayout>

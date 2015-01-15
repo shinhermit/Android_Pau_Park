@@ -1,7 +1,7 @@
 package fr.univpau.paupark.listener;
 
 import fr.univpau.paupark.presenter.ParkingListAdapter;
-import fr.univpau.paupark.view.menu.contextual.UserTipContextualActionModeCallback;
+import fr.univpau.paupark.view.menu.contextual.OfficialParkingContextualActionModeCallback;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
@@ -10,28 +10,29 @@ import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * List view item click listener.
- * <p>This listener is to be added to a list view (of user tip parking).</p>
+ * <p>This listener is to be added to a list view (of official parking).</p>
  * 
  * @author Josuah Aron
  *
  */
-public class OnUserTipListItemClickListener implements OnItemClickListener
+public class OnOfficialParkingListItemClickListener implements OnItemClickListener
 {
 	/** The contextual menu call back to use when an item is clicked. */
-	private UserTipContextualActionModeCallback actionModeCallBack;
+	private OfficialParkingContextualActionModeCallback actionModeCallBack;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param userTipListAdapter the adapter which manages the items of the list view.
+	 * @param officialParkingListAdapter the adapter which manages the items of the list view.
 	 */
-	public OnUserTipListItemClickListener(
-			ParkingListAdapter userTipListAdapter)
+	public OnOfficialParkingListItemClickListener(
+			ParkingListAdapter officialParkingListAdapter)
 	{
 		this.actionModeCallBack =
-				new UserTipContextualActionModeCallback(userTipListAdapter);
+				new OfficialParkingContextualActionModeCallback(
+						officialParkingListAdapter);
 	}
-	
+
 	@Override
 	public void onItemClick(
 			AdapterView<?> parent,
@@ -48,4 +49,5 @@ public class OnUserTipListItemClickListener implements OnItemClickListener
 		
         view.setSelected(true);
 	}
+
 }

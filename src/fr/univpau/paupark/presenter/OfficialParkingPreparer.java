@@ -1,7 +1,6 @@
 package fr.univpau.paupark.presenter;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.listener.OnOfficialParkingClickListener;
 import fr.univpau.paupark.model.OfficialParking;
 import android.content.Context;
 import android.content.res.Resources;
@@ -39,9 +38,6 @@ public class OfficialParkingPreparer extends AbstractViewPreparer {
 				res.getString(R.string.parking_noVacancy)
 			)
 		);
-		
-		convertView.setOnClickListener(
-				new OnOfficialParkingClickListener(context, parking));
 		
 		return convertView;
 	}

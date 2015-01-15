@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_action_bad"
         android:showAsAction="ifRoom|withText"/>
      
-    <item android:id="@+id/locateParkingAction"
+    <item android:id="@+id/locateUserTipParkingAction"
         android:title="@string/locate_parking_action"
         android:icon="@drawable/ic_action_place"
         android:showAsAction="ifRoom|withText"/>

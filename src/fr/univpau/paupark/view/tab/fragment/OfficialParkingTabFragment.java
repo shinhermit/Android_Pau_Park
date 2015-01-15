@@ -1,6 +1,7 @@
 package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.listener.OnOfficialParkingListItemClickListener;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
@@ -41,6 +42,8 @@ public class OfficialParkingTabFragment extends Fragment
     			activity.getOfficialParkingListAdapter();
     	
     	parkingListView.setAdapter(adapter);
+    	parkingListView.setOnItemClickListener(
+    			new OnOfficialParkingListItemClickListener(adapter));
     	
 		// Query load parking service
 		ParkingServices services =
