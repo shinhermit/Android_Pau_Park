@@ -96,7 +96,7 @@ public class PauParkActivity extends Activity
 				preferences.getBoolean(
 						PauParkPreferences.GEOLOCATION_PREF_KEY, false);
 		
-		this.pauParkLocation.setUpdates(useGeoLoc);
+		this.pauParkLocation.receiveUpdates(useGeoLoc);
 	}
 	
 	

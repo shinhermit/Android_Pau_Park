@@ -13,14 +13,23 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-
+/**
+ * Receives location updates.
+ * Observable : observers notified of available location updates.
+ */
 public class PauParkLocation extends Observable implements LocationListener {
+	/// Singleton implementation
 	private static PauParkLocation INSTANCE = null;
 	
+	/// Performs geocoding requests
 	private Geocoder _geocoder = null;
-	private Location _location = null;
-	private LocationManager _locationManager;
 	
+	/// Last acquired location
+	private Location _location = null;
+	
+	/// Location manager to start or stop receiving location updates.
+	private LocationManager _locationManager;
+	 
 	public static PauParkLocation getInstance(LocationManager manager, Context context)
 	{
 		if (INSTANCE == null)
@@ -42,6 +51,8 @@ public class PauParkLocation extends Observable implements LocationListener {
 		this._geocoder = new Geocoder(context, Locale.getDefault());
 	}
 	
+	/// Receives location updates. 
+	/// Records the update and notify observers that a location update has occured.
 	@Override
 	public void onLocationChanged(Location location) {
 		this._location = location;
@@ -49,11 +60,8 @@ public class PauParkLocation extends Observable implements LocationListener {
 	}
 	
 	
-	/**
-	 * Returns the name of the town of last acquired location.
-	 * 
-	 * @return
-	 */
+	/// Returns the name of the town of last acquired location or null if 
+	/// geocoding is not possible.
 	public String getTown()
 	{
 		String town = null;
@@ -102,6 +110,9 @@ public class PauParkLocation extends Observable implements LocationListener {
 		
 	}
 	
+	/// Returns the last acquired location through LocationListener
+	/// or queries the available location providers for their last
+	/// known location if no update received yet.
 	public Location getLocation () 
 	{
 		Location location = this._location;
@@ -145,26 +156,11 @@ public class PauParkLocation extends Observable implements LocationListener {
 	    
 		return bestResult;		
 	}
-
-	public void enableUpdates()
-	{
-		if (_locationManager != null)
-		{
-			//_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 	
-			_locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		}
-	}
-	
-	public void disableUpdates()
-	{
-		if (_locationManager != null)
-		{
-			_locationManager.removeUpdates(this);
-		}
-	}
-	
-	public void setUpdates(boolean value)
+	/// Toggles location updates : 
+	/// - value == true : enable upadtes
+	/// - value == false : disable updates
+	public void receiveUpdates(boolean value)
 	{
 		if (value)
 		{
@@ -173,6 +169,27 @@ public class PauParkLocation extends Observable implements LocationListener {
 		else 
 		{
 			this.disableUpdates();
+		}
+	}
+
+	/// Enable location updates
+	private void enableUpdates()
+	{
+		if (_locationManager != null)
+		{
+			//Crashes emulator
+			//_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+	
+			_locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		}
+	}
+	
+	/// Disable location updates
+	private void disableUpdates()
+	{
+		if (_locationManager != null)
+		{
+			_locationManager.removeUpdates(this);
 		}
 	}
 }

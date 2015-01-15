@@ -96,7 +96,7 @@ public class SettingsActivity extends Activity
 		{
 		case R.id.saveSettingsAction:
 			this.saveSettings();
-			PauParkLocation.getInstance().setUpdates(
+			PauParkLocation.getInstance().receiveUpdates(
 				this.useGeolocSwitch.isChecked()
 			);
 			this.terminate();
