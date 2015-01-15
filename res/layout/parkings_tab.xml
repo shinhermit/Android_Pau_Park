@@ -65,7 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:orientation="horizontal"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:background="@android:color/darker_gray" >
         
 		<ImageButton
 		    android:id="@+id/pager_button_first"

@@ -2,6 +2,7 @@ package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.listener.OnOfficialParkingListItemClickListener;
+import fr.univpau.paupark.listener.OnPagerButtonClickListener;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
@@ -80,17 +81,6 @@ public class OfficialParkingTabFragment extends Fragment
 					PauParkPreferences.LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE,
 					0);
 		}
-		
-    	ImageButton firstPageButton =
-    			(ImageButton) view.findViewById(R.id.pager_button_first);
-    	ImageButton prevPageButton =
-    			(ImageButton) view.findViewById(R.id.pager_button_previous);
-    	ImageButton nextPageButton =
-    			(ImageButton) view.findViewById(R.id.pager_button_next);
-    	ImageButton lastPageButton =
-    			(ImageButton) view.findViewById(R.id.pager_button_last);
-    	
-    	// TODO: set listeners
     	
     	return view;
     }
@@ -113,6 +103,22 @@ public class OfficialParkingTabFragment extends Fragment
     	parkingListView.setAdapter(adapter);
     	parkingListView.setOnItemClickListener(
     			new OnOfficialParkingListItemClickListener(adapter));
+
+    	// Pagination buttons listeners
+    	ImageButton firstPageButton =
+    			(ImageButton) activity.findViewById(R.id.pager_button_first);
+    	ImageButton prevPageButton =
+    			(ImageButton) activity.findViewById(R.id.pager_button_previous);
+    	ImageButton nextPageButton =
+    			(ImageButton) activity.findViewById(R.id.pager_button_next);
+    	ImageButton lastPageButton =
+    			(ImageButton) activity.findViewById(R.id.pager_button_last);
+    	
+    	// TODO: set listeners
+    	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
+    	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
+    	nextPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
+    	lastPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
 		
 		// Configure pagination
     	adapter.setPaging(this.currentPage, this.nbItemsPerPage);

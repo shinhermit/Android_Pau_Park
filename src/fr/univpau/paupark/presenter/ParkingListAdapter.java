@@ -5,7 +5,6 @@ import java.util.List;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.PauParkPreferences;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -79,8 +78,6 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
-		Log.i("ParkingListAdapter", "position: "+position);
-		
 		//Current parking
 		AbstractParking parking = this.getItem(position);
 		
@@ -98,10 +95,8 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	@Override
 	public int getCount()
 	{
-		Log.i("ParkingListAdapter", "getCount: "+Math.min(super.getCount(), this.nbItemsPerPage));
-		Log.i("ParkingListAdapter", "nbItemsPerPage: "+this.nbItemsPerPage);
 		return (this.isPaginOn) ?
-				Math.min(super.getCount(), this.nbItemsPerPage)
+				this.getPageSize(this.currentPage)
 				: super.getCount();
 	}
 	
@@ -149,26 +144,13 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	}
 	
 	/**
-	 * Provides the page where the item must be displayed.
-	 * 
-	 * @param item the item of which the page is queried.
-	 * @return the page where the item must be displayed
-	 */
-	public int getPage(AbstractParking item)
-	{
-		return super.getPosition(item) / this.nbItemsPerPage;
-	}
-	
-	/**
 	 * 
 	 * @param positionInCurrentPage the position of the item in the current page.
 	 * @return the position of the object when paging is not activated.
 	 */
 	private int toGlobalPosition(int positionInCurrentPage)
 	{
-		return (this.isPaginOn) ?
-				this.currentPage * this.nbItemsPerPage + positionInCurrentPage
-				: positionInCurrentPage;
+		return this.currentPage * this.nbItemsPerPage + positionInCurrentPage;
 	}
 	
 	/**
@@ -178,9 +160,18 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	 */
 	private int toPagePosition(int position)
 	{
-		return (this.isPaginOn) ?
-				position - ( (position/this.nbItemsPerPage) * this.nbItemsPerPage )
-				: position;
+		return position - ( (position/this.nbItemsPerPage) * this.nbItemsPerPage );
+	}
+	
+	/**
+	 * Provides the page where the item must be displayed.
+	 * 
+	 * @param item the item of which the page is queried.
+	 * @return the page where the item must be displayed
+	 */
+	public int getPageOf(AbstractParking item)
+	{
+		return super.getPosition(item) / this.nbItemsPerPage;
 	}
 	
 	/**
@@ -217,7 +208,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	 */
 	public void setCurrentPage(int pageIndex)
 	{
-		this.currentPage = Math.max( 0, Math.min(pageIndex, super.getCount() - 1) );
+		this.currentPage = Math.max( 0, Math.min(pageIndex, this.getLastPage()) );
 	}
 	
 	/**
@@ -235,7 +226,17 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	 */
 	public void setNumberOfItemsPerPage(int nbItems)
 	{
-		this.nbItemsPerPage = Math.max(0, nbItems);
+		this.nbItemsPerPage = Math.max(1, nbItems);
+	}
+	
+	/**
+	 * Provides the index of the last page.
+	 * 
+	 * @return the index of the last page.
+	 */
+	public int getLastPage()
+	{
+		return super.getCount() / this.nbItemsPerPage;
 	}
 	
 	/**
@@ -243,9 +244,33 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	 * 
 	 * @return the number of pages needed to show all the items of this adapter.
 	 */
-	public int getNbPage()
+	public int getPageCount()
 	{
-		return super.getCount() / this.nbItemsPerPage;
+		return this.getLastPage() + 1;
+	}
+	
+	/**
+	 * Provides the number of item for this given page.
+	 * 
+	 * @return the number of item for this given page.
+	 */
+	public int getPageSize(int page)
+	{
+		if(page != this.getLastPage())
+		{
+			return this.nbItemsPerPage;
+		}
+		else
+		{
+			if(this.getPageCount() == 1)
+			{
+				return super.getCount();
+			}
+			else
+			{
+				return super.getCount() - page * this.nbItemsPerPage;
+			}
+		}
 	}
 	
 	/**
@@ -260,5 +285,65 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		
 		this.setCurrentPage(currentPage);
 		this.setNumberOfItemsPerPage(nbItemsPerPage);
+	}
+	
+	/**
+	 * Set the current page of the adapter to the first page
+	 * 
+	 * @return the index of the new active page.
+	 */
+	public int showFirstPage()
+	{
+		this.currentPage = 0;
+		
+		return this.currentPage;
+	}
+	
+	/**
+	 * Sets the active page of the adapter to the next page.
+	 * 
+	 * @return the index of the new active page.
+	 */
+	public int showNextPage()
+	{
+		this.currentPage = (this.currentPage + 1) % this.getPageCount();
+		
+		return this.currentPage;
+	}
+	
+	/**
+	 * Sets the active page of the adapter to the previous page.
+	 * 
+	 * @return the index of the new active page.
+	 */
+	public int showPreviousPage()
+	{
+		this.currentPage = (this.currentPage + this.getLastPage()) % this.getPageCount();
+		
+		return this.currentPage;
+	}
+	
+	/**
+	 * Sets the active page of the adapter to the last page.
+	 * 
+	 * @return the index of the new active page.
+	 */
+	public int showLastPage()
+	{
+		this.currentPage = this.getLastPage();
+		
+		return this.currentPage;
+	}
+	
+	/**
+	 * Sets the active page of the adapter to the given page.
+	 * 
+	 * @return the index of the new active page.
+	 */
+	public int showPage(int page)
+	{
+		this.setCurrentPage(page);
+		
+		return this.currentPage;
 	}
 }
