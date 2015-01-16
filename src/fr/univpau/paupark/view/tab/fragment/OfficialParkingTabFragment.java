@@ -29,23 +29,43 @@ import android.widget.ViewSwitcher;
 
 public class OfficialParkingTabFragment extends Fragment
 {
+	/** Tells whether paging is on or not. */
 	private boolean isPagingOn;
+	
+	/** Useful for the starting period, before <i>onActivityCreated</i> is called. */
 	private int nbItemsPerPage;
+	
+	/** Useful for the starting period, before <i>onActivityCreated</i> is called. */
 	private int currentPage = 0;
 	
 	/** The presenter of the list of parking. */
 	private ParkingListAdapter listViewAdapter;
 	
+	/** Holds the widget which represents the pager header (allows disabling). */
 	private LinearLayout pagerHeader;
+	
+	/** Holds the widget which represents the pager footer (allows disabling). */
 	private LinearLayout pagerFooter;
+	
+	/** Provides animation when changing pages. */
 	private ViewSwitcher viewSwitcher;
 	
+	/** page sliding animation. */
 	private Animation slideInLeft;
+	
+	/** page sliding animation. */
 	private Animation slideInRight;
+	
+	/** page sliding animation. */
 	private Animation slideOutLeft;
+	
+	/** page sliding animation. */
 	private Animation slideOutRight;
 	
+	/** Holds the text view which informs the user of the currently displayed page. */
 	private TextView currentPageTextView;
+	
+	/** Holds the text view which informs the user of the number of pages on each page. */
 	private TextView seekBarIndicatorTextView;
 	
     @Override
@@ -160,9 +180,6 @@ public class OfficialParkingTabFragment extends Fragment
     	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	
     	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
-    	
-//    	viewSwitcher.setOnTouchListener(
-//    			new OnViewSwitcherGenericMotionListener(this));
     	
     	parkingListView.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));
@@ -341,6 +358,10 @@ public class OfficialParkingTabFragment extends Fragment
     	return this.listViewAdapter.getCurrentPageIndex();
     }
     
+    /**
+     * 
+     * @return true if paging is activated, false otherwise.
+     */
     public boolean isPagingOn()
     {
     	return this.isPagingOn;

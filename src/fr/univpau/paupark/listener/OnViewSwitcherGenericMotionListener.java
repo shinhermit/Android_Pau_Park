@@ -7,11 +7,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+/**
+ * Parking list pager gesture listener.
+ *  
+ * @author Josuah Aron
+ *
+ */
 public class OnViewSwitcherGenericMotionListener implements OnGestureListener, OnTouchListener
 {
 	/** The fragment of the list of parking. */
 	private OfficialParkingTabFragment tab;
 	
+	/** The gesture detector. */
 	private GestureDetector gestureDetector;
 	
 	/**

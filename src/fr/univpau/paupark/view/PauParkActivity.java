@@ -282,6 +282,8 @@ public class PauParkActivity extends Activity
 	{
 		ActionBar bar = getActionBar();
 	    bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	    bar.removeAllTabs();
+	    
 	    Tab tab;
 	    
 	    // First Tab
