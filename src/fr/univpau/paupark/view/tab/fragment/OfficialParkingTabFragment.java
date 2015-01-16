@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -35,6 +37,12 @@ public class OfficialParkingTabFragment extends Fragment
 	
 	private LinearLayout pagerHeader;
 	private LinearLayout pagerFooter;
+	private ViewSwitcher viewSwitcher;
+	
+	private Animation slideInLeft;
+	private Animation slideInRight;
+	private Animation slideOutLeft;
+	private Animation slideOutRight;
 	
 	private TextView currentPageTextView;
 	private TextView seekBarIndicatorTextView;
@@ -91,16 +99,27 @@ public class OfficialParkingTabFragment extends Fragment
     {
     	super.onActivityCreated(savedInstanceState);
     	
-    	// Set presenter
     	PauParkActivity activity = (PauParkActivity)
     			this.getActivity();
-    	
+
+    	// Configure view switcher
     	ViewSwitcher viewSwitcher = (ViewSwitcher)
     			activity.findViewById(R.id.viewswitcher);
     	
-    	viewSwitcher.setInAnimation(activity, android.R.anim.slide_in_left);
-    	viewSwitcher.setOutAnimation(activity, android.R.anim.slide_out_right);
-
+    	this.slideInLeft = AnimationUtils.loadAnimation(activity,
+    		    android.R.anim.slide_in_left);
+    	this.slideOutRight = AnimationUtils.loadAnimation(activity,
+    		    android.R.anim.slide_out_right);
+    	
+    	this.slideInRight = AnimationUtils.loadAnimation(activity,
+    		    R.anim.slide_in_right);
+    	this.slideOutLeft = AnimationUtils.loadAnimation(activity,
+    		    R.anim.slide_out_left);
+    	
+    	// TODO
+//    	viewSwitcher.setOnGenericMotionListener(null);
+    	
+    	// Set presenter
     	ListView parkingListView = (ListView)
     			activity.findViewById(R.id.parkingsListHolder);
     	ListView parkingListViewBis = (ListView)
@@ -162,8 +181,9 @@ public class OfficialParkingTabFragment extends Fragment
 		seekBar.setProgress(adapter.getCurrentPageIndex());
 		this.updatePagerSeekBarIndicator(adapter.getNumberOfItemsPerPage());
 		
-		// Keep the adapter
+		// Keep the references
 		this.listViewAdapter = adapter;
+    	this.viewSwitcher = viewSwitcher;
     }
     
     /**
@@ -174,6 +194,8 @@ public class OfficialParkingTabFragment extends Fragment
     public void showFirstPage()
     {
     	this.listViewAdapter.showFirstPage();
+    	
+    	this.viewSwitcherPrevious();
     	
     	this.listViewAdapter.notifyDataSetChanged();
     	
@@ -191,6 +213,8 @@ public class OfficialParkingTabFragment extends Fragment
     {
     	this.listViewAdapter.showPreviousPage();
     	
+    	this.viewSwitcherPrevious();
+    	
     	this.listViewAdapter.notifyDataSetChanged();
     	
     	this.updatePagerInfo(
@@ -206,6 +230,8 @@ public class OfficialParkingTabFragment extends Fragment
     public void showNextPage()
     {
     	this.listViewAdapter.showNextPage();
+    	
+    	this.viewSwitcherNext();
     	
     	this.listViewAdapter.notifyDataSetChanged();
     	
@@ -223,6 +249,8 @@ public class OfficialParkingTabFragment extends Fragment
     {
     	this.listViewAdapter.showLastPage();
     	
+    	this.viewSwitcherNext();
+    	
     	this.listViewAdapter.notifyDataSetChanged();
     	
     	this.updatePagerInfo(
@@ -238,6 +266,8 @@ public class OfficialParkingTabFragment extends Fragment
     public void showPage(int page)
     {
     	this.listViewAdapter.showPage(page);
+    	
+    	this.viewSwitcherNext();
     	
     	this.listViewAdapter.notifyDataSetChanged();
     	
@@ -301,5 +331,27 @@ public class OfficialParkingTabFragment extends Fragment
     public int getCurrentPage()
     {
     	return this.listViewAdapter.getCurrentPageIndex();
+    }
+    
+    /**
+     * Set the appropriate animation and switches the view switcher.
+     */
+    private void viewSwitcherPrevious()
+    {
+    	this.viewSwitcher.setInAnimation(this.slideInLeft);
+    	this.viewSwitcher.setInAnimation(this.slideOutRight);
+    	
+    	this.viewSwitcher.showNext();
+    }
+    
+    /**
+     * Set the appropriate animation and switches the view switcher.
+     */
+    private void viewSwitcherNext()
+    {
+    	this.viewSwitcher.setInAnimation(this.slideInRight);
+    	this.viewSwitcher.setInAnimation(this.slideOutLeft);
+    	
+    	this.viewSwitcher.showNext();
     }
 }
