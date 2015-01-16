@@ -11,6 +11,7 @@ import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -35,10 +36,10 @@ import android.widget.ViewSwitcher;
 public abstract class AbstractParkingTabFragment extends Fragment
 {
 	/** Tells whether paging is on or not. */
-	private boolean isPagingOn;
+	private boolean isPagingOn = PauParkPreferences.DEFAULT_IS_PAGINATION_ON;
 	
 	/** Useful for the starting period, before <i>onActivityCreated</i> is called. */
-	private int nbItemsPerPage;
+	private int nbItemsPerPage = PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE;
 	
 	/** Useful for the starting period, before <i>onActivityCreated</i> is called. */
 	private int currentPage = 0;
@@ -82,6 +83,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
 	/** Key of the value which saves the last current page of the parking list. */
 	private final String currentPagePrefKey;
 	
+	/** Tells whether the parent activity has been created. */
+	private boolean isActivityCreated = false;
+	
 	public AbstractParkingTabFragment(String pageItemCountPrefKey, String currentPagePrefKey)
 	{
 		this.pageItemCountPrefKey = pageItemCountPrefKey;
@@ -110,30 +114,36 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	this.view = view;
     	
     	// Fetch preferences
-    	Activity pauParkActivity = this.getActivity();
-    	
-    	SharedPreferences preferences =
-				pauParkActivity.getSharedPreferences(
-						PauParkPreferences.class.getName(),
-						Activity.MODE_PRIVATE);
-		
-		this.isPagingOn = preferences.getBoolean(
-				PauParkPreferences.PAGINATION_PREF_KEY,
-				PauParkPreferences.DEFAULT_IS_PAGINATION_ON);
-		
-		this.nbItemsPerPage = preferences.getInt(
-				this.pageItemCountPrefKey,
-				PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE);
-		
-		this.currentPage = preferences.getInt(
-				this.currentPagePrefKey,
-				0);
-		
-		if(!this.isPagingOn)
-		{
-			this.pagerHeader.setVisibility(View.GONE);
-			this.pagerFooter.setVisibility(View.GONE);
-		}
+    	if(this.isActivityCreated)
+    	{
+	    	Context context = this.getActivity();
+	    	
+	    	SharedPreferences preferences =
+	    			context.getSharedPreferences(
+							PauParkPreferences.class.getName(),
+							Activity.MODE_PRIVATE);
+			
+			this.isPagingOn = preferences.getBoolean(
+					PauParkPreferences.PAGINATION_PREF_KEY,
+					PauParkPreferences.DEFAULT_IS_PAGINATION_ON);
+			
+			this.nbItemsPerPage = preferences.getInt(
+					this.pageItemCountPrefKey,
+					PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE);
+			
+			this.currentPage = preferences.getInt(
+					this.currentPagePrefKey,
+					0);
+			
+			if(!this.isPagingOn)
+			{
+				this.pagerHeader.setVisibility(View.GONE);
+				this.pagerFooter.setVisibility(View.GONE);
+			}
+			
+	    	this.listViewAdapter.setPaging(this.currentPage, this.nbItemsPerPage);
+	    	this.listViewAdapter.setPagingEnabled(this.isPagingOn);
+    	}
     	
     	return view;
     }
@@ -164,6 +174,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState)
     {
     	super.onActivityCreated(savedInstanceState);
+    	
+    	this.isActivityCreated = true;
 
     	// Find widgets
     	ViewSwitcher viewSwitcher = (ViewSwitcher)
