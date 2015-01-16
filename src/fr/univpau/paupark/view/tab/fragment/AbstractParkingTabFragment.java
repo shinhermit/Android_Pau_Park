@@ -445,7 +445,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
     }
     
     /**
-     * Set the appropriate animation and switches the view switcher.
+     * Sets the appropriate animation and switches the view switcher.
      */
     private void viewSwitcherPrevious()
     {
@@ -456,7 +456,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
     }
     
     /**
-     * Set the appropriate animation and switches the view switcher.
+     * Sets the appropriate animation and switches the view switcher.
      */
     private void viewSwitcherNext()
     {
@@ -465,5 +465,4 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	
     	this.viewSwitcher.showNext();
     }
-
 }
