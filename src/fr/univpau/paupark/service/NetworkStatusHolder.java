@@ -1,8 +1,6 @@
 package fr.univpau.paupark.service;
 
-import fr.univpau.paupark.R;
 import android.content.Context;
-import android.widget.Toast;
 
 public class NetworkStatusHolder {
 	private static NetworkStatusHolder INSTANCE = new NetworkStatusHolder();
@@ -25,5 +23,4 @@ public class NetworkStatusHolder {
 	{
 		this.connected = NetworkStatusChecker.isConnected(context);
 	}
-	
 }

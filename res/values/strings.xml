@@ -23,6 +23,20 @@
     <string name="pager_per_page_default">10</string>
     <string name="pager_direct_access_label">Page ?</string>
     
+    <string name="filter_by_distance_label">Distance &lt; </string>
+
+    <string-array name="filter_by_distance_values">
+        <item>Illimité</item>
+        <item>250m</item>
+        <item>500m</item>
+        <item>1km</item>
+        <item>2,5km</item>
+        <item>5km</item>
+        <item>10km</item>
+    </string-array>
+
+    <string name="filter_by_distance_default">1000m</string>
+    
     <string name="pager_button_first">first</string>
     <string name="pager_button_first_description">First page</string>
     <string name="pager_button_previous">prev</string>

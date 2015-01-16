@@ -1,6 +1,7 @@
 package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.listener.OnFilterByDistanceItemSelectedListener;
 import fr.univpau.paupark.listener.OnParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
 import fr.univpau.paupark.listener.OnPagerSeekBarChangeListener;
@@ -24,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -200,6 +202,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	SeekBar seekBar =
     			(SeekBar) this.view.findViewById(R.id.pager_per_page_seek);
     	
+    	Spinner filterByDistanceSpinner =
+    			(Spinner) this.view.findViewById(R.id.filter_by_distance_spinner);
+    	
     	// Get the context
     	PauParkActivity activity = (PauParkActivity)
     			this.getActivity();
@@ -237,6 +242,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	
     	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
+    	
+    	filterByDistanceSpinner.setOnItemSelectedListener(new OnFilterByDistanceItemSelectedListener(this));
     	
     	parkingListView.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));
@@ -466,4 +473,14 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	this.viewSwitcher.showNext();
     }
 
+    /**
+     * Sets the value of the distance filter.
+     * 
+     * Updates view.
+     */
+    public void setFilterByDistanceValue(float distance)
+    {
+    	this.listViewAdapter.setDistanceFilter(distance);
+    }
+    
 }

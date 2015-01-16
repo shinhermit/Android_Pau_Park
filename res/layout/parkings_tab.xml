@@ -7,7 +7,7 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <!-- Pager Header -->
-    <LinearLayout
+   <LinearLayout
        	android:id="@+id/pager_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,11 +21,25 @@
             android:text="@string/pager_default_current_page_indicator"
             android:textSize="12sp" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" /> <!-- Put some space -->
+<!--         <View -->
+<!--             android:layout_width="1dp" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:layout_weight="1" /> Put some space -->
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/filter_by_distance_label"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/filter_by_distance_spinner"
+            android:entries="@array/filter_by_distance_values"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

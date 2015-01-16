@@ -39,7 +39,7 @@ import android.view.MenuItem;
  *
  */
 public class PauParkActivity extends Activity
-{
+{	
 	/** Handles network status updates and queries. */
 	private NetworkStatusChangeReceiver networkStatusChangeReceiver;
 	
@@ -160,7 +160,6 @@ public class PauParkActivity extends Activity
 		
 		unregisterReceiver(this.networkStatusChangeReceiver);
 	}
-
 
 	/* ** Activity Navigation ** */
 	@Override

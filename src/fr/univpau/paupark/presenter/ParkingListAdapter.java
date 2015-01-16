@@ -1,10 +1,15 @@
 package fr.univpau.paupark.presenter;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.PauParkPreferences;
+import fr.univpau.paupark.service.PauParkLocation;
 import android.content.Context;
+import android.location.Location;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,6 +37,12 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	/** Tells whether paging is activated or not. */
 	private boolean isPaginOn =
 			PauParkPreferences.DEFAULT_IS_PAGINATION_ON;
+	
+	/** The raw list of parkings */
+	private List<AbstractParking> unfilteredParkingList = new ArrayList<AbstractParking>();
+	
+	/** Parkings up to this distance should be displayed */
+	private Float distanceFilter = 0f;
 	
 	/**
 	 * Constructor.
@@ -353,5 +364,129 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		this.setCurrentPage(page);
 		
 		return this.currentPage;
+	}
+
+	/**
+	 * Called when distanceFilter is modified.
+	 *  
+	 * @return the number of elements after applying the filter
+	 */
+	public int applyFilter()
+	{
+		List<AbstractParking> currentList = new ArrayList(this.unfilteredParkingList);
+		
+		//Clear all parkings
+		this.clear();
+		//Refilter list.
+		this.addAll(currentList);
+
+		notifyDataSetChanged();
+		
+		return this.getCount();
+	}
+	
+	/**
+	 * Returns true if parking is within range or if location is unknown.
+	 * 
+	 * @param parking
+	 * @return
+	 */
+	private boolean filterByDistance(AbstractParking parking)
+	{
+		boolean withinRange = false;
+		
+		Location currentLocation = PauParkLocation.getInstance().getLocation();
+		
+
+		if (currentLocation != null)
+		{
+			// Comparison parameters available
+			Location parkingLoc = new Location("parking");
+			parkingLoc.setLatitude(parking.getCoordinates().getLatitude());
+			parkingLoc.setLongitude(parking.getCoordinates().getLongitude());
+			
+			if (currentLocation.distanceTo(parkingLoc) < this.distanceFilter
+					||
+				this.distanceFilter == 0f)
+			{
+				withinRange = true;
+			}
+		}
+		else
+		{
+			//Current location unknown => filter disabled.
+			withinRange = true;
+		}
+		
+		return withinRange;
+	}
+	
+	@Override
+	public void add(AbstractParking object) {
+		//Add to unfiltered list
+		this.unfilteredParkingList.add(object);
+
+		if (this.filterByDistance(object))
+		{
+			//Add to filtered list
+			super.add(object);
+		}
+	}
+
+	@Override
+	public void addAll(Collection<? extends AbstractParking> collection) {
+		for (AbstractParking parking : collection)
+		{
+			this.add(parking);
+		}
+	}
+
+	@Override
+	public void addAll(AbstractParking... items) {
+		for(AbstractParking item : items)
+		{
+			this.add(item);
+		}
+	}
+
+	@Override
+	public void insert(AbstractParking object, int index) {
+		// Add to unfiltered list.
+		this.unfilteredParkingList.add(index, object);
+		
+		// Add to filtered list.
+		if (this.filterByDistance(object))
+		{
+			super.insert(object, index);
+		}
+	}
+
+	@Override
+	public void remove(AbstractParking object) {
+		// In parent and in local collection
+		super.remove(object);
+		
+		this.unfilteredParkingList.remove(object);
+	}
+
+	@Override
+	public void clear() {
+		// In parent and in local collection 
+		super.clear();
+		
+		this.unfilteredParkingList.clear();
+	}
+	
+	/**
+	 * Called to modify distance filter.
+	 * 
+	 * @param distance
+	 */
+	public void setDistanceFilter(Float distance)
+	{
+		this.distanceFilter = distance;
+		
+		// Apply new filter.
+		this.applyFilter();
 	}
 }
