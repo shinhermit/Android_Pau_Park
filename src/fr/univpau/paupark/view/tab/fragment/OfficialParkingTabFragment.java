@@ -3,6 +3,7 @@ package fr.univpau.paupark.view.tab.fragment;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.listener.OnOfficialParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
+import fr.univpau.paupark.listener.OnPagerSeekBarChangeListener;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class OfficialParkingTabFragment extends Fragment
@@ -102,7 +104,7 @@ public class OfficialParkingTabFragment extends Fragment
     	parkingListView.setOnItemClickListener(
     			new OnOfficialParkingListItemClickListener(adapter));
 
-    	// Pagination buttons
+    	// Pagination buttons / seek bar
     	ImageButton firstPageButton =
     			(ImageButton) activity.findViewById(R.id.pager_button_first);
     	ImageButton prevPageButton =
@@ -115,6 +117,9 @@ public class OfficialParkingTabFragment extends Fragment
     	ImageButton directAccessButton =
     			(ImageButton) activity.findViewById(R.id.pager_direct_access_button);
     	
+    	SeekBar seekBar =
+    			(SeekBar) activity.findViewById(R.id.pager_per_page_seek);
+    	
     	// Pagination listeners
     	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
@@ -122,6 +127,8 @@ public class OfficialParkingTabFragment extends Fragment
     	lastPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	
     	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(this));
+    	
+    	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
 		
 		// Configure pagination
     	adapter.setPaging(this.currentPage, this.nbItemsPerPage);
@@ -137,6 +144,10 @@ public class OfficialParkingTabFragment extends Fragment
 		this.updatePagerInfo(
 				adapter.getCurrentPageIndex() + 1,
 				adapter.getPageCount());
+		
+		seekBar.setMax(20);
+		seekBar.setProgress(adapter.getCurrentPageIndex());
+		this.updatePagerSeekBarIndicator(adapter.getNumberOfItemsPerPage());
 		
 		// Keep the adapter
 		this.listViewAdapter = adapter;
@@ -223,6 +234,23 @@ public class OfficialParkingTabFragment extends Fragment
     }
     
     /**
+     * Allows pager events listeners to deal with a change of the number of items to display per page.
+     * 
+     *  <p>Updates the entire fragment accordingly.</p>
+     */
+    public void setNbItemsPerPage(int nbItemsPerPage)
+    {
+    	this.listViewAdapter.setNumberOfItemsPerPage(nbItemsPerPage);
+    	
+    	this.listViewAdapter.notifyDataSetChanged();
+    	
+    	this.updatePagerSeekBarIndicator(nbItemsPerPage);
+    	this.updatePagerInfo(
+    			this.listViewAdapter.getCurrentPageIndex() + 1,
+    			this.listViewAdapter.getPageCount());
+    }
+    
+    /**
      * Updates the information about the currently displayed page.
      * 
      * @param currentPage the currently displayed page.
@@ -231,6 +259,17 @@ public class OfficialParkingTabFragment extends Fragment
     private void updatePagerInfo(int currentPage, int nbPages)
     {
     	this.currentPageTextView.setText(String.valueOf(currentPage)+"/"+nbPages);
+    }
+    
+    /**
+     * Updates the information about the number of items per pages.
+     * 
+     * @param currentPage the currently displayed page.
+     * @param nbPages the number of pages.
+     */
+    private void updatePagerSeekBarIndicator(int nbItemsPerPage)
+    {
+    	this.seekBarIndicatorTextView.setText(String.valueOf(nbItemsPerPage));
     }
    
     /**
