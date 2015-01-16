@@ -46,9 +46,9 @@ public class NumberPickerDialogFragment extends DialogFragment
         NumberPicker picker = (NumberPicker)
         		view.findViewById(R.id.number_picker);
         
-        picker.setMinValue(0);
-        picker.setMaxValue(this.listViewAdapter.getLastPage());
-        picker.setValue(this.listViewAdapter.getCurrentPageIndex());
+        picker.setMinValue(1);
+        picker.setMaxValue(this.listViewAdapter.getLastPage() + 1);
+        picker.setValue(this.listViewAdapter.getCurrentPageIndex()+1);
         
         builder.setView(view)
                .setPositiveButton("Ok",

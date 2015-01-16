@@ -35,7 +35,7 @@ public class OnNumberPickerOkButtonClickListener implements DialogInterface.OnCl
 	@Override
 	public void onClick(DialogInterface dialog, int which)
 	{
-		this.listViewAdapter.showPage(this.picker.getValue());
+		this.listViewAdapter.showPage(this.picker.getValue() - 1);
 		
 		this.listViewAdapter.notifyDataSetChanged();
 	}

@@ -16,7 +16,12 @@ public class NetworkStatusReceiver extends BroadcastReceiver {
 		
 		if (intent.getAction().equals(android.net.ConnectivityManager.CONNECTIVITY_ACTION))
 		{
-			NetworkStatusHolder.getInstance().setConnected(this.isConnected(context), context);
+			if (!this.isConnected(context))
+			{
+				String disconnected = context.getString(R.string.network_status_down); 
+				
+				Toast.makeText(context, disconnected, Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 	
