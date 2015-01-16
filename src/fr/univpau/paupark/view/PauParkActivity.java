@@ -10,7 +10,8 @@ import fr.univpau.paupark.model.UserTipParking;
 import fr.univpau.paupark.presenter.OfficialParkingPreparer;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.presenter.UserTipParkingPreparer;
-import fr.univpau.paupark.service.NetworkStatusReceiver;
+import fr.univpau.paupark.service.NetworkStatusChangeReceiver;
+import fr.univpau.paupark.service.NetworkStatusHolder;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
@@ -40,7 +41,7 @@ import android.view.MenuItem;
 public class PauParkActivity extends Activity
 {
 	/** Handles network status updates and queries. */
-	private NetworkStatusReceiver networkStatusReceiver;
+	private NetworkStatusChangeReceiver networkStatusChangeReceiver;
 	
 	/** Holds the current source of parking list (official vs user tips). */
 	private ParkingInfoSource parkingSource = null;
@@ -64,6 +65,9 @@ public class PauParkActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		// Initialise NetworkStatusHolder
+		NetworkStatusHolder.getInstance().checkConnection(this);
 		
 		// Create action bar and TABS
 		this.createActionBarTabs();
@@ -142,10 +146,10 @@ public class PauParkActivity extends Activity
 		// TODO Auto-generated method stub
 		super.onStart();
 		
-		this.networkStatusReceiver = new NetworkStatusReceiver();
+		this.networkStatusChangeReceiver = new NetworkStatusChangeReceiver();
 		IntentFilter netStatIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
 		
-		registerReceiver(this.networkStatusReceiver, netStatIntentFilter);
+		registerReceiver(this.networkStatusChangeReceiver, netStatIntentFilter);
 	}
 
 
@@ -154,7 +158,7 @@ public class PauParkActivity extends Activity
 		// TODO Auto-generated method stub
 		super.onStop();
 		
-		unregisterReceiver(this.networkStatusReceiver);
+		unregisterReceiver(this.networkStatusChangeReceiver);
 	}
 
 

@@ -15,22 +15,15 @@ public class NetworkStatusHolder {
 	{
 		return INSTANCE;
 	}
-	
-	public void setConnected(boolean connected, Context context)
-	{
-		this.connected = connected;
 		
-		if (this.connected == false)
-		{
-			String disconnected = context.getString(R.string.network_status_down);
-			Toast.makeText(context, disconnected, Toast.LENGTH_SHORT).show();
-		}
-	}
-	
 	public boolean isConnected()
 	{
 		return this.connected;
 	}
 	
+	public void checkConnection(Context context)
+	{
+		this.connected = NetworkStatusChecker.isConnected(context);
+	}
 	
 }
