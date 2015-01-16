@@ -9,6 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+/**
+ * An adapter which allows paging.
+ * 
+ * <p>Adapter for parking lists views.</p>
+ * 
+ * @author Josuah Aron
+ *
+ */
 public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 {	
 	/** Creates the appropriate view according to the type of adapter needed (official parking list / user tip).*/

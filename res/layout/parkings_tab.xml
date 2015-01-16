@@ -60,18 +60,20 @@
 
     
     <!-- Pager Footer -->
+
     <LinearLayout
-    	android:id="@+id/pager_footer"
+        android:id="@+id/pager_footer"
         android:layout_width="wrap_content"
-        android:layout_height="15dp"
-        android:orientation="horizontal"
+        android:layout_height="23dp"
         android:layout_gravity="center"
-        android:background="@android:color/darker_gray" >
+        android:layout_weight="0.04"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal" >
         
 		<ImageButton
 		    android:id="@+id/pager_button_first"
 		    style="?android:attr/buttonBarButtonStyle"
-		    android:layout_width="wrap_content"
+		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:src="@drawable/ic_action_first_item"
 		    android:text="@string/pager_button_first"
@@ -89,7 +91,7 @@
 		<ImageButton
 		    android:id="@+id/pager_button_previous"
 		    style="?android:attr/buttonBarButtonStyle"
-		    android:layout_width="wrap_content"
+		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:src="@drawable/ic_action_previous_item"
 		    android:text="@string/pager_button_previous"
@@ -103,20 +105,17 @@
 		    android:layout_marginBottom="4dip"
 		    android:layout_marginTop="4dip"
 		    android:background="?android:attr/dividerVertical" />
-		   
-		<HorizontalScrollView
-		    android:layout_width="fill_parent"
+
+		<ImageButton
+		    android:id="@+id/pager_direct_access_button"
+		    style="?android:attr/buttonBarButtonStyle"
+		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-		    android:background="@android:color/darker_gray" >
-		
-		     <LinearLayout
-		         android:id="@+id/pager_buttons_container"
-		         android:layout_width="wrap_content"
-		         android:layout_height="match_parent"
-		         android:orientation="horizontal" >
-		     </LinearLayout>
-		
-		</HorizontalScrollView>
+		    android:src="@android:drawable/ic_menu_more"
+		    android:text="@string/pager_button_next"
+		    android:contentDescription="@string/pager_button_next_description"
+		    android:textSize="12sp"
+			android:background="?android:attr/selectableItemBackground" />
 
 		<View
 		    android:layout_width="1dip"
@@ -128,7 +127,7 @@
 		<ImageButton
 		    android:id="@+id/pager_button_next"
 		    style="?android:attr/buttonBarButtonStyle"
-		    android:layout_width="wrap_content"
+		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:src="@drawable/ic_action_next_item"
 		    android:text="@string/pager_button_next"
@@ -146,7 +145,7 @@
 		<ImageButton
 		    android:id="@+id/pager_button_last"
 		    style="?android:attr/buttonBarButtonStyle"
-		    android:layout_width="wrap_content"
+		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:src="@drawable/ic_action_last_item"
 		    android:text="@string/pager_button_last"

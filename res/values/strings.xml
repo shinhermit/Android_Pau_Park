@@ -21,6 +21,7 @@
     <string name="pager_default_current_page_indicator">1 / 10</string>
     <string name="pager_per_page_label">Par page: </string>
     <string name="pager_per_page_default">10</string>
+    <string name="pager_direct_access_label">Page ?</string>
     
     <string name="pager_button_first">first</string>
     <string name="pager_button_first_description">First page</string>

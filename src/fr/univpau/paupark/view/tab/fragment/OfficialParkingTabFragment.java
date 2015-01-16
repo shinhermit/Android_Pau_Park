@@ -26,15 +26,12 @@ public class OfficialParkingTabFragment extends Fragment
 	private boolean isPagingOn;
 	private int nbItemsPerPage;
 	private int currentPage = 0;
-	private int nbPages;
 	
 	private LinearLayout pagerHeader;
 	private LinearLayout pagerFooter;
 	
 	private TextView currentPageTextView;
 	private TextView seekBarIndicatorTextView;
-	
-	private ImageButton [] navButtons;
 	
     @Override
     public View onCreateView(
@@ -68,7 +65,7 @@ public class OfficialParkingTabFragment extends Fragment
 		
 		if(!this.isPagingOn)
 		{
-			this.pagerFooter.setVisibility(View.GONE);
+			this.pagerHeader.setVisibility(View.GONE);
 			this.pagerFooter.setVisibility(View.GONE);
 		}
 		else
@@ -104,7 +101,7 @@ public class OfficialParkingTabFragment extends Fragment
     	parkingListView.setOnItemClickListener(
     			new OnOfficialParkingListItemClickListener(adapter));
 
-    	// Pagination buttons listeners
+    	// Pagination buttons
     	ImageButton firstPageButton =
     			(ImageButton) activity.findViewById(R.id.pager_button_first);
     	ImageButton prevPageButton =
@@ -114,11 +111,16 @@ public class OfficialParkingTabFragment extends Fragment
     	ImageButton lastPageButton =
     			(ImageButton) activity.findViewById(R.id.pager_button_last);
     	
-    	// TODO: set listeners
+    	ImageButton directAccessButton =
+    			(ImageButton) activity.findViewById(R.id.pager_direct_access_button);
+    	
+    	// Pagination listeners
     	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
     	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
     	nextPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
     	lastPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
+    	
+    	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
 		
 		// Configure pagination
     	adapter.setPaging(this.currentPage, this.nbItemsPerPage);
