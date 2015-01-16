@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 public class OfficialParkingTabFragment extends Fragment
 {
@@ -94,8 +95,17 @@ public class OfficialParkingTabFragment extends Fragment
     	PauParkActivity activity = (PauParkActivity)
     			this.getActivity();
     	
+    	ViewSwitcher viewSwitcher = (ViewSwitcher)
+    			activity.findViewById(R.id.viewswitcher);
+    	
+    	viewSwitcher.setInAnimation(activity, android.R.anim.slide_in_left);
+    	viewSwitcher.setOutAnimation(activity, android.R.anim.slide_out_right);
+//    	viewSwitcher.showNext();
+
     	ListView parkingListView = (ListView)
     			activity.findViewById(R.id.parkingsListHolder);
+    	ListView parkingListViewBis = (ListView)
+    			activity.findViewById(R.id.parkingsListHolderBis);
     	
     	ParkingListAdapter adapter =
     			activity.getOfficialParkingListAdapter();
@@ -103,6 +113,10 @@ public class OfficialParkingTabFragment extends Fragment
     	parkingListView.setAdapter(adapter);
     	parkingListView.setOnItemClickListener(
     			new OnOfficialParkingListItemClickListener(adapter));
+    	
+//    	parkingListViewBis.setAdapter(adapter);
+//    	parkingListViewBis.setOnItemClickListener(
+//    			new OnOfficialParkingListItemClickListener(adapter));
 
     	// Pagination buttons / seek bar
     	ImageButton firstPageButton =
