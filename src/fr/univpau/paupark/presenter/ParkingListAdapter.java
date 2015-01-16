@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.PauParkPreferences;
@@ -13,6 +14,7 @@ import android.location.Location;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 /**
  * An adapter which allows paging.
@@ -371,7 +373,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	 *  
 	 * @return the number of elements after applying the filter
 	 */
-	public int applyFilter()
+	private int applyFilter()
 	{
 		List<AbstractParking> currentList = new ArrayList(this.unfilteredParkingList);
 		
@@ -379,8 +381,6 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		this.clear();
 		//Refilter list.
 		this.addAll(currentList);
-
-		notifyDataSetChanged();
 		
 		return this.getCount();
 	}
@@ -395,26 +395,26 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	{
 		boolean withinRange = false;
 		
+		//Reference point for distance measurement.
 		Location currentLocation = PauParkLocation.getInstance().getLocation();
-		
 
-		if (currentLocation != null)
+		if (currentLocation != null && this.distanceFilter != 0f)
 		{
 			// Comparison parameters available
 			Location parkingLoc = new Location("parking");
 			parkingLoc.setLatitude(parking.getCoordinates().getLatitude());
 			parkingLoc.setLongitude(parking.getCoordinates().getLongitude());
 			
-			if (currentLocation.distanceTo(parkingLoc) < this.distanceFilter
-					||
-				this.distanceFilter == 0f)
+			if (currentLocation.distanceTo(parkingLoc) < this.distanceFilter)
 			{
+				//parking is close enough
 				withinRange = true;
 			}
 		}
 		else
 		{
-			//Current location unknown => filter disabled.
+			// Current location unknown 
+			// or no distance selected => filter disabled.
 			withinRange = true;
 		}
 		
@@ -423,14 +423,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	
 	@Override
 	public void add(AbstractParking object) {
-		//Add to unfiltered list
-		this.unfilteredParkingList.add(object);
-
-		if (this.filterByDistance(object))
-		{
-			//Add to filtered list
-			super.add(object);
-		}
+		this.insert(object, 0);
 	}
 
 	@Override
@@ -454,9 +447,9 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		// Add to unfiltered list.
 		this.unfilteredParkingList.add(index, object);
 		
-		// Add to filtered list.
 		if (this.filterByDistance(object))
 		{
+			// Add to filtered list.
 			super.insert(object, index);
 		}
 	}
@@ -480,13 +473,53 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	/**
 	 * Called to modify distance filter.
 	 * 
-	 * @param distance
+	 * @param distance The distance in meters
+	 * @return Returns true if the new filter has been set
 	 */
-	public void setDistanceFilter(Float distance)
+	public boolean setDistanceFilter(Float distance)
 	{
-		this.distanceFilter = distance;
+		boolean filterUpdated = false;
 		
-		// Apply new filter.
-		this.applyFilter();
+		if (!distance.equals(this.distanceFilter))
+		{
+			// filter has been modified 
+			filterUpdated = true;
+			
+			// store current filter value
+			float previousDistanceFilter = this.distanceFilter;
+			
+			// set new filter value
+			this.distanceFilter = distance;
+			
+			// Apply new filter.
+			int newNumberOfItems = this.applyFilter();
+			
+			if (newNumberOfItems == 0)
+			{
+				// new filter returned no result
+				// reset 
+				filterUpdated = false;
+				this.distanceFilter = previousDistanceFilter;
+				this.applyFilter();
+				
+				// notify user
+				Context context = getContext();
+				Toast.makeText(
+					context, 
+					R.string.filter_by_distance_no_values, 
+					Toast.LENGTH_SHORT
+				).show();
+	
+			}
+			
+			//Usefulness ?
+			// Reset pager
+			//this.setPaging(0, this.getNumberOfItemsPerPage());
+			
+			// update view
+			notifyDataSetChanged();
+		}
+		
+		return filterUpdated;
 	}
 }

@@ -23,8 +23,8 @@
     <string name="pager_per_page_default">10</string>
     <string name="pager_direct_access_label">Page ?</string>
     
-    <string name="filter_by_distance_label">Distance &lt; </string>
-
+    <string name="filter_by_distance_label">Distance &lt;</string>
+    <string name="filter_by_distance_no_values">Aucun résultat</string>
     <string-array name="filter_by_distance_values">
         <item>Illimité</item>
         <item>250m</item>

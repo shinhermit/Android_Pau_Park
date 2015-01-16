@@ -17,6 +17,8 @@ import android.widget.SeekBar;
  */
 public class OnFilterByDistanceItemSelectedListener implements OnItemSelectedListener
 {
+	private int lastPosition = 0;
+	
 	/** The fragment of the list of parking. */
 	private AbstractParkingTabFragment tab;
 	
@@ -35,19 +37,32 @@ public class OnFilterByDistanceItemSelectedListener implements OnItemSelectedLis
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 			long id) {
 		
-		//TODO : externalize !
-		//For test purposes only
-		//!!
-		List<Float> options = new ArrayList<Float>();
-		options.add(0f);
-		options.add(1, 250f);
-		options.add(2, 500f);
-		options.add(3, 1000f);
-		options.add(4, 2500f);
-		options.add(5, 5000f);
-		options.add(6, 10000f);
-		
-		this.tab.setFilterByDistanceValue(Float.valueOf(options.get(position)));
+		if (this.lastPosition != position)
+		{
+			//TODO : externalize !
+			//For test purposes only
+			//!!
+			List<Float> options = new ArrayList<Float>();
+			options.add(0f);
+			options.add(1, 250f);
+			options.add(2, 500f);
+			options.add(3, 1000f);
+			options.add(4, 2500f);
+			options.add(5, 5000f);
+			options.add(6, 10000f);
+			
+			boolean filterUpdated = this.tab.setFilterByDistanceValue(options.get(position));
+			
+			if (filterUpdated)
+			{
+				this.lastPosition = position;
+			}
+			else 
+			{
+				// cancel change
+				parent.setSelection(this.lastPosition);
+			}
+		}
 		
 	}
 

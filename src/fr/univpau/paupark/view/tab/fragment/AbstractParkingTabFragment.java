@@ -477,10 +477,12 @@ public abstract class AbstractParkingTabFragment extends Fragment
      * Sets the value of the distance filter.
      * 
      * Updates view.
+     * 
+     * Returns true if new filter value was set.
      */
-    public void setFilterByDistanceValue(float distance)
+    public boolean setFilterByDistanceValue(float distance)
     {
-    	this.listViewAdapter.setDistanceFilter(distance);
+    	return this.listViewAdapter.setDistanceFilter(distance);
     }
     
 }
