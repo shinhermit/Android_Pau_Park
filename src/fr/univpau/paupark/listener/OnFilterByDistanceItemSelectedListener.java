@@ -10,7 +10,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SeekBar;
 
 /**
- * Listener for event from the pager seek bar which allows to change the number of items which are to be displayed on each page.
+ * Listener for the spinner allowing to set distance filter value.
+ * 
  * @author Josuah Aron
  *
  */
