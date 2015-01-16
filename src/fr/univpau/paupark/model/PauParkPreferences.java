@@ -22,10 +22,10 @@ public class PauParkPreferences
 	public static final String LAST_NB_PARKING_ITEMS_PER_PAGE = "LAST_NB_PARKING_ITEMS_PER_PAGE";
 	
 	/** Key of the value which saves the last current page of the official parking list. */
-	public static final String LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE = "LAST_NB_PARKING_ITEMS_PER_PAGE";
+	public static final String LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE = "LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE";
 	
 	/** Key of the value which saves the last current page of the official parking list. */
-	public static final String LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE = "LAST_NB_PARKING_ITEMS_PER_PAGE";
+	public static final String LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE = "LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE";
 	
 	/** Default value for the pagination state. */
 	public static final boolean DEFAULT_IS_PAGINATION_ON = true;

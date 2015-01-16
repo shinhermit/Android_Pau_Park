@@ -14,6 +14,7 @@ import fr.univpau.paupark.view.PauParkActivity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -209,6 +210,29 @@ public class OfficialParkingTabFragment extends Fragment
 		// Keep the references
 		this.listViewAdapter = adapter;
     	this.viewSwitcher = viewSwitcher;
+    }
+    
+    @Override
+    public void onDestroyView()
+    {
+		super.onDestroyView();
+		
+		SharedPreferences preferences =
+				this.getActivity().getSharedPreferences(
+						PauParkPreferences.class.getName(),
+						Activity.MODE_PRIVATE);
+		
+		Editor preferenceEditor = preferences.edit();
+		
+		preferenceEditor.putInt(
+				PauParkPreferences.LAST_NB_PARKING_ITEMS_PER_PAGE,
+				this.listViewAdapter.getNumberOfItemsPerPage());
+		
+		preferenceEditor.putInt(
+				PauParkPreferences.LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE,
+				this.listViewAdapter.getCurrentPageIndex());
+		
+		preferenceEditor.commit();
     }
     
     /**
