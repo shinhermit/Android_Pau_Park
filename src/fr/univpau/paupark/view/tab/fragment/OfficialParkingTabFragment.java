@@ -27,6 +27,9 @@ public class OfficialParkingTabFragment extends Fragment
 	private int nbItemsPerPage;
 	private int currentPage = 0;
 	
+	/** The presenter of the list of parking. */
+	private ParkingListAdapter listViewAdapter;
+	
 	private LinearLayout pagerHeader;
 	private LinearLayout pagerFooter;
 	
@@ -115,12 +118,12 @@ public class OfficialParkingTabFragment extends Fragment
     			(ImageButton) activity.findViewById(R.id.pager_direct_access_button);
     	
     	// Pagination listeners
-    	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
-    	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
-    	nextPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
-    	lastPageButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
+    	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
+    	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
+    	nextPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
+    	lastPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	
-    	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(adapter));
+    	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(this));
 		
 		// Configure pagination
     	adapter.setPaging(this.currentPage, this.nbItemsPerPage);
@@ -131,5 +134,86 @@ public class OfficialParkingTabFragment extends Fragment
 				ParkingServiceImpl.getInstance();
 		services.loadParkingList(
 				ParkingInfoSource.OFFICIAL, adapter);
+		
+		// Keep the adapter
+		this.listViewAdapter = adapter;
+    }
+    
+    /**
+     * Allows pager events listeners to deal with a first page request event.
+     * 
+     *  <p>Updates the entire fragment accordingly.</p>
+     */
+    public void showFirstPage()
+    {
+    	this.listViewAdapter.showFirstPage();
+    	
+    	this.listViewAdapter.notifyDataSetChanged();
+    }
+    
+    /**
+     * Allows pager events listeners to deal with a previous page request event.
+     * 
+     *  <p>Updates the entire fragment accordingly.</p>
+     */
+    public void showPreviousPage()
+    {
+    	this.listViewAdapter.showPreviousPage();
+    	
+    	this.listViewAdapter.notifyDataSetChanged();
+    }
+    
+    /**
+     * Allows pager events listeners to deal with a next page request event.
+     * 
+     *  <p>Updates the entire fragment accordingly.</p>
+     */
+    public void showNextPage()
+    {
+    	this.listViewAdapter.showNextPage();
+    	
+    	this.listViewAdapter.notifyDataSetChanged();
+    }
+    
+    /**
+     * Allows pager events listeners to deal with a last page request event.
+     * 
+     *  <p>Updates the entire fragment accordingly.</p>
+     */
+    public void showLastPage()
+    {
+    	this.listViewAdapter.showLastPage();
+    	
+    	this.listViewAdapter.notifyDataSetChanged();
+    }
+    
+    /**
+     * Allows pager events listeners to deal with a direct page access request event.
+     * 
+     *  <p>Updates the entire fragment accordingly.</p>
+     */
+    public void showPage(int page)
+    {
+    	this.listViewAdapter.showPage(page);
+    	
+    	this.listViewAdapter.notifyDataSetChanged();
+    }
+   
+    /**
+     * Pager event listener helper.
+     * <p>Provide the index of the last page. Useful for the direct access page number picker</p>
+     */
+    public int getLastPage()
+    {
+    	return this.listViewAdapter.getLastPage();
+    }
+    
+    /**
+     * Pager event listener helper.
+     * <p>Provide the index of the last page. Useful for the direct access page number picker</p>
+     */
+    public int getCurrentPage()
+    {
+    	return this.listViewAdapter.getCurrentPageIndex();
     }
 }

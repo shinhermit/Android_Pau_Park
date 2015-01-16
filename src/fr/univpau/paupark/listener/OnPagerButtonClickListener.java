@@ -4,6 +4,7 @@ package fr.univpau.paupark.listener;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.view.tab.fragment.NumberPickerDialogFragment;
+import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.view.View;
@@ -17,18 +18,18 @@ import android.view.View.OnClickListener;
  */
 public class OnPagerButtonClickListener implements OnClickListener
 {
-	/** The presenter of the list of parking. */
-	private ParkingListAdapter listViewAdapter;
+	/** The fragment of the list of parking. */
+	private OfficialParkingTabFragment tab;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param listViewAdapter the presenter of the list of parking.
+	 * @param tab the fragment where the list of parking is.
 	 */
 	public OnPagerButtonClickListener(
-			ParkingListAdapter listViewAdapter)
+			OfficialParkingTabFragment tab)
 	{
-		this.listViewAdapter = listViewAdapter;
+		this.tab = tab;
 	}
 
 	@Override
@@ -37,27 +38,25 @@ public class OnPagerButtonClickListener implements OnClickListener
 		switch(view.getId())
 		{
 		case R.id.pager_button_first:
-			this.listViewAdapter.showFirstPage();
+			this.tab.showFirstPage();
 			break;
 			
 		case R.id.pager_button_previous:
-			this.listViewAdapter.showPreviousPage();
+			this.tab.showPreviousPage();
 			break;
 			
 		case R.id.pager_button_next:
-			this.listViewAdapter.showNextPage();
+			this.tab.showNextPage();
 			break;
 			
 		case R.id.pager_button_last:
-			this.listViewAdapter.showLastPage();
+			this.tab.showLastPage();
 			break;
 			
 		case R.id.pager_direct_access_button:
 			this.showNumberPickerDialog();
 			break;
 		}
-		
-		this.listViewAdapter.notifyDataSetChanged();
 	}
 	
 	/**
@@ -65,10 +64,10 @@ public class OnPagerButtonClickListener implements OnClickListener
 	 */
 	public void showNumberPickerDialog()
 	{
-		Activity activity = (Activity)this.listViewAdapter.getContext();
+		Activity activity = (Activity)this.tab.getActivity();
 		
 	    DialogFragment newFragment =
-	    		new NumberPickerDialogFragment(this.listViewAdapter);
+	    		new NumberPickerDialogFragment(this.tab);
 	    
 	    newFragment.show(activity.getFragmentManager(), "numberPicker");
 	}

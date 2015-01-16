@@ -20,18 +20,18 @@ import fr.univpau.paupark.presenter.ParkingListAdapter;
  */
 public class NumberPickerDialogFragment extends DialogFragment
 {
-	/** The presenter of the list of parking. */
-	private ParkingListAdapter listViewAdapter;
+	/** The fragment of the list of parking. */
+	private OfficialParkingTabFragment tab;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param listViewAdapter the presenter of the list of parking.
+	 * @param tab the fragment where the list of parking is.
 	 */
 	public NumberPickerDialogFragment(
-			ParkingListAdapter listViewAdapter)
+			OfficialParkingTabFragment tab)
 	{
-		this.listViewAdapter = listViewAdapter;
+		this.tab = tab;
 	}
 	
     @Override
@@ -47,13 +47,13 @@ public class NumberPickerDialogFragment extends DialogFragment
         		view.findViewById(R.id.number_picker);
         
         picker.setMinValue(1);
-        picker.setMaxValue(this.listViewAdapter.getLastPage() + 1);
-        picker.setValue(this.listViewAdapter.getCurrentPageIndex()+1);
+        picker.setMaxValue(this.tab.getLastPage() + 1);
+        picker.setValue(this.tab.getCurrentPage()+1);
         
         builder.setView(view)
                .setPositiveButton("Ok",
             		   new OnNumberPickerOkButtonClickListener(
-            				   this.listViewAdapter, picker))
+            				   this.tab, picker))
                .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
                {
                    public void onClick(DialogInterface dialog, int id)

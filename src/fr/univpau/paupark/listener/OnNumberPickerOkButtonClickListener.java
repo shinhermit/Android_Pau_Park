@@ -1,6 +1,7 @@
 package fr.univpau.paupark.listener;
 
 import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.content.DialogInterface;
 import android.widget.NumberPicker;
 
@@ -12,8 +13,8 @@ import android.widget.NumberPicker;
  */
 public class OnNumberPickerOkButtonClickListener implements DialogInterface.OnClickListener
 {
-	/** The presenter of the list of parking. */
-	private ParkingListAdapter listViewAdapter;
+	/** The fragment of the list of parking. */
+	private OfficialParkingTabFragment tab;
 	
 	/** The number picker which allowed the user to select a page. */
 	private NumberPicker picker;
@@ -21,22 +22,20 @@ public class OnNumberPickerOkButtonClickListener implements DialogInterface.OnCl
 	/**
 	 * Constructor.
 	 * 
-	 * @param listViewAdapter the presenter of the list of parking.
+	 * @param tab the fragment where the list of parking is.
 	 * @param picker the number picker which allowed the user to select a page.
 	 */
 	public OnNumberPickerOkButtonClickListener(
-			ParkingListAdapter listViewAdapter,
+			OfficialParkingTabFragment tab,
 			NumberPicker picker)
 	{
-		this.listViewAdapter = listViewAdapter;
+		this.tab = tab;
 		this.picker = picker;
 	}
 	
 	@Override
 	public void onClick(DialogInterface dialog, int which)
 	{
-		this.listViewAdapter.showPage(this.picker.getValue() - 1);
-		
-		this.listViewAdapter.notifyDataSetChanged();
+		this.tab.showPage(this.picker.getValue() - 1);
 	}
 }
