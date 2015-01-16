@@ -2,7 +2,6 @@ package fr.univpau.paupark.listener;
 
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.view.tab.fragment.NumberPickerDialogFragment;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.app.Activity;

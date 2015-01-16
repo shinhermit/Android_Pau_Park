@@ -66,20 +66,18 @@ public class OfficialParkingTabFragment extends Fragment
 				PauParkPreferences.GEOLOCATION_PREF_KEY,
 				PauParkPreferences.DEFAULT_IS_PAGINATION_ON);
 		
+		this.nbItemsPerPage = preferences.getInt(
+				PauParkPreferences.LAST_NB_PARKING_ITEMS_PER_PAGE,
+				PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE);
+		
+		this.currentPage = preferences.getInt(
+				PauParkPreferences.LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE,
+				0);
+		
 		if(!this.isPagingOn)
 		{
 			this.pagerHeader.setVisibility(View.GONE);
 			this.pagerFooter.setVisibility(View.GONE);
-		}
-		else
-		{
-			this.nbItemsPerPage = preferences.getInt(
-					PauParkPreferences.LAST_NB_PARKING_ITEMS_PER_PAGE,
-					PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE);
-			
-			this.currentPage = preferences.getInt(
-					PauParkPreferences.LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE,
-					0);
 		}
     	
     	return view;
@@ -134,6 +132,11 @@ public class OfficialParkingTabFragment extends Fragment
 				ParkingServiceImpl.getInstance();
 		services.loadParkingList(
 				ParkingInfoSource.OFFICIAL, adapter);
+
+		// Update pager info
+		this.updatePagerInfo(
+				adapter.getCurrentPageIndex() + 1,
+				adapter.getPageCount());
 		
 		// Keep the adapter
 		this.listViewAdapter = adapter;
@@ -149,6 +152,10 @@ public class OfficialParkingTabFragment extends Fragment
     	this.listViewAdapter.showFirstPage();
     	
     	this.listViewAdapter.notifyDataSetChanged();
+    	
+    	this.updatePagerInfo(
+    			this.listViewAdapter.getCurrentPageIndex() + 1,
+    			this.listViewAdapter.getPageCount());
     }
     
     /**
@@ -161,6 +168,10 @@ public class OfficialParkingTabFragment extends Fragment
     	this.listViewAdapter.showPreviousPage();
     	
     	this.listViewAdapter.notifyDataSetChanged();
+    	
+    	this.updatePagerInfo(
+    			this.listViewAdapter.getCurrentPageIndex() + 1,
+    			this.listViewAdapter.getPageCount());
     }
     
     /**
@@ -173,6 +184,10 @@ public class OfficialParkingTabFragment extends Fragment
     	this.listViewAdapter.showNextPage();
     	
     	this.listViewAdapter.notifyDataSetChanged();
+    	
+    	this.updatePagerInfo(
+    			this.listViewAdapter.getCurrentPageIndex() + 1,
+    			this.listViewAdapter.getPageCount());
     }
     
     /**
@@ -185,6 +200,10 @@ public class OfficialParkingTabFragment extends Fragment
     	this.listViewAdapter.showLastPage();
     	
     	this.listViewAdapter.notifyDataSetChanged();
+    	
+    	this.updatePagerInfo(
+    			this.listViewAdapter.getCurrentPageIndex() + 1,
+    			this.listViewAdapter.getPageCount());
     }
     
     /**
@@ -197,6 +216,21 @@ public class OfficialParkingTabFragment extends Fragment
     	this.listViewAdapter.showPage(page);
     	
     	this.listViewAdapter.notifyDataSetChanged();
+    	
+    	this.updatePagerInfo(
+    			this.listViewAdapter.getCurrentPageIndex() + 1,
+    			this.listViewAdapter.getPageCount());
+    }
+    
+    /**
+     * Updates the information about the currently displayed page.
+     * 
+     * @param currentPage the currently displayed page.
+     * @param nbPages the number of pages.
+     */
+    private void updatePagerInfo(int currentPage, int nbPages)
+    {
+    	this.currentPageTextView.setText(String.valueOf(currentPage)+"/"+nbPages);
     }
    
     /**
