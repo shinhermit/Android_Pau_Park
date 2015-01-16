@@ -4,6 +4,7 @@ import fr.univpau.paupark.R;
 import fr.univpau.paupark.listener.OnOfficialParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
 import fr.univpau.paupark.listener.OnPagerSeekBarChangeListener;
+import fr.univpau.paupark.listener.OnViewSwitcherGenericMotionListener;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
@@ -116,9 +117,6 @@ public class OfficialParkingTabFragment extends Fragment
     	this.slideOutLeft = AnimationUtils.loadAnimation(activity,
     		    R.anim.slide_out_left);
     	
-    	// TODO
-//    	viewSwitcher.setOnGenericMotionListener(null);
-    	
     	// Set presenter
     	ListView parkingListView = (ListView)
     			activity.findViewById(R.id.parkingsListHolder);
@@ -129,6 +127,7 @@ public class OfficialParkingTabFragment extends Fragment
     			activity.getOfficialParkingListAdapter();
     	
     	parkingListView.setAdapter(adapter);
+    	
     	parkingListView.setOnItemClickListener(
     			new OnOfficialParkingListItemClickListener(adapter));
     	
@@ -161,6 +160,15 @@ public class OfficialParkingTabFragment extends Fragment
     	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	
     	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
+    	
+    	viewSwitcher.setOnTouchListener(
+    			new OnViewSwitcherGenericMotionListener(this));
+    	
+//    	parkingListView.setOnTouchListener(
+//    			new OnViewSwitcherGenericMotionListener(this));
+//		
+//    	parkingListViewBis.setOnTouchListener(
+//    			new OnViewSwitcherGenericMotionListener(this));
 		
 		// Configure pagination
     	adapter.setPaging(this.currentPage, this.nbItemsPerPage);
