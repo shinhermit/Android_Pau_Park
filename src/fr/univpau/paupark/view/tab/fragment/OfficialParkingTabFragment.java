@@ -100,7 +100,6 @@ public class OfficialParkingTabFragment extends Fragment
     	
     	viewSwitcher.setInAnimation(activity, android.R.anim.slide_in_left);
     	viewSwitcher.setOutAnimation(activity, android.R.anim.slide_out_right);
-//    	viewSwitcher.showNext();
 
     	ListView parkingListView = (ListView)
     			activity.findViewById(R.id.parkingsListHolder);
@@ -114,9 +113,9 @@ public class OfficialParkingTabFragment extends Fragment
     	parkingListView.setOnItemClickListener(
     			new OnOfficialParkingListItemClickListener(adapter));
     	
-//    	parkingListViewBis.setAdapter(adapter);
-//    	parkingListViewBis.setOnItemClickListener(
-//    			new OnOfficialParkingListItemClickListener(adapter));
+    	parkingListViewBis.setAdapter(adapter);
+    	parkingListViewBis.setOnItemClickListener(
+    			new OnOfficialParkingListItemClickListener(adapter));
 
     	// Pagination buttons / seek bar
     	ImageButton firstPageButton =
