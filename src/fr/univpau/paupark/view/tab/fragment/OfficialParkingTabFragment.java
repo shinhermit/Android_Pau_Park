@@ -75,7 +75,7 @@ public class OfficialParkingTabFragment extends Fragment
 						Activity.MODE_PRIVATE);
 		
 		this.isPagingOn = preferences.getBoolean(
-				PauParkPreferences.GEOLOCATION_PREF_KEY,
+				PauParkPreferences.PAGINATION_PREF_KEY,
 				PauParkPreferences.DEFAULT_IS_PAGINATION_ON);
 		
 		this.nbItemsPerPage = preferences.getInt(
@@ -161,14 +161,14 @@ public class OfficialParkingTabFragment extends Fragment
     	
     	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
     	
-    	viewSwitcher.setOnTouchListener(
-    			new OnViewSwitcherGenericMotionListener(this));
+//    	viewSwitcher.setOnTouchListener(
+//    			new OnViewSwitcherGenericMotionListener(this));
     	
-//    	parkingListView.setOnTouchListener(
-//    			new OnViewSwitcherGenericMotionListener(this));
-//		
-//    	parkingListViewBis.setOnTouchListener(
-//    			new OnViewSwitcherGenericMotionListener(this));
+    	parkingListView.setOnTouchListener(
+    			new OnViewSwitcherGenericMotionListener(this));
+		
+    	parkingListViewBis.setOnTouchListener(
+    			new OnViewSwitcherGenericMotionListener(this));
 		
 		// Configure pagination
     	adapter.setPaging(this.currentPage, this.nbItemsPerPage);
@@ -339,6 +339,11 @@ public class OfficialParkingTabFragment extends Fragment
     public int getCurrentPage()
     {
     	return this.listViewAdapter.getCurrentPageIndex();
+    }
+    
+    public boolean isPagingOn()
+    {
+    	return this.isPagingOn;
     }
     
     /**

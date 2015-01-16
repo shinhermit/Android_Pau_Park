@@ -176,6 +176,11 @@ public class PauParkActivity extends Activity
 					this.userTipParkingListAdapter);
 			}
 			break;
+			
+		case PauParkActivity.SETTINGS_ACTIVITY_RESQUEST_CODE:
+			//update fragments Views
+			this.createActionBarTabs();
+			break;
 		}
 	}
 	

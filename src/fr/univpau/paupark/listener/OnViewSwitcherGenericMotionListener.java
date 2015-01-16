@@ -38,13 +38,16 @@ public class OnViewSwitcherGenericMotionListener implements OnGestureListener, O
 	public boolean onFling(MotionEvent e1, MotionEvent e2,
 			float velocityX, float velocityY)
 	{
-		if (e1.getRawY() > e2.getRawY())
+		if(this.tab.isPagingOn())
 		{
-			this.tab.showNextPage();
-		}
-		else
-		{
-			this.tab.showPreviousPage();
+			if (e1.getRawY() > e2.getRawY())
+			{
+				this.tab.showNextPage();
+			}
+			else
+			{
+				this.tab.showPreviousPage();
+			}
 		}
 		
 		return true;
