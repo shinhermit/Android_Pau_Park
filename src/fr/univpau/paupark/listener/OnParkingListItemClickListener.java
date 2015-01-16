@@ -1,6 +1,7 @@
 package fr.univpau.paupark.listener;
 
 import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import fr.univpau.paupark.view.menu.contextual.OfficialParkingContextualActionModeCallback;
 import android.app.Activity;
 import android.content.Context;
@@ -15,22 +16,20 @@ import android.widget.AdapterView.OnItemClickListener;
  * @author Josuah Aron
  *
  */
-public class OnOfficialParkingListItemClickListener implements OnItemClickListener
+public class OnParkingListItemClickListener implements OnItemClickListener
 {
 	/** The contextual menu call back to use when an item is clicked. */
-	private OfficialParkingContextualActionModeCallback actionModeCallBack;
+	private AbstractParkingContextualActionModeCallback actionModeCallBack;
 	
 	/**
 	 * Constructor.
 	 * 
 	 * @param officialParkingListAdapter the adapter which manages the items of the list view.
 	 */
-	public OnOfficialParkingListItemClickListener(
-			ParkingListAdapter officialParkingListAdapter)
+	public OnParkingListItemClickListener(
+			AbstractParkingContextualActionModeCallback actionModeCallBack)
 	{
-		this.actionModeCallBack =
-				new OfficialParkingContextualActionModeCallback(
-						officialParkingListAdapter);
+		this.actionModeCallBack = actionModeCallBack;
 	}
 
 	@Override

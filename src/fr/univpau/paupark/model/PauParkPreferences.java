@@ -18,8 +18,11 @@ public class PauParkPreferences
 	/** Key of the value which saves the user's nickname. */
 	public static final String NICKNAME_KEY = "NICKNAME_KEY";
 	
-	/** Key of the value which saves the last number of items parking list per page chosen by the user. */
-	public static final String LAST_NB_PARKING_ITEMS_PER_PAGE = "LAST_NB_PARKING_ITEMS_PER_PAGE";
+	/** Key of the value which saves the last number of items of the official parking list per page chosen by the user. */
+	public static final String LAST_NB_OFFICIAL_PARKING_ITEMS_PER_PAGE = "LAST_NB_OFFICIAL_PARKING_ITEMS_PER_PAGE";
+	
+	/** Key of the value which saves the last number of items of the user tip parking list per page chosen by the user. */
+	public static final String LAST_NB_USER_TIP_PARKING_ITEMS_PER_PAGE = "LAST_NB_USER_TIP_PARKING_ITEMS_PER_PAGE";
 	
 	/** Key of the value which saves the last current page of the official parking list. */
 	public static final String LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE = "LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE";

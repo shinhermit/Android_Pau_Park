@@ -1,5 +1,6 @@
 package fr.univpau.paupark.listener;
 
+import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -16,7 +17,7 @@ import android.view.View.OnTouchListener;
 public class OnViewSwitcherGenericMotionListener implements OnGestureListener, OnTouchListener
 {
 	/** The fragment of the list of parking. */
-	private OfficialParkingTabFragment tab;
+	private AbstractParkingTabFragment tab;
 	
 	/** The gesture detector. */
 	private GestureDetector gestureDetector;
@@ -28,7 +29,7 @@ public class OnViewSwitcherGenericMotionListener implements OnGestureListener, O
 	 * @param picker the number picker which allowed the user to select a page.
 	 */
 	public OnViewSwitcherGenericMotionListener(
-			OfficialParkingTabFragment tab)
+			AbstractParkingTabFragment tab)
 	{
 		this.tab = tab;
 		

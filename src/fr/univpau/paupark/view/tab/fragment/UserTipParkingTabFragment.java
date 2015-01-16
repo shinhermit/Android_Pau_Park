@@ -1,53 +1,54 @@
 package fr.univpau.paupark.view.tab.fragment;
 
-import fr.univpau.paupark.R;
-import fr.univpau.paupark.listener.OnUserTipListItemClickListener;
+import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.PauParkActivity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
+import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
+import fr.univpau.paupark.view.menu.contextual.UserTipContextualActionModeCallback;
 
-public class UserTipParkingTabFragment extends Fragment {
-    @Override
-    public View onCreateView(
-		LayoutInflater inflater, 
-		ViewGroup container,
-        Bundle savedInstanceState) 
-    {
-        // Inflate the layout for this fragment
-    	// and return the root of the fragment layout
-        return inflater.inflate(R.layout.tips_tab, container, false);
-    }
-        
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
-    	super.onActivityCreated(savedInstanceState);
-    	
-    	// Set presenter
-    	PauParkActivity activity = (PauParkActivity)
-    			this.getActivity();
-    	
-    	ListView parkingListView = (ListView)
-    			activity.findViewById(R.id.userTipsListHolder);
-    	
-    	ParkingListAdapter adapter =
-    			activity.getUSerTipParkingListAdapter();
-    	
-    	parkingListView.setAdapter(adapter);
-    	parkingListView.setOnItemClickListener(
-    			new OnUserTipListItemClickListener(adapter));
-    	
-		// Query load parking service
+/**
+ * Fragment of the tab of the official parking list.
+ * 
+ * @author Josuah Aron
+ *
+ */
+public class UserTipParkingTabFragment extends AbstractParkingTabFragment
+{
+	/**
+	 * Constructor.
+	 */
+	public UserTipParkingTabFragment()
+	{
+		super(PauParkPreferences.LAST_NB_USER_TIP_PARKING_ITEMS_PER_PAGE,
+				PauParkPreferences.LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE);
+	}
+	
+	@Override
+	protected ParkingListAdapter getAdapter()
+	{
+		PauParkActivity activity =
+				(PauParkActivity) this.getActivity();
+		
+		return activity.getUSerTipParkingListAdapter();
+	}
+
+	@Override
+	protected AbstractParkingContextualActionModeCallback
+			createContextualActionModeCallback(ParkingListAdapter adapter)
+	{
+		return new UserTipContextualActionModeCallback(adapter);
+	}
+
+	@Override
+	protected void loadParkingList(ParkingListAdapter adapter)
+	{
 		ParkingServices services =
 				ParkingServiceImpl.getInstance();
-		services.loadParkingList(ParkingInfoSource.USERS, adapter);
-    }
+		
+		services.loadParkingList(
+				ParkingInfoSource.USERS, adapter);
+	}
 }

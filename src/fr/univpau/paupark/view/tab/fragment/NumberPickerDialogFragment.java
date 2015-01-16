@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.NumberPicker;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.listener.OnNumberPickerOkButtonClickListener;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 
 /**
  * A dialog which allows the user to select a page to which he wants to jump when browsing a list of parking with paging activated.
@@ -21,7 +20,7 @@ import fr.univpau.paupark.presenter.ParkingListAdapter;
 public class NumberPickerDialogFragment extends DialogFragment
 {
 	/** The fragment of the list of parking. */
-	private OfficialParkingTabFragment tab;
+	private AbstractParkingTabFragment tab;
 	
 	/**
 	 * Constructor.
@@ -29,7 +28,7 @@ public class NumberPickerDialogFragment extends DialogFragment
 	 * @param tab the fragment where the list of parking is.
 	 */
 	public NumberPickerDialogFragment(
-			OfficialParkingTabFragment tab)
+			AbstractParkingTabFragment tab)
 	{
 		this.tab = tab;
 	}

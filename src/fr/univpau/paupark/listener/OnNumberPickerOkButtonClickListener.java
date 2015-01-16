@@ -1,5 +1,6 @@
 package fr.univpau.paupark.listener;
 
+import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.content.DialogInterface;
 import android.widget.NumberPicker;
@@ -13,7 +14,7 @@ import android.widget.NumberPicker;
 public class OnNumberPickerOkButtonClickListener implements DialogInterface.OnClickListener
 {
 	/** The fragment of the list of parking. */
-	private OfficialParkingTabFragment tab;
+	private AbstractParkingTabFragment tab;
 	
 	/** The number picker which allowed the user to select a page. */
 	private NumberPicker picker;
@@ -25,7 +26,7 @@ public class OnNumberPickerOkButtonClickListener implements DialogInterface.OnCl
 	 * @param picker the number picker which allowed the user to select a page.
 	 */
 	public OnNumberPickerOkButtonClickListener(
-			OfficialParkingTabFragment tab,
+			AbstractParkingTabFragment tab,
 			NumberPicker picker)
 	{
 		this.tab = tab;

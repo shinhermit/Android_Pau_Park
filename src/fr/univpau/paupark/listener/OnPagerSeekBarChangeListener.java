@@ -1,5 +1,6 @@
 package fr.univpau.paupark.listener;
 
+import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.widget.SeekBar;
 
@@ -11,7 +12,7 @@ import android.widget.SeekBar;
 public class OnPagerSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener
 {
 	/** The fragment of the list of parking. */
-	private OfficialParkingTabFragment tab;
+	private AbstractParkingTabFragment tab;
 	
 	/**
 	 * Constructor.
@@ -19,7 +20,7 @@ public class OnPagerSeekBarChangeListener implements SeekBar.OnSeekBarChangeList
 	 * @param tab the fragment where the list of parking is.
 	 */
 	public OnPagerSeekBarChangeListener(
-			OfficialParkingTabFragment tab)
+			AbstractParkingTabFragment tab)
 	{
 		this.tab = tab;
 	}

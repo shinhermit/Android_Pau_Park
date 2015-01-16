@@ -2,8 +2,8 @@ package fr.univpau.paupark.listener;
 
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.NumberPickerDialogFragment;
-import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.view.View;
@@ -18,7 +18,7 @@ import android.view.View.OnClickListener;
 public class OnPagerButtonClickListener implements OnClickListener
 {
 	/** The fragment of the list of parking. */
-	private OfficialParkingTabFragment tab;
+	private AbstractParkingTabFragment tab;
 	
 	/**
 	 * Constructor.
@@ -26,7 +26,7 @@ public class OnPagerButtonClickListener implements OnClickListener
 	 * @param tab the fragment where the list of parking is.
 	 */
 	public OnPagerButtonClickListener(
-			OfficialParkingTabFragment tab)
+			AbstractParkingTabFragment tab)
 	{
 		this.tab = tab;
 	}
