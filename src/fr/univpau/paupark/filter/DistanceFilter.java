@@ -108,11 +108,11 @@ public class DistanceFilter extends AbstractParkingFilter {
 			// 10000m
 			DistanceFilter.sFilterLabels.add(
 				context.getString(
-					DistanceFilter.FILTER_BY_DISTANCE_0M_LABEL_RESOURCE
+					DistanceFilter.FILTER_BY_DISTANCE_10000M_LABEL_RESOURCE
 				)
 			);
 			DistanceFilter.sFilterValues
-					.add(DistanceFilter.FILTER_BY_DISTANCE_0M_VALUE);
+					.add(DistanceFilter.FILTER_BY_DISTANCE_10000M_VALUE);
 		}
 	}
 	
