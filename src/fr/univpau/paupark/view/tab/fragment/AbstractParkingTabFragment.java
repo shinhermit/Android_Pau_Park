@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -234,6 +235,15 @@ public abstract class AbstractParkingTabFragment extends Fragment
     			new OnParkingListItemClickListener(
     					this.createContextualActionModeCallback(adapter)));
 
+    	// Populate distance filter
+    	ArrayAdapter<String> spinnerArrayAdapter = 
+    			new ArrayAdapter<String>(
+    					this.getActivity(), 
+    					android.R.layout.simple_spinner_item, 
+    					DistanceFilter.getOptionsLabels());
+    	spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    	filterByDistanceSpinner.setAdapter(spinnerArrayAdapter);
+    	
     	// Pagination listeners
     	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(this));

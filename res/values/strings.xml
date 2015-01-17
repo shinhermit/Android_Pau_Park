@@ -25,6 +25,13 @@
     
     <string name="filter_by_distance_label">Distance &lt;</string>
     <string name="filter_by_distance_no_values">Aucun résultat</string>
+    <string name="filter_by_distance_0m_label">Illimité</string>
+    <string name="filter_by_distance_250m_label">250m</string>
+    <string name="filter_by_distance_500m_label">500m</string>
+    <string name="filter_by_distance_1000m_label">1000m</string>
+    <string name="filter_by_distance_2500m_label">2500m</string>
+    <string name="filter_by_distance_5000m_label">5000m</string>
+    <string name="filter_by_distance_10000m_label">10000m</string>
     <string-array name="filter_by_distance_values">
         <item>Illimité</item>
         <item>250m</item>
