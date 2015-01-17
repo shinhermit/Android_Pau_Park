@@ -28,15 +28,18 @@ public class NameFilter extends AbstractParkingFilter
 	public boolean filterOut(AbstractParking parking) 
 	{
 		boolean filterOut = true;
-		String parkingName = this.cleanString(parking.getName());
 		
 		if (!this.nameFilter.equals(""))
 		{
-			if (parkingName.contains(this.nameFilter))
-			{
-				//parking name contains filter pattern
-				filterOut = false;
-			}
+			filterOut = ! (
+					this.cleanString(parking.getName())
+					.toLowerCase(Locale.FRANCE)
+					.contains(this.nameFilter.toLowerCase(Locale.FRANCE))
+					||
+					this.cleanString(parking.getTown())
+					.toLowerCase(Locale.FRANCE)
+					.contains(this.nameFilter.toLowerCase(Locale.FRANCE))
+				);
 		}
 		else
 		{
