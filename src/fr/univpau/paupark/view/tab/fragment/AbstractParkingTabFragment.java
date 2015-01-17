@@ -1,6 +1,7 @@
 package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.filter.DistanceFilter;
 import fr.univpau.paupark.listener.OnFilterByDistanceItemSelectedListener;
 import fr.univpau.paupark.listener.OnParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
@@ -482,7 +483,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     public boolean setFilterByDistanceValue(float distance)
     {
-    	return this.listViewAdapter.setDistanceFilter(distance);
+    	return this.listViewAdapter.setFilterValue(DistanceFilter.FILTER_ID, distance);
     }
     
 }

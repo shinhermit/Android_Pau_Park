@@ -3,6 +3,7 @@ package fr.univpau.paupark.view;
 import java.util.ArrayList;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.filter.DistanceFilter;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.OfficialParking;
 import fr.univpau.paupark.model.PauParkPreferences;
@@ -106,6 +107,10 @@ public class PauParkActivity extends Activity
 						PauParkPreferences.GEOLOCATION_PREF_KEY, false);
 		
 		this.pauParkLocation.receiveUpdates(useGeoLoc);
+		
+		//Create filters and pass them to the parking list adapters
+		DistanceFilter distanceFilter = new DistanceFilter();
+		this.officialParkingListAdapter.addFilter(distanceFilter);
 	}
 	
 	

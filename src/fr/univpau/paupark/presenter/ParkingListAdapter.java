@@ -2,9 +2,12 @@ package fr.univpau.paupark.presenter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.filter.AbstractParkingFilter;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.PauParkPreferences;
@@ -46,6 +49,8 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	/** Parkings up to this distance should be displayed */
 	private Float distanceFilter = 0f;
 	
+	/** Filters to tell whether an element should be shown or not. */
+	private Map<String, AbstractParkingFilter> filters = new HashMap<String, AbstractParkingFilter>();
 	/**
 	 * Constructor.
 	 * 
@@ -369,11 +374,11 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	}
 
 	/**
-	 * Called when distanceFilter is modified.
-	 *  
-	 * @return the number of elements after applying the filter
+	 * Called when a filter is modified.
+	 * 
+	 * @return Returns the number of parking after filter has been applied.
 	 */
-	private int applyFilter()
+	private int applyFilters()
 	{
 		List<AbstractParking> currentList = new ArrayList(this.unfilteredParkingList);
 		
@@ -385,42 +390,6 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		return this.getCount();
 	}
 	
-	/**
-	 * Returns true if parking is within range or if location is unknown.
-	 * 
-	 * @param parking
-	 * @return
-	 */
-	private boolean filterByDistance(AbstractParking parking)
-	{
-		boolean withinRange = false;
-		
-		//Reference point for distance measurement.
-		Location currentLocation = PauParkLocation.getInstance().getLocation();
-
-		if (currentLocation != null && this.distanceFilter != 0f)
-		{
-			// Comparison parameters available
-			Location parkingLoc = new Location("parking");
-			parkingLoc.setLatitude(parking.getCoordinates().getLatitude());
-			parkingLoc.setLongitude(parking.getCoordinates().getLongitude());
-			
-			if (currentLocation.distanceTo(parkingLoc) < this.distanceFilter)
-			{
-				//parking is close enough
-				withinRange = true;
-			}
-		}
-		else
-		{
-			// Current location unknown 
-			// or no distance selected => filter disabled.
-			withinRange = true;
-		}
-		
-		return withinRange;
-	}
-	
 	@Override
 	public void add(AbstractParking object) {
 		this.insert(object, 0);
@@ -430,7 +399,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	public void addAll(Collection<? extends AbstractParking> collection) {
 		for (AbstractParking parking : collection)
 		{
-			this.add(parking);
+			this.insert(parking, 0);
 		}
 	}
 
@@ -438,7 +407,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	public void addAll(AbstractParking... items) {
 		for(AbstractParking item : items)
 		{
-			this.add(item);
+			this.insert(item, 0);
 		}
 	}
 
@@ -447,9 +416,20 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		// Add to unfiltered list.
 		this.unfilteredParkingList.add(index, object);
 		
-		if (this.filterByDistance(object))
+		boolean filterOut = false;
+		
+		for (AbstractParkingFilter filter : this.filters.values())
 		{
-			// Add to filtered list.
+			if (filter.filterOut(object))
+			{
+				filterOut = true;
+			}
+		}
+
+		if (!filterOut)
+		{
+			// parking meeets filters criteria
+			// add to adapter for display.
 			super.insert(object, index);
 		}
 	}
@@ -471,53 +451,68 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	}
 	
 	/**
-	 * Called to modify distance filter.
+	 * Register a new filter in adapter.
 	 * 
-	 * @param distance The distance in meters
-	 * @return Returns true if the new filter has been set
+	 * @param filter
 	 */
-	public boolean setDistanceFilter(Float distance)
+	public void addFilter(AbstractParkingFilter filter)
+	{
+		this.filters.put(filter.getFilterId(), filter);
+	}
+	
+	/**
+	 * Pass new filter value to filter of type filterId
+	 *  
+	 * @param filterId filter type identification
+	 * @param value filter value
+	 * @return Returns true if list of parkings after filtering isn't empty 
+	 */
+	public boolean setFilterValue(String filterId, Object value)
 	{
 		boolean filterUpdated = false;
+
+		AbstractParkingFilter filter = this.filters.get(filterId);
 		
-		if (!distance.equals(this.distanceFilter))
+		if (filter != null)
 		{
-			// filter has been modified 
-			filterUpdated = true;
+			//filter found
 			
-			// store current filter value
-			float previousDistanceFilter = this.distanceFilter;
-			
-			// set new filter value
-			this.distanceFilter = distance;
-			
-			// Apply new filter.
-			int newNumberOfItems = this.applyFilter();
-			
-			if (newNumberOfItems == 0)
+			if (filter.isNewValue(value))
 			{
-				// new filter returned no result
-				// reset 
-				filterUpdated = false;
-				this.distanceFilter = previousDistanceFilter;
-				this.applyFilter();
+				// filter has been modified 
+				filterUpdated = true;
 				
-				// notify user
-				Context context = getContext();
-				Toast.makeText(
-					context, 
-					R.string.filter_by_distance_no_values, 
-					Toast.LENGTH_SHORT
-				).show();
-	
+				// set new filter value
+				filter.setValue(value);
+				
+				// Apply new filter.
+				int newNumberOfItems = this.applyFilters();
+				
+				if (newNumberOfItems == 0)
+				{
+					// new filter returned no result
+					// reset 
+					filterUpdated = false;
+					filter.restorePreviousFilterValue();
+					this.applyFilters();
+					
+					// notify user
+					Context context = getContext();
+					Toast.makeText(
+						context, 
+						R.string.filter_by_distance_no_values, 
+						Toast.LENGTH_SHORT
+					).show();
+		
+				}
+				
+				//Usefulness ?
+				// Reset pager
+				//this.setPaging(0, this.getNumberOfItemsPerPage());
+				
+				// update view
+				notifyDataSetChanged();
 			}
-			
-			//Usefulness ?
-			// Reset pager
-			//this.setPaging(0, this.getNumberOfItemsPerPage());
-			
-			// update view
-			notifyDataSetChanged();
 		}
 		
 		return filterUpdated;
