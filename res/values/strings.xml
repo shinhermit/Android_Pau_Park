@@ -95,6 +95,9 @@
     <string name="google_maps_default_zoom">16</string>
     
     <string name="network_status_down">Connexion réseau interrompue</string>
+    <string name="geolocation_status_disabled">La géolocalisation n\'est pas activée.</string>
+    <string name="geocoding_unavailable">Le géocodage n\'est pas disponible.</string>
+    <string name="geocoding_failed">Le géocodage a échoué</string>
     
     <string name="parking_official_source">http://opendata.agglo-pau.fr/sc/webserv.php?serv=getSj&amp;ui=542293D8B5&amp;did=18&amp;proj=WGS84</string>
     

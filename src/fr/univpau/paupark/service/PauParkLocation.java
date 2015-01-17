@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
+import fr.univpau.paupark.R;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +14,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 /**
  * Receives location updates.
  * Observable : observers notified of available location updates.
