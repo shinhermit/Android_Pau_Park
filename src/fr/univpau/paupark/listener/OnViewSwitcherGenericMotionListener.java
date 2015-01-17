@@ -48,7 +48,7 @@ public class OnViewSwitcherGenericMotionListener implements OnGestureListener, O
 	{
 		if(this.tab.isPagingOn())
 		{
-			if (e1.getRawY() > e2.getRawY())
+			if (e1.getRawY() < e2.getRawY())
 			{
 				this.tab.showNextPage();
 			}
