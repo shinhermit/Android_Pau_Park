@@ -414,6 +414,8 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 				
 				// Refilter list.
 				super.addAll(filtered);
+				
+				this.notifyDataSetChanged();
 			}
 		}
 		
