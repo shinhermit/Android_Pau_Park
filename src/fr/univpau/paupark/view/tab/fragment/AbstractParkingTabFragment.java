@@ -2,6 +2,7 @@ package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.filter.DistanceFilter;
+import fr.univpau.paupark.filter.NameFilter;
 import fr.univpau.paupark.listener.OnFilterByDistanceItemSelectedListener;
 import fr.univpau.paupark.listener.OnParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
@@ -535,6 +536,28 @@ public abstract class AbstractParkingTabFragment extends Fragment
     {
     	boolean updated = this.listViewAdapter.setFilterValue(
     			DistanceFilter.FILTER_ID, distance);
+    	
+    	if(updated)
+    	{
+	    	this.updatePagerInfo(
+	    			this.listViewAdapter.getCurrentPageIndex() + 1,
+	    			this.listViewAdapter.getPageCount());
+    	}
+    	
+    	return updated;
+    }
+    
+    /**
+     * Sets the value of the name filter.
+     * 
+     * Updates view.
+     * 
+     * Returns true if new filter value was set.
+     */
+    public boolean setFilterByNameValue(String name)
+    {
+    	boolean updated = this.listViewAdapter.setFilterValue(
+    			NameFilter.FILTER_ID, name);
     	
     	if(updated)
     	{

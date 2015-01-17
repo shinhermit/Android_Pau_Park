@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.filter.DistanceFilter;
 import fr.univpau.paupark.filter.NameFilter;
+import fr.univpau.paupark.listener.OnFilterByNameTextListener;
+import fr.univpau.paupark.listener.OnFilterByNameWidgetCloseListener;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.OfficialParking;
 import fr.univpau.paupark.model.PauParkPreferences;
@@ -34,6 +36,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 /**
  * Main activity of the application.
@@ -129,12 +132,30 @@ public class PauParkActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
+		boolean result = super.onCreateOptionsMenu(menu);
+		
 		MenuInflater inflater =
 				this.getMenuInflater();
 		
 		inflater.inflate(R.menu.main_activity_menu, menu);
 		
-		return super.onCreateOptionsMenu(menu);
+		
+		// create listener to filter by name
+		SearchView filterByNameSearchView = 
+				(SearchView) menu.findItem(R.id.searchAction).getActionView();
+		filterByNameSearchView.setSubmitButtonEnabled(true);
+		OnFilterByNameTextListener searchViewBtnListener = 
+				new OnFilterByNameTextListener(
+						this, filterByNameSearchView);
+		filterByNameSearchView.setOnQueryTextListener(searchViewBtnListener);
+		
+		//create listener to cancel filtering by name when SearchView is closed
+		OnFilterByNameWidgetCloseListener closeListener =
+				new OnFilterByNameWidgetCloseListener(searchViewBtnListener);
+		filterByNameSearchView.setOnCloseListener(closeListener);
+		
+		
+		return result;
 	}
 	
 	@Override
