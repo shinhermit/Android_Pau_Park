@@ -15,6 +15,7 @@ import android.app.FragmentTransaction;
  * <p>Base on the example the android documentation</p>
  * 
  * @author Josuah Aron
+ * @author Émilien Arino
  *
  * @param <T>
  * 		the type of fragment to use for the tab which this listener listens to.

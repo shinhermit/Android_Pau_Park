@@ -8,7 +8,8 @@ import fr.univpau.paupark.model.AbstractParking;
 /**
  * 
  * Filter by parking name.
- *
+ * 
+ * @author Émilien Arino
  */
 public class NameFilter extends AbstractParkingFilter 
 {

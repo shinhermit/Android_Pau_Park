@@ -12,6 +12,8 @@ import fr.univpau.paupark.service.PauParkLocation;
 /**
  *
  * Filter by distance.
+ * 
+ * @author Émilien Arino
  *
  */
 public class DistanceFilter extends AbstractParkingFilter {

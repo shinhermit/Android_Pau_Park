@@ -10,6 +10,7 @@ import android.widget.SearchView.OnQueryTextListener;
 /**
  * Listener for the SearchView Button. Triggers name filtering.
  * 
+ * @author Émilien Arino
  * @author Josuah Aron
  *
  */

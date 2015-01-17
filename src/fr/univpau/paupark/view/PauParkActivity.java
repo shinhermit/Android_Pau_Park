@@ -41,6 +41,7 @@ import android.widget.SearchView;
  * Main activity of the application.
  * 
  * @author Josuah Aron
+ * @author Émilien Arino
  *
  */
 public class PauParkActivity extends Activity

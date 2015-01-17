@@ -36,6 +36,7 @@ import android.widget.ViewSwitcher;
  * Base of the fragments of the tab of the main activity.
  * 
  * @author Josuah Aron
+ * @author Émilien Arino
  *
  */
 public abstract class AbstractParkingTabFragment extends Fragment

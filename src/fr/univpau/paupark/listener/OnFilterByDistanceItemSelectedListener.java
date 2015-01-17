@@ -9,6 +9,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 /**
  * Listener for the spinner allowing to set distance filter value.
  * 
+ * @author Émilien Arino
  * @author Josuah Aron
  *
  */

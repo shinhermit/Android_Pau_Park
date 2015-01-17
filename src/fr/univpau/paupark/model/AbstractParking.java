@@ -5,16 +5,34 @@ import java.io.Serializable;
 import android.content.Context;
 import fr.univpau.paupark.R;
 
+/**
+ * Represents a parking.
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
+ *
+ */
 public abstract class AbstractParking implements Serializable
 {
 	/** For the serializable interface. */
 	private static final long serialVersionUID = 2033302082653142241L;
 	
+	/** The number of places of the parking. */
 	protected int capacity;
+	
+	/** The name of the parking. */
 	protected String name;
+	
+	/** The city where the parking is. */
 	protected String town;
+	
+	/** The geographic coordinates of the parking. */
 	protected GeoCoordinate coordinates;
+	
+	/** The type of construction of the parking. */
 	protected CraftType craftType;
+	
+	/** Tells whether the parking is charge free or not. */
 	protected boolean isCharged;
 	
 	

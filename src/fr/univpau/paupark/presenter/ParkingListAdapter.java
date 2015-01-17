@@ -22,6 +22,7 @@ import android.widget.Toast;
  * <p>Adapter for parking lists views.</p>
  * 
  * @author Josuah Aron
+ * @author Émilien Arino
  *
  */
 public class ParkingListAdapter extends ArrayAdapter<AbstractParking>

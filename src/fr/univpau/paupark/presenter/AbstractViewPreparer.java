@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 /**
  * 
  * Delegation of the getView method of ArrayAdapter<AbstractParking> 
+ * 
+ * @author Émilien Arino
  *
  */
 abstract class AbstractViewPreparer {

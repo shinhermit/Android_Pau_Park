@@ -5,6 +5,7 @@ import android.widget.SeekBar;
 
 /**
  * Listener for event from the pager seek bar which allows to change the number of items which are to be displayed on each page.
+ * 
  * @author Josuah Aron
  *
  */
