@@ -493,6 +493,16 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     public boolean setFilterByDistanceValue(float distance)
     {
-    	return this.listViewAdapter.setFilterValue(DistanceFilter.FILTER_ID, distance);
+    	boolean updated = this.listViewAdapter.setFilterValue(
+    			DistanceFilter.FILTER_ID, distance);
+    	
+    	if(updated)
+    	{
+	    	this.updatePagerInfo(
+	    			this.listViewAdapter.getCurrentPageIndex() + 1,
+	    			this.listViewAdapter.getPageCount());
+    	}
+    	
+    	return updated; 
     }
 }
