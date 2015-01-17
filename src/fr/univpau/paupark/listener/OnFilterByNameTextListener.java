@@ -3,10 +3,7 @@ package fr.univpau.paupark.listener;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
-import android.app.Activity;
 import android.app.Fragment;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 

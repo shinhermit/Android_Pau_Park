@@ -14,7 +14,6 @@ import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -41,20 +40,6 @@ import android.widget.ViewSwitcher;
  */
 public abstract class AbstractParkingTabFragment extends Fragment
 {
-	/** Tells whether paging is on or not. */
-	private boolean isPagingOn = PauParkPreferences.DEFAULT_IS_PAGINATION_ON;
-	
-	/** Useful for the starting period, before <i>onActivityCreated</i> is called. */
-	private int nbItemsPerPage = PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE;
-	
-	/** Useful for the starting period, before <i>onActivityCreated</i> is called. */
-	private int currentPage = 0;
-	
-	private int lastSelectedDistanceFilterItem = 0;
-	
-	/** The view of this fragment*/
-	private View view;
-	
 	/** The presenter of the list of parking. */
 	private ParkingListAdapter listViewAdapter;
 	
@@ -100,8 +85,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
 	/** Key of the value which saves the last distance selected distance filter. */
 	private final String distanceFilterPrefKey;
 	
-	/** Tells whether the parent activity has been created. */
-	private boolean isActivityCreated = false;
+	/** Tell whether the view creation method is called for the first time or not. */
+	private boolean isFirstViewCreation = true;
 	
 	public AbstractParkingTabFragment(
 			String pageItemCountPrefKey,
@@ -139,46 +124,6 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	// Configure seek bar
     	this.seekBar.setMax(PauParkPreferences.SEEK_BAR_MAX);
     	
-    	// Hold view reference
-    	this.view = view;
-    	
-    	// Fetch preferences
-    	if(this.isActivityCreated)
-    	{
-	    	Context context = this.getActivity();
-	    	
-	    	SharedPreferences preferences =
-	    			context.getSharedPreferences(
-							PauParkPreferences.class.getName(),
-							Activity.MODE_PRIVATE);
-			
-			this.isPagingOn = preferences.getBoolean(
-					PauParkPreferences.PAGINATION_PREF_KEY,
-					PauParkPreferences.DEFAULT_IS_PAGINATION_ON);
-			
-			this.nbItemsPerPage = preferences.getInt(
-					this.pageItemCountPrefKey,
-					PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE);
-			
-			this.currentPage = preferences.getInt(
-					this.currentPagePrefKey,
-					0);
-			
-			this.lastSelectedDistanceFilterItem =
-					preferences.getInt(
-					this.distanceFilterPrefKey,
-					0);
-			
-			if(!this.isPagingOn)
-			{
-				this.pagerHeader.setVisibility(View.GONE);
-				this.pagerFooter.setVisibility(View.GONE);
-			}
-			
-	    	this.listViewAdapter.setPaging(this.currentPage, this.nbItemsPerPage);
-	    	this.listViewAdapter.setPagingEnabled(this.isPagingOn);
-    	}
-    	
     	return view;
     }
     
@@ -214,34 +159,66 @@ public abstract class AbstractParkingTabFragment extends Fragment
     {
     	super.onActivityCreated(savedInstanceState);
     	
-    	this.isActivityCreated = true;
-    	
     	// Find widgets
+    	View view = this.getView();
     	ViewSwitcher viewSwitcher = (ViewSwitcher)
-    			this.view.findViewById(R.id.viewswitcher);
+    			view.findViewById(R.id.viewswitcher);
     	ListView parkingListView = (ListView)
-    			this.view.findViewById(R.id.parkingsListHolder);
+    			view.findViewById(R.id.parkingsListHolder);
     	ListView parkingListViewBis = (ListView)
-    			this.view.findViewById(R.id.parkingsListHolderBis);
+    			view.findViewById(R.id.parkingsListHolderBis);
     	
     	ImageButton firstPageButton =
-    			(ImageButton) this.view.findViewById(R.id.pager_button_first);
+    			(ImageButton) view.findViewById(R.id.pager_button_first);
     	ImageButton prevPageButton =
-    			(ImageButton) this.view.findViewById(R.id.pager_button_previous);
+    			(ImageButton) view.findViewById(R.id.pager_button_previous);
     	ImageButton nextPageButton =
-    			(ImageButton) this.view.findViewById(R.id.pager_button_next);
+    			(ImageButton) view.findViewById(R.id.pager_button_next);
     	ImageButton lastPageButton =
-    			(ImageButton) this.view.findViewById(R.id.pager_button_last);
+    			(ImageButton) view.findViewById(R.id.pager_button_last);
     	
     	ImageButton directAccessButton =
-    			(ImageButton) this.view.findViewById(R.id.pager_direct_access_button);
+    			(ImageButton) view.findViewById(R.id.pager_direct_access_button);
     	
     	// Get the context
     	PauParkActivity activity = (PauParkActivity)
     			this.getActivity();
     	
     	// Feed back creation
-    	this.notityCreation(activity);
+    	if(this.isFirstViewCreation)
+    	{
+    		this.notityCreation(activity);
+    		this.isFirstViewCreation = false;
+    	}
+    	
+    	// Fetch preferences
+    	SharedPreferences preferences =
+    			activity.getSharedPreferences(
+						PauParkPreferences.class.getName(),
+						Activity.MODE_PRIVATE);
+		
+		boolean isPagingOn = preferences.getBoolean(
+				PauParkPreferences.PAGINATION_PREF_KEY,
+				PauParkPreferences.DEFAULT_IS_PAGINATION_ON);
+		
+		int nbItemsPerPage = preferences.getInt(
+				this.pageItemCountPrefKey,
+				PauParkPreferences.DEFAULT_NB_ITEMS_PER_PAGE);
+		
+		int currentPage = preferences.getInt(
+				this.currentPagePrefKey,
+				0);
+		
+		int selectedDistanceFilterItem =
+				preferences.getInt(
+				this.distanceFilterPrefKey,
+				0);
+		
+		if(!isPagingOn)
+		{
+			this.pagerHeader.setVisibility(View.GONE);
+			this.pagerFooter.setVisibility(View.GONE);
+		}
     	
     	// Configure view switcher
     	this.slideInLeft = AnimationUtils.loadAnimation(activity,
@@ -275,8 +252,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
     					DistanceFilter.getOptionsLabels());
     	spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     	this.filterByDistanceSpinner.setAdapter(spinnerArrayAdapter);
-    	this.filterByDistanceSpinner.setSelection(this.lastSelectedDistanceFilterItem);
-    	android.util.Log.i("onActivityCreated", "last selected item: "+this.lastSelectedDistanceFilterItem);
+    	this.filterByDistanceSpinner.setSelection(
+    			selectedDistanceFilterItem, true);
     	
     	// Pagination listeners
     	firstPageButton.setOnClickListener(
@@ -304,8 +281,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
     			new OnViewSwitcherGenericMotionListener(this));
 		
 		// Configure pagination
-    	adapter.setPaging(this.currentPage, this.nbItemsPerPage);
-    	adapter.setPagingEnabled(this.isPagingOn);
+    	adapter.setPaging(currentPage, nbItemsPerPage);
+    	adapter.setPagingEnabled(isPagingOn);
     	
 		// Query load parking service
     	this.loadParkingList(adapter);
@@ -514,7 +491,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     public boolean isPagingOn()
     {
-    	return this.isPagingOn;
+    	return this.listViewAdapter.isPaginEnabled();
     }
     
     /**
