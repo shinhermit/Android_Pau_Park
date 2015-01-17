@@ -12,6 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.service.async.listener.OnTaskCompleteListener;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -23,6 +24,9 @@ import android.util.Log;
  */
 public abstract class AsbtractAsyncTask extends AsyncTask<URL, Integer, Long>
 {
+	/** Allows to perform some actions when the service finish*/
+	private OnTaskCompleteListener onTaskCompleteListener = null;
+	
 	/** The presenter to update after task is complete. */
 	protected ParkingListAdapter adapter;
 
@@ -49,6 +53,20 @@ public abstract class AsbtractAsyncTask extends AsyncTask<URL, Integer, Long>
 	public ParkingListAdapter getAdapter()
 	{
 		return adapter;
+	}
+	
+	/**
+	 * Allows to do some actions when the service ends a task.
+	 * 
+	 * @param taskCompleteListener listens the event triggered when the service has finish a task.
+	 * @return this object (for chaining).
+	 */
+	public AsbtractAsyncTask setOnTaskCompleteListener(
+			OnTaskCompleteListener onTaskCompleteListener)
+	{
+		this.onTaskCompleteListener = onTaskCompleteListener;
+		
+		return this;
 	}
 
 	/**
@@ -91,5 +109,16 @@ public abstract class AsbtractAsyncTask extends AsyncTask<URL, Integer, Long>
  		}
 		
 		return responseString;
+	}
+	
+	@Override
+	protected void onPostExecute(Long result)
+	{
+		if(this.onTaskCompleteListener != null)
+		{
+			this.onTaskCompleteListener.onTaskComplete();
+		}
+		
+		super.onPostExecute(result);
 	}
 }

@@ -14,6 +14,7 @@ import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.async.LoadParkingListAsyncTask;
 import fr.univpau.paupark.service.async.SaveParkingAsyncTask;
 import fr.univpau.paupark.service.async.VoteParkingTipAsyncTask;
+import fr.univpau.paupark.service.async.listener.OnTaskCompleteListener;
 
 /**
  * Implementation of the services available on parking.
@@ -23,6 +24,9 @@ import fr.univpau.paupark.service.async.VoteParkingTipAsyncTask;
  */
 public class ParkingServiceImpl implements ParkingServices
 {
+	/** Allows to perform some actions when the service finish*/
+	private OnTaskCompleteListener onTaskCompleteListener = null;
+	
 	/** The URL to query the official list of parking. */
 	private static URL QUERY_OFFICIAL_PARKING;
 	
@@ -105,6 +109,13 @@ public class ParkingServiceImpl implements ParkingServices
 	}
 	
 	@Override
+	public void setOnTaskCompleteListener(
+			OnTaskCompleteListener onTaskCompleteListener)
+	{
+		this.onTaskCompleteListener = onTaskCompleteListener;
+	}
+	
+	@Override
 	public void loadParkingList(ParkingInfoSource source,
 			ParkingListAdapter adapter)
 	{
@@ -121,7 +132,9 @@ public class ParkingServiceImpl implements ParkingServices
 			break;
 		}
 		
-		new LoadParkingListAsyncTask(adapter).execute(query);
+		new LoadParkingListAsyncTask(adapter)
+				.setOnTaskCompleteListener(this.onTaskCompleteListener)
+				.execute(query);
 	}
 
 	@Override
@@ -154,7 +167,9 @@ public class ParkingServiceImpl implements ParkingServices
 		{
 			URL query = URI.create(queryUri.toString()).toURL();
 			
-			new LoadParkingListAsyncTask(adapter).execute(query);
+			new LoadParkingListAsyncTask(adapter)
+					.setOnTaskCompleteListener(this.onTaskCompleteListener)
+					.execute(query);
 		}
 		catch (MalformedURLException e)
 		{
@@ -186,7 +201,9 @@ public class ParkingServiceImpl implements ParkingServices
 		{
 			URL query = URI.create(queryUri.toString()).toURL();
 			
-			new SaveParkingAsyncTask(adapter).execute(query);
+			new SaveParkingAsyncTask(adapter)
+					.setOnTaskCompleteListener(this.onTaskCompleteListener)
+					.execute(query);
 		}
 		catch (MalformedURLException e)
 		{
@@ -221,7 +238,9 @@ public class ParkingServiceImpl implements ParkingServices
 		{
 			query = URI.create(queryUri.toString()).toURL();
 			
-			new VoteParkingTipAsyncTask(updateMe).execute(query);
+			new VoteParkingTipAsyncTask(updateMe)
+					.setOnTaskCompleteListener(this.onTaskCompleteListener)
+					.execute(query);
 		}
 		catch (MalformedURLException e)
 		{
@@ -243,7 +262,9 @@ public class ParkingServiceImpl implements ParkingServices
 		{
 			query = URI.create(queryUri.toString()).toURL();
 			
-			new VoteParkingTipAsyncTask(updateMe).execute(query);
+			new VoteParkingTipAsyncTask(updateMe)
+					.setOnTaskCompleteListener(this.onTaskCompleteListener)
+					.execute(query);
 		}
 		catch (MalformedURLException e)
 		{
