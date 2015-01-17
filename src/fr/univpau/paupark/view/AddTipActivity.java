@@ -1,7 +1,6 @@
 package fr.univpau.paupark.view;
 
 import java.io.Serializable;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,6 +14,7 @@ import fr.univpau.paupark.service.PauParkLocation;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -134,12 +134,21 @@ public class AddTipActivity extends Activity implements Observer
 		//Get coordinates and town name if geoloc is used
 		boolean useGeoLoc =
 				preferences.getBoolean(
-						PauParkPreferences.GEOLOCATION_PREF_KEY, false);
+						PauParkPreferences.GEOLOCATION_PREF_KEY, true);
 
 		if (useGeoLoc)
 		{
 			//set coordinates and town name if known
 			this.updateCoordinates();
+		}
+		else
+		{
+			Toast
+			.makeText(
+					this,
+					R.string.geolocation_status_disabled,
+					Toast.LENGTH_SHORT)
+			.show();
 		}
 	}
 	
@@ -338,7 +347,22 @@ public class AddTipActivity extends Activity implements Observer
 		this._latitudeEdit.setText(String.valueOf(newLoc.getLatitude()));
 		this._longitudeEdit.setText(String.valueOf(newLoc.getLongitude()));
 		
-		this._townEdit.setText(this._pauParkLocation.getTown());		
+		if(Geocoder.isPresent())
+		{
+			String town = this._pauParkLocation.getTown();
+			
+			if(town != null)
+			{
+				this._townEdit.setText(town);
+			}
+			else
+			{
+				Toast.makeText(
+						this,
+						R.string.geocoding_failed,
+						Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 	
 	/**
