@@ -20,7 +20,6 @@ import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.service.PauParkLocation;
-import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.UserTipParkingTabFragment;
 import fr.univpau.paupark.view.tab.listener.TabListener;

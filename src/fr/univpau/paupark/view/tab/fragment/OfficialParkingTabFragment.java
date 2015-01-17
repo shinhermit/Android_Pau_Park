@@ -24,7 +24,8 @@ public class OfficialParkingTabFragment extends AbstractParkingTabFragment
 	public OfficialParkingTabFragment()
 	{
 		super(PauParkPreferences.LAST_NB_OFFICIAL_PARKING_ITEMS_PER_PAGE,
-				PauParkPreferences.LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE);
+				PauParkPreferences.LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE,
+				PauParkPreferences.LAST_OFFICIAL_PARKING_SELECTED_DISTANCE_FILTER);
 	}
 
 	@Override

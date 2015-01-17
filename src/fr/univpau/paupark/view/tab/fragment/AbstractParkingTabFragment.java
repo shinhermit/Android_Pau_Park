@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -48,6 +49,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
 	
 	/** Useful for the starting period, before <i>onActivityCreated</i> is called. */
 	private int currentPage = 0;
+	
+	private int lastSelectedDistanceFilterItem = 0;
 	
 	/** The view of this fragment*/
 	private View view;
@@ -85,19 +88,29 @@ public abstract class AbstractParkingTabFragment extends Fragment
 	/** Holds the text view which informs the user of the number of pages on each page. */
 	private TextView seekBarIndicatorTextView;
 	
+	/** Holds the spinner which allows to select a disntace filter. */
+	private Spinner filterByDistanceSpinner;
+	
 	/** Key of the value which saves the last number of items of the parking list per page chosen by the user. */
 	private final String pageItemCountPrefKey;
 	
 	/** Key of the value which saves the last current page of the parking list. */
 	private final String currentPagePrefKey;
 	
+	/** Key of the value which saves the last distance selected distance filter. */
+	private final String distanceFilterPrefKey;
+	
 	/** Tells whether the parent activity has been created. */
 	private boolean isActivityCreated = false;
 	
-	public AbstractParkingTabFragment(String pageItemCountPrefKey, String currentPagePrefKey)
+	public AbstractParkingTabFragment(
+			String pageItemCountPrefKey,
+			String currentPagePrefKey,
+			String distanceFilterPrefKey)
 	{
 		this.pageItemCountPrefKey = pageItemCountPrefKey;
 		this.currentPagePrefKey = currentPagePrefKey;
+		this.distanceFilterPrefKey = distanceFilterPrefKey;
 	}
 	
     @Override
@@ -119,6 +132,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
     			(TextView) view.findViewById(R.id.pager_current_page_view);
     	this.seekBarIndicatorTextView =
     			(TextView) view.findViewById(R.id.pager_seek_bar_indicator);
+    	
+    	this.filterByDistanceSpinner =
+    			(Spinner) view.findViewById(R.id.filter_by_distance_spinner);
     	
     	// Configure seek bar
     	this.seekBar.setMax(PauParkPreferences.SEEK_BAR_MAX);
@@ -146,6 +162,11 @@ public abstract class AbstractParkingTabFragment extends Fragment
 			
 			this.currentPage = preferences.getInt(
 					this.currentPagePrefKey,
+					0);
+			
+			this.lastSelectedDistanceFilterItem =
+					preferences.getInt(
+					this.distanceFilterPrefKey,
 					0);
 			
 			if(!this.isPagingOn)
@@ -194,7 +215,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	super.onActivityCreated(savedInstanceState);
     	
     	this.isActivityCreated = true;
-
+    	
     	// Find widgets
     	ViewSwitcher viewSwitcher = (ViewSwitcher)
     			this.view.findViewById(R.id.viewswitcher);
@@ -214,9 +235,6 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	
     	ImageButton directAccessButton =
     			(ImageButton) this.view.findViewById(R.id.pager_direct_access_button);
-    	
-    	Spinner filterByDistanceSpinner =
-    			(Spinner) this.view.findViewById(R.id.filter_by_distance_spinner);
     	
     	// Get the context
     	PauParkActivity activity = (PauParkActivity)
@@ -256,7 +274,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
     					android.R.layout.simple_spinner_item, 
     					DistanceFilter.getOptionsLabels());
     	spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    	filterByDistanceSpinner.setAdapter(spinnerArrayAdapter);
+    	this.filterByDistanceSpinner.setAdapter(spinnerArrayAdapter);
+    	this.filterByDistanceSpinner.setSelection(this.lastSelectedDistanceFilterItem);
+    	android.util.Log.i("onActivityCreated", "last selected item: "+this.lastSelectedDistanceFilterItem);
     	
     	// Pagination listeners
     	firstPageButton.setOnClickListener(
@@ -274,7 +294,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	this.seekBar.setOnSeekBarChangeListener(
     			new OnPagerSeekBarChangeListener(this));
     	
-    	filterByDistanceSpinner.setOnItemSelectedListener(
+    	this.filterByDistanceSpinner.setOnItemSelectedListener(
     			new OnFilterByDistanceItemSelectedListener(this));
     	
     	parkingListView.setOnTouchListener(
@@ -289,19 +309,6 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	
 		// Query load parking service
     	this.loadParkingList(adapter);
-
-		// Update pager info
-		this.updatePagerInfo(
-				adapter.getCurrentPageIndex() + 1,
-				adapter.getPageCount());
-		
-		seekBar.setMax(20);
-		seekBar.setProgress(adapter.getCurrentPageIndex());
-		this.updatePagerSeekBarIndicator(adapter.getNumberOfItemsPerPage());
-		
-		android.util.Log.i("pagerInfo", "currentPageIndex: "+adapter.getCurrentPageIndex());
-		android.util.Log.i("pagerInfo", "pagecount: "+adapter.getPageCount());
-		android.util.Log.i("pagerInfo", "getNumberOfItemsPerPage: "+adapter.getNumberOfItemsPerPage());
 		
 		// Keep the references
 		this.listViewAdapter = adapter;
@@ -327,6 +334,13 @@ public abstract class AbstractParkingTabFragment extends Fragment
 		preferenceEditor.putInt(
 				this.currentPagePrefKey,
 				this.listViewAdapter.getCurrentPageIndex());
+		
+		if(this.filterByDistanceSpinner.getSelectedItemPosition() != AdapterView.INVALID_POSITION)
+		{
+			preferenceEditor.putInt(
+					this.distanceFilterPrefKey,
+					this.filterByDistanceSpinner.getSelectedItemPosition());
+		}
 		
 		preferenceEditor.commit();
     }
