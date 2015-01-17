@@ -3,6 +3,8 @@ package fr.univpau.paupark.view;
 import java.util.ArrayList;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.filter.DistanceFilter;
+import fr.univpau.paupark.filter.NameFilter;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.OfficialParking;
 import fr.univpau.paupark.model.PauParkPreferences;
@@ -39,7 +41,7 @@ import android.view.MenuItem;
  *
  */
 public class PauParkActivity extends Activity
-{
+{	
 	/** Handles network status updates and queries. */
 	private NetworkStatusChangeReceiver networkStatusChangeReceiver;
 	
@@ -106,6 +108,16 @@ public class PauParkActivity extends Activity
 						PauParkPreferences.GEOLOCATION_PREF_KEY, false);
 		
 		this.pauParkLocation.receiveUpdates(useGeoLoc);
+		
+		// Filters
+		//Create filters and pass them to the parking list adapters
+		DistanceFilter distanceFilter = new DistanceFilter(this);
+		NameFilter nameFilter = new NameFilter();
+		
+		this.officialParkingListAdapter.addFilter(distanceFilter);
+		this.officialParkingListAdapter.addFilter(nameFilter);
+		this.userTipParkingListAdapter.addFilter(distanceFilter);
+		this.userTipParkingListAdapter.addFilter(nameFilter);
 	}
 	
 	
@@ -160,7 +172,6 @@ public class PauParkActivity extends Activity
 		
 		unregisterReceiver(this.networkStatusChangeReceiver);
 	}
-
 
 	/* ** Activity Navigation ** */
 	@Override

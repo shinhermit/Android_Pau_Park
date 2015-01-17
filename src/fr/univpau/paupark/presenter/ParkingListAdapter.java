@@ -1,13 +1,20 @@
 package fr.univpau.paupark.presenter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import fr.univpau.paupark.R;
+import fr.univpau.paupark.filter.AbstractParkingFilter;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.PauParkPreferences;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 /**
  * An adapter which allows paging.
@@ -33,6 +40,11 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	private boolean isPaginOn =
 			PauParkPreferences.DEFAULT_IS_PAGINATION_ON;
 	
+	/** The raw list of parkings */
+	private List<AbstractParking> unfilteredParkingList = new ArrayList<AbstractParking>();
+	
+	/** Filters to tell whether an element should be shown or not. */
+	private Map<String, AbstractParkingFilter> filters = new HashMap<String, AbstractParkingFilter>();
 	/**
 	 * Constructor.
 	 * 
@@ -235,6 +247,9 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	public void setNumberOfItemsPerPage(int nbItems)
 	{
 		this.nbItemsPerPage = Math.max(1, nbItems);
+		
+		// ensure current page is not out of bounds
+		this.setCurrentPage(this.currentPage);
 	}
 	
 	/**
@@ -353,5 +368,151 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		this.setCurrentPage(page);
 		
 		return this.currentPage;
+	}
+
+	/**
+	 * Called when a filter is modified.
+	 * 
+	 * @return Returns the number of parking after filter has been applied.
+	 */
+	private int applyFilters()
+	{
+		List<AbstractParking> currentList =
+			new ArrayList<AbstractParking>(this.unfilteredParkingList);
+		
+		//Clear all parkings
+		this.clear();
+		//Refilter list.
+		this.addAll(currentList);
+		
+		return this.getCount();
+	}
+	
+	@Override
+	public void add(AbstractParking object) {
+		this.insert(object, 0);
+	}
+
+	@Override
+	public void addAll(Collection<? extends AbstractParking> collection) {
+		for (AbstractParking parking : collection)
+		{
+			this.insert(parking, 0);
+		}
+	}
+
+	@Override
+	public void addAll(AbstractParking... items) {
+		for(AbstractParking item : items)
+		{
+			this.insert(item, 0);
+		}
+	}
+
+	@Override
+	public void insert(AbstractParking object, int index) {
+		// Add to unfiltered list.
+		this.unfilteredParkingList.add(index, object);
+		
+		boolean filterOut = false;
+		
+		for (AbstractParkingFilter filter : this.filters.values())
+		{
+			if (filter.filterOut(object))
+			{
+				filterOut = true;
+			}
+		}
+
+		if (!filterOut)
+		{
+			// parking meeets filters criteria
+			// add to adapter for display.
+			super.insert(object, index);
+		}
+	}
+
+	@Override
+	public void remove(AbstractParking object) {
+		// In parent and in local collection
+		super.remove(object);
+		
+		this.unfilteredParkingList.remove(object);
+	}
+
+	@Override
+	public void clear() {
+		// In parent and in local collection 
+		super.clear();
+		
+		this.unfilteredParkingList.clear();
+	}
+	
+	/**
+	 * Register a new filter in adapter.
+	 * 
+	 * @param filter
+	 */
+	public void addFilter(AbstractParkingFilter filter)
+	{
+		this.filters.put(filter.getFilterId(), filter);
+	}
+	
+	/**
+	 * Pass new filter value to filter of type filterId
+	 *  
+	 * @param filterId filter type identification
+	 * @param value filter value
+	 * @return Returns true if list of parkings after filtering isn't empty 
+	 */
+	public boolean setFilterValue(String filterId, Object value)
+	{
+		boolean filterUpdated = false;
+
+		AbstractParkingFilter filter = this.filters.get(filterId);
+		
+		if (filter != null)
+		{
+			//filter found
+			
+			if (filter.isNewValue(value))
+			{
+				// filter has been modified 
+				filterUpdated = true;
+				
+				// set new filter value
+				filter.setValue(value);
+				
+				// Apply new filter.
+				int newNumberOfItems = this.applyFilters();
+				
+				if (newNumberOfItems == 0)
+				{
+					// new filter returned no result
+					// reset 
+					filterUpdated = false;
+					filter.restorePreviousFilterValue();
+					this.applyFilters();
+					
+					// notify user
+					Context context = getContext();
+					Toast.makeText(
+						context, 
+						R.string.filter_by_distance_no_values, 
+						Toast.LENGTH_SHORT
+					).show();
+		
+				}
+				
+				//Usefulness ?
+				// Reset pager
+				//this.setPaging(0, this.getNumberOfItemsPerPage());
+				
+				// update view
+				notifyDataSetChanged();
+			}
+		}
+		
+		return filterUpdated;
 	}
 }

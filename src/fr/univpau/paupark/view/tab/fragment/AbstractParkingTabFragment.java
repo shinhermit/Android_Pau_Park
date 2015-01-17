@@ -1,6 +1,8 @@
 package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
+import fr.univpau.paupark.filter.DistanceFilter;
+import fr.univpau.paupark.listener.OnFilterByDistanceItemSelectedListener;
 import fr.univpau.paupark.listener.OnParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
 import fr.univpau.paupark.listener.OnPagerSeekBarChangeListener;
@@ -20,10 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -200,6 +204,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	SeekBar seekBar =
     			(SeekBar) this.view.findViewById(R.id.pager_per_page_seek);
     	
+    	Spinner filterByDistanceSpinner =
+    			(Spinner) this.view.findViewById(R.id.filter_by_distance_spinner);
+    	
     	// Get the context
     	PauParkActivity activity = (PauParkActivity)
     			this.getActivity();
@@ -228,6 +235,15 @@ public abstract class AbstractParkingTabFragment extends Fragment
     			new OnParkingListItemClickListener(
     					this.createContextualActionModeCallback(adapter)));
 
+    	// Populate distance filter
+    	ArrayAdapter<String> spinnerArrayAdapter = 
+    			new ArrayAdapter<String>(
+    					this.getActivity(), 
+    					android.R.layout.simple_spinner_item, 
+    					DistanceFilter.getOptionsLabels());
+    	spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    	filterByDistanceSpinner.setAdapter(spinnerArrayAdapter);
+    	
     	// Pagination listeners
     	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
@@ -237,6 +253,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(this));
     	
     	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
+    	
+    	filterByDistanceSpinner.setOnItemSelectedListener(new OnFilterByDistanceItemSelectedListener(this));
     	
     	parkingListView.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));
@@ -464,5 +482,17 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	this.viewSwitcher.setInAnimation(this.slideOutLeft);
     	
     	this.viewSwitcher.showNext();
+    }
+
+    /**
+     * Sets the value of the distance filter.
+     * 
+     * Updates view.
+     * 
+     * Returns true if new filter value was set.
+     */
+    public boolean setFilterByDistanceValue(float distance)
+    {
+    	return this.listViewAdapter.setFilterValue(DistanceFilter.FILTER_ID, distance);
     }
 }
