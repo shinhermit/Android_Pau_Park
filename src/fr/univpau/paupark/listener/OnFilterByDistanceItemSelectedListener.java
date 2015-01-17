@@ -37,18 +37,7 @@ public class OnFilterByDistanceItemSelectedListener implements OnItemSelectedLis
 		if (this.lastPosition != position)
 		{
 			float newValue = DistanceFilter.getDistanceByPosition(position);
-			//TODO : externalize !
-			//For test purposes only
-			//!!
-//			List<Float> options = new ArrayList<Float>();
-//			options.add(0f);
-//			options.add(1, 250f);
-//			options.add(2, 500f);
-//			options.add(3, 1000f);
-//			options.add(4, 2500f);
-//			options.add(5, 5000f);
-//			options.add(6, 10000f);
-//			
+
 			boolean filterUpdated = this.tab.setFilterByDistanceValue(newValue);
 			
 			if (filterUpdated)

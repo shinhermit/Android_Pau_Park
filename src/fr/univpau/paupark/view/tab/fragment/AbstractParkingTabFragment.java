@@ -254,7 +254,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	
     	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
     	
-    	filterByDistanceSpinner.setOnItemSelectedListener(new OnFilterByDistanceItemSelectedListener(this));
+    	filterByDistanceSpinner.setOnItemSelectedListener(
+    			new OnFilterByDistanceItemSelectedListener(this));
     	
     	parkingListView.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));

@@ -1,10 +1,7 @@
 package fr.univpau.paupark.filter;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import android.content.Context;
 import android.location.Location;
@@ -20,7 +17,6 @@ import fr.univpau.paupark.service.PauParkLocation;
 public class DistanceFilter extends AbstractParkingFilter {
 	public static String FILTER_ID = "com.univpau.paupark.distanceFilter";
 	
-//	public static List<String, Float> filterOptions = new LinkedHashMap<String, Float>();
 	private static List<String> sFilterLabels = new ArrayList<String>();
 	private static List<Float> sFilterValues = new ArrayList<Float>();
 	public static Float FILTER_BY_DISTANCE_0M_VALUE = 0f;
@@ -118,7 +114,7 @@ public class DistanceFilter extends AbstractParkingFilter {
 	
 	/// Get filter unique identifier
 	@Override
-	final public String getFilterId() {
+	public String getFilterId() {
 		return FILTER_ID;
 	}
 	
@@ -180,6 +176,4 @@ public class DistanceFilter extends AbstractParkingFilter {
 	public void restorePreviousFilterValue() {
 		this.distanceFilter = this.previousDistanceFilter;
 	}
-
-	
 }
