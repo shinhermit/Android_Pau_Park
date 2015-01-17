@@ -27,10 +27,11 @@ public class NameFilter extends AbstractParkingFilter
 	public boolean filterOut(AbstractParking parking) 
 	{
 		boolean filterOut = true;
+		String parkingName = this.cleanString(parking.getName());
 		
 		if (!this.nameFilter.equals(""))
 		{
-			if (parking.getName().contains(this.nameFilter))
+			if (parkingName.contains(this.nameFilter))
 			{
 				//parking name contains filter pattern
 				filterOut = false;
@@ -56,7 +57,7 @@ public class NameFilter extends AbstractParkingFilter
 	@Override
 	public boolean isNewValue(Object value)
 	{
-		return this.nameFilter.equals(this.cleanString((String)value));		
+		return this.nameFilter.equals(this.cleanString((String)value)) == false;		
 	}
 
 	@Override
