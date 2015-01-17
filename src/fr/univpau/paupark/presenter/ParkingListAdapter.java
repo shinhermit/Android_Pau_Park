@@ -9,11 +9,8 @@ import java.util.Map;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.filter.AbstractParkingFilter;
 import fr.univpau.paupark.model.AbstractParking;
-import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.PauParkPreferences;
-import fr.univpau.paupark.service.PauParkLocation;
 import android.content.Context;
-import android.location.Location;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -45,9 +42,6 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	
 	/** The raw list of parkings */
 	private List<AbstractParking> unfilteredParkingList = new ArrayList<AbstractParking>();
-	
-	/** Parkings up to this distance should be displayed */
-	private Float distanceFilter = 0f;
 	
 	/** Filters to tell whether an element should be shown or not. */
 	private Map<String, AbstractParkingFilter> filters = new HashMap<String, AbstractParkingFilter>();
@@ -253,6 +247,9 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	public void setNumberOfItemsPerPage(int nbItems)
 	{
 		this.nbItemsPerPage = Math.max(1, nbItems);
+		
+		// ensure current page is not out of bounds
+		this.setCurrentPage(this.currentPage);
 	}
 	
 	/**
@@ -380,7 +377,8 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	 */
 	private int applyFilters()
 	{
-		List<AbstractParking> currentList = new ArrayList(this.unfilteredParkingList);
+		List<AbstractParking> currentList =
+			new ArrayList<AbstractParking>(this.unfilteredParkingList);
 		
 		//Clear all parkings
 		this.clear();
