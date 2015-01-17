@@ -8,6 +8,7 @@ import fr.univpau.paupark.listener.OnPagerSeekBarChangeListener;
 import fr.univpau.paupark.listener.OnViewSwitcherGenericMotionListener;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.presenter.filter.MaxDistanceParkFilter;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import android.app.Activity;
@@ -51,6 +52,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
 	
 	/** The presenter of the list of parking. */
 	private ParkingListAdapter listViewAdapter;
+	
+	/** Allows to restrict the displayed items to only those which match the filter criteria.*/
+	private MaxDistanceParkFilter maxDistanceFilter = new MaxDistanceParkFilter();
 	
 	/** Holds the widget which represents the pager header (allows disabling). */
 	private LinearLayout pagerHeader;
@@ -243,7 +247,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	
     	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
     	
-    	filterByDistanceSpinner.setOnItemSelectedListener(new OnFilterByDistanceItemSelectedListener(this));
+    	filterByDistanceSpinner.setOnItemSelectedListener(
+    			new OnFilterByDistanceItemSelectedListener(this));
     	
     	parkingListView.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));
@@ -410,7 +415,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     private void updatePagerInfo(int currentPage, int nbPages)
     {
-    	this.currentPageTextView.setText(String.valueOf(currentPage)+"/"+nbPages);
+    	this.currentPageTextView.setText(
+    			String.valueOf(currentPage)+"/"+nbPages);
     }
     
     /**
@@ -421,7 +427,8 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     private void updatePagerSeekBarIndicator(int nbItemsPerPage)
     {
-    	this.seekBarIndicatorTextView.setText(String.valueOf(nbItemsPerPage));
+    	this.seekBarIndicatorTextView.setText(
+    			String.valueOf(nbItemsPerPage));
     }
    
     /**
@@ -482,7 +489,13 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     public boolean setFilterByDistanceValue(float distance)
     {
-    	return this.listViewAdapter.setDistanceFilter(distance);
+    	int previousSize = this.listViewAdapter.getCount();
+    	
+    	this.maxDistanceFilter.setMaxDistance(distance);
+    	
+    	int newSize = this.listViewAdapter.applyFilter(
+    			this.maxDistanceFilter);
+    	
+    	return newSize != previousSize;
     }
-    
 }

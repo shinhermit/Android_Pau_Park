@@ -7,7 +7,6 @@ import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.SeekBar;
 
 /**
  * Listener for the spinner allowing to set distance filter value.

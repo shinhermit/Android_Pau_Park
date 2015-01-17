@@ -6,11 +6,9 @@ import java.util.List;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.AbstractParking;
-import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.PauParkPreferences;
-import fr.univpau.paupark.service.PauParkLocation;
+import fr.univpau.paupark.presenter.filter.ParkFilter;
 import android.content.Context;
-import android.location.Location;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,11 +38,12 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	private boolean isPaginOn =
 			PauParkPreferences.DEFAULT_IS_PAGINATION_ON;
 	
-	/** The raw list of parkings */
-	private List<AbstractParking> unfilteredParkingList = new ArrayList<AbstractParking>();
+	/** The last filter used. Filters allows to restrict the displayed items to only those which match the filter criteria. */
+	private ParkFilter parkFilter = null;
 	
-	/** Parkings up to this distance should be displayed */
-	private Float distanceFilter = 0f;
+	/** The raw list of parkings */
+	private List<AbstractParking> unfilteredParkingList =
+			new ArrayList<AbstractParking>();
 	
 	/**
 	 * Constructor.
@@ -371,59 +370,75 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	/**
 	 * Called when distanceFilter is modified.
 	 *  
-	 * @return the number of elements after applying the filter
+	 * @return the number of elements after applying the filter.
 	 */
-	private int applyFilter()
+	public int applyFilter(ParkFilter filter)
 	{
-		List<AbstractParking> currentList = new ArrayList(this.unfilteredParkingList);
-		
-		//Clear all parkings
-		this.clear();
-		//Refilter list.
-		this.addAll(currentList);
-		
-		return this.getCount();
-	}
-	
-	/**
-	 * Returns true if parking is within range or if location is unknown.
-	 * 
-	 * @param parking
-	 * @return
-	 */
-	private boolean filterByDistance(AbstractParking parking)
-	{
-		boolean withinRange = false;
-		
-		//Reference point for distance measurement.
-		Location currentLocation = PauParkLocation.getInstance().getLocation();
-
-		if (currentLocation != null && this.distanceFilter != 0f)
+		if(filter == null) // cancel filtering
 		{
-			// Comparison parameters available
-			Location parkingLoc = new Location("parking");
-			parkingLoc.setLatitude(parking.getCoordinates().getLatitude());
-			parkingLoc.setLongitude(parking.getCoordinates().getLongitude());
-			
-			if (currentLocation.distanceTo(parkingLoc) < this.distanceFilter)
-			{
-				//parking is close enough
-				withinRange = true;
-			}
+			super.clear();
+			super.addAll(this.unfilteredParkingList);
 		}
 		else
 		{
-			// Current location unknown 
-			// or no distance selected => filter disabled.
-			withinRange = true;
+			List<AbstractParking> filtered =
+					new ArrayList<AbstractParking>();
+			
+			for(AbstractParking parking: this.unfilteredParkingList)
+			{
+				if(filter.match(parking))
+				{
+					filtered.add(parking);
+				}
+			}
+			
+			if (filtered.isEmpty())
+			{
+				// notify user
+				Context context = getContext();
+				
+				Toast
+				.makeText(
+					context, 
+					R.string.filter_by_distance_no_values, 
+					Toast.LENGTH_SHORT
+				)
+				.show();
+			}
+			else
+			{
+				this.parkFilter = filter;
+				
+				// Clear all parkings
+				super.clear();
+				
+				// Refilter list.
+				super.addAll(filtered);
+			}
 		}
 		
-		return withinRange;
+		return this.getCount();
+	}
+
+	@Override
+	public void insert(AbstractParking parking, int index) {
+		// Add to unfiltered list.
+		this.unfilteredParkingList.add(index, parking);
+		
+		// Add to filtered list.
+		if(this.parkFilter == null) // no filter
+		{
+			super.insert(parking, index);
+		}
+		else if (this.parkFilter.match(parking))
+		{
+			super.insert(parking, index);
+		}
 	}
 	
 	@Override
-	public void add(AbstractParking object) {
-		this.insert(object, 0);
+	public void add(AbstractParking parking) {
+		this.insert(parking, 0);
 	}
 
 	@Override
@@ -443,23 +458,11 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	}
 
 	@Override
-	public void insert(AbstractParking object, int index) {
-		// Add to unfiltered list.
-		this.unfilteredParkingList.add(index, object);
-		
-		if (this.filterByDistance(object))
-		{
-			// Add to filtered list.
-			super.insert(object, index);
-		}
-	}
-
-	@Override
-	public void remove(AbstractParking object) {
+	public void remove(AbstractParking parking) {
 		// In parent and in local collection
-		super.remove(object);
+		super.remove(parking);
 		
-		this.unfilteredParkingList.remove(object);
+		this.unfilteredParkingList.remove(parking);
 	}
 
 	@Override
@@ -468,58 +471,5 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		super.clear();
 		
 		this.unfilteredParkingList.clear();
-	}
-	
-	/**
-	 * Called to modify distance filter.
-	 * 
-	 * @param distance The distance in meters
-	 * @return Returns true if the new filter has been set
-	 */
-	public boolean setDistanceFilter(Float distance)
-	{
-		boolean filterUpdated = false;
-		
-		if (!distance.equals(this.distanceFilter))
-		{
-			// filter has been modified 
-			filterUpdated = true;
-			
-			// store current filter value
-			float previousDistanceFilter = this.distanceFilter;
-			
-			// set new filter value
-			this.distanceFilter = distance;
-			
-			// Apply new filter.
-			int newNumberOfItems = this.applyFilter();
-			
-			if (newNumberOfItems == 0)
-			{
-				// new filter returned no result
-				// reset 
-				filterUpdated = false;
-				this.distanceFilter = previousDistanceFilter;
-				this.applyFilter();
-				
-				// notify user
-				Context context = getContext();
-				Toast.makeText(
-					context, 
-					R.string.filter_by_distance_no_values, 
-					Toast.LENGTH_SHORT
-				).show();
-	
-			}
-			
-			//Usefulness ?
-			// Reset pager
-			//this.setPaging(0, this.getNumberOfItemsPerPage());
-			
-			// update view
-			notifyDataSetChanged();
-		}
-		
-		return filterUpdated;
 	}
 }
