@@ -25,6 +25,7 @@
     
     <string name="filter_by_distance_label">Distance &lt;</string>
     <string name="filter_by_distance_no_values">Aucun résultat</string>
+    <string name="geo_location_failure">La géolocalisation est désactivée</string>
     <string-array name="filter_by_distance_values">
         <item>Illimité</item>
         <item>250m</item>

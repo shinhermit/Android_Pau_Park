@@ -130,7 +130,6 @@ public class PauParkLocation extends Observable implements LocationListener {
 			location = this._getLastKnownLocation();
 		}
 		
-		
 		return location;
 	}
 	

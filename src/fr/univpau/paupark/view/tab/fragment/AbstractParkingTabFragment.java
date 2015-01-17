@@ -9,6 +9,7 @@ import fr.univpau.paupark.listener.OnViewSwitcherGenericMotionListener;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.presenter.filter.MaxDistanceParkFilter;
+import fr.univpau.paupark.service.PauParkLocation;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import android.app.Activity;
@@ -16,6 +17,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 /**
@@ -489,13 +492,32 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     public boolean setFilterByDistanceValue(float distance)
     {
-    	int previousSize = this.listViewAdapter.getCount();
+    	boolean applied = false;
     	
-    	this.maxDistanceFilter.setMaxDistance(distance);
+    	Location currentLocation = PauParkLocation.getInstance().getLocation();
     	
-    	int newSize = this.listViewAdapter.applyFilter(
-    			this.maxDistanceFilter);
+    	if(currentLocation != null)
+    	{
+	    	this.maxDistanceFilter.set(currentLocation, distance);
+	    	
+	    	int previousSize = this.listViewAdapter.getCount();
+	    	
+	    	int newSize = this.listViewAdapter.applyFilter(
+	    			this.maxDistanceFilter);
+	    	
+	    	applied = newSize != previousSize;
+    	}
+    	else
+    	{
+			Toast
+			.makeText(
+				this.getActivity(), 
+				R.string.geo_location_failure,
+				Toast.LENGTH_SHORT
+			)
+			.show();
+    	}
     	
-    	return newSize != previousSize;
+    	return applied;
     }
 }
