@@ -181,6 +181,11 @@ public abstract class AbstractParkingTabFragment extends Fragment
      * @return the adapter which will be filled with the loaded items.
      */
     protected abstract void loadParkingList(ParkingListAdapter updateMe);
+    
+    /**
+     * Notifies the activity of the creation of this tab.
+     */
+    protected abstract void notityCreation(PauParkActivity activity);
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
@@ -215,6 +220,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	// Get the context
     	PauParkActivity activity = (PauParkActivity)
     			this.getActivity();
+    	
+    	// Feed back creation
+    	this.notityCreation(activity);
     	
     	// Configure view switcher
     	this.slideInLeft = AnimationUtils.loadAnimation(activity,
@@ -535,6 +543,6 @@ public abstract class AbstractParkingTabFragment extends Fragment
 	    			this.listViewAdapter.getPageCount());
     	}
     	
-    	return updated; 
+    	return updated;
     }
 }

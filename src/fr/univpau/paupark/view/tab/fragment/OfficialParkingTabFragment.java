@@ -57,4 +57,10 @@ public class OfficialParkingTabFragment extends AbstractParkingTabFragment
 		
 		services.setOnTaskCompleteListener(null);
 	}
+
+	@Override
+	protected void notityCreation(PauParkActivity activity)
+	{
+    	activity.setOfficialParkingTabFragment(this);
+	}
 }

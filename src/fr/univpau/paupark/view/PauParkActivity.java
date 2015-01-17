@@ -18,6 +18,7 @@ import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.service.PauParkLocation;
+import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.UserTipParkingTabFragment;
 import fr.univpau.paupark.view.tab.listener.TabListener;
@@ -53,6 +54,12 @@ public class PauParkActivity extends Activity
 	
 	/** Handles location queries and updates */
 	private PauParkLocation pauParkLocation;
+	
+	/** The fragment of the tab of official parking. */
+	private OfficialParkingTabFragment officialParkingTabFragment;
+	
+	/** The fragment of the tab of user tip parking. */
+	private UserTipParkingTabFragment userTipParkingTabFragment;
 	
 	/** The presenter of the parking tip list. */
 	private ParkingListAdapter userTipParkingListAdapter;
@@ -111,13 +118,10 @@ public class PauParkActivity extends Activity
 		
 		// Filters
 		//Create filters and pass them to the parking list adapters
-		DistanceFilter distanceFilter = new DistanceFilter(this);
-		NameFilter nameFilter = new NameFilter();
-		
-		this.officialParkingListAdapter.addFilter(distanceFilter);
-		this.officialParkingListAdapter.addFilter(nameFilter);
-		this.userTipParkingListAdapter.addFilter(distanceFilter);
-		this.userTipParkingListAdapter.addFilter(nameFilter);
+		this.officialParkingListAdapter.addFilter(new DistanceFilter(this));
+		this.officialParkingListAdapter.addFilter(new NameFilter());
+		this.userTipParkingListAdapter.addFilter(new DistanceFilter(this));
+		this.userTipParkingListAdapter.addFilter(new NameFilter());
 	}
 	
 	
@@ -285,6 +289,55 @@ public class PauParkActivity extends Activity
 	{
 		this.parkingSource = source;
 	}
+	
+	/**
+	 * Defines the fragment of the official parking tab.
+	 * 
+	 * <p>Useful for  feedback from the tab.</p>
+	 * 
+	 * @param fragment the fragment of the official parking tab.
+	 */
+	public void setOfficialParkingTabFragment(OfficialParkingTabFragment fragment)
+	{
+		this.officialParkingTabFragment = fragment;
+	}
+	
+	/**
+	 * Defines the fragment of the user parking tab.
+	 * 
+	 * <p>Useful for  feedback from the tab.</p>
+	 * 
+	 * @param fragment the fragment of the user parking tab.
+	 */
+	public void setUserTipParkingTabFragment(UserTipParkingTabFragment fragment)
+	{
+		this.userTipParkingTabFragment = fragment;
+	}
+
+	/**
+	 * Provides the fragment of the official parking tab.
+	 * 
+	 * <p>Useful for the name filter event listener.</p>
+	 * 
+	 * @return the fragment of the official parking tab.
+	 */
+	public OfficialParkingTabFragment getOfficialParkingTabFragment()
+	{
+		return officialParkingTabFragment;
+	}
+
+	/**
+	 * Provides the fragment of the user tip parking tab.
+	 * 
+	 * <p>Useful for the name filter event listener.</p>
+	 * 
+	 * @return the fragment of the user tip parking tab.
+	 */
+	public UserTipParkingTabFragment getUserTipParkingTabFragment()
+	{
+		return userTipParkingTabFragment;
+	}
+
 
 	/**
 	 * Creates the tabs of this activity.
