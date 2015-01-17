@@ -78,6 +78,9 @@ public abstract class AbstractParkingTabFragment extends Fragment
 	/** Holds the text view which informs the user of the currently displayed page. */
 	private TextView currentPageTextView;
 	
+	/** Holds the seek bar which allows the user to change the number of pages on each page. */
+	private SeekBar seekBar;
+	
 	/** Holds the text view which informs the user of the number of pages on each page. */
 	private TextView seekBarIndicatorTextView;
 	
@@ -109,10 +112,15 @@ public abstract class AbstractParkingTabFragment extends Fragment
     			(LinearLayout) view.findViewById(R.id.pager_header);
     	this.pagerFooter =
     			(LinearLayout) view.findViewById(R.id.pager_footer);
+    	this.seekBar =
+    			(SeekBar) view.findViewById(R.id.pager_per_page_seek);
     	this.currentPageTextView =
     			(TextView) view.findViewById(R.id.pager_current_page_view);
     	this.seekBarIndicatorTextView =
     			(TextView) view.findViewById(R.id.pager_seek_bar_indicator);
+    	
+    	// Configure seek bar
+    	this.seekBar.setMax(PauParkPreferences.SEEK_BAR_MAX);
     	
     	// Hold view reference
     	this.view = view;
@@ -201,9 +209,6 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	ImageButton directAccessButton =
     			(ImageButton) this.view.findViewById(R.id.pager_direct_access_button);
     	
-    	SeekBar seekBar =
-    			(SeekBar) this.view.findViewById(R.id.pager_per_page_seek);
-    	
     	Spinner filterByDistanceSpinner =
     			(Spinner) this.view.findViewById(R.id.filter_by_distance_spinner);
     	
@@ -245,16 +250,23 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	filterByDistanceSpinner.setAdapter(spinnerArrayAdapter);
     	
     	// Pagination listeners
-    	firstPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
-    	prevPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
-    	nextPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
-    	lastPageButton.setOnClickListener(new OnPagerButtonClickListener(this));
+    	firstPageButton.setOnClickListener(
+    			new OnPagerButtonClickListener(this));
+    	prevPageButton.setOnClickListener(
+    			new OnPagerButtonClickListener(this));
+    	nextPageButton.setOnClickListener(
+    			new OnPagerButtonClickListener(this));
+    	lastPageButton.setOnClickListener(
+    			new OnPagerButtonClickListener(this));
     	
-    	directAccessButton.setOnClickListener(new OnPagerButtonClickListener(this));
+    	directAccessButton.setOnClickListener(
+    			new OnPagerButtonClickListener(this));
     	
-    	seekBar.setOnSeekBarChangeListener(new OnPagerSeekBarChangeListener(this));
+    	this.seekBar.setOnSeekBarChangeListener(
+    			new OnPagerSeekBarChangeListener(this));
     	
-    	filterByDistanceSpinner.setOnItemSelectedListener(new OnFilterByDistanceItemSelectedListener(this));
+    	filterByDistanceSpinner.setOnItemSelectedListener(
+    			new OnFilterByDistanceItemSelectedListener(this));
     	
     	parkingListView.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));
@@ -277,6 +289,10 @@ public abstract class AbstractParkingTabFragment extends Fragment
 		seekBar.setMax(20);
 		seekBar.setProgress(adapter.getCurrentPageIndex());
 		this.updatePagerSeekBarIndicator(adapter.getNumberOfItemsPerPage());
+		
+		android.util.Log.i("pagerInfo", "currentPageIndex: "+adapter.getCurrentPageIndex());
+		android.util.Log.i("pagerInfo", "pagecount: "+adapter.getPageCount());
+		android.util.Log.i("pagerInfo", "getNumberOfItemsPerPage: "+adapter.getNumberOfItemsPerPage());
 		
 		// Keep the references
 		this.listViewAdapter = adapter;
@@ -434,7 +450,23 @@ public abstract class AbstractParkingTabFragment extends Fragment
     {
     	this.seekBarIndicatorTextView.setText(String.valueOf(nbItemsPerPage));
     }
-   
+    
+    /**
+     * Updates the pager info according to the current state of the adapter.
+     */
+    public void updatePager()
+    {
+    	this.seekBar.setProgress(
+    			this.listViewAdapter.getNumberOfItemsPerPage());
+    	
+    	this.updatePagerSeekBarIndicator(
+    			this.listViewAdapter.getNumberOfItemsPerPage());
+    	
+    	this.updatePagerInfo(
+    			this.listViewAdapter.getCurrentPageIndex() + 1,
+    			this.listViewAdapter.getPageCount());
+    }
+    
     /**
      * Pager event listener helper.
      * <p>Provide the index of the last page. Useful for the direct access page number picker</p>

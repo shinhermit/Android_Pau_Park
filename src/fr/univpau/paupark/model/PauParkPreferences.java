@@ -35,4 +35,7 @@ public class PauParkPreferences
 	
 	/** Default value for the pagination state. */
 	public static final int DEFAULT_NB_ITEMS_PER_PAGE = 5;
+	
+	/** The max number of items per page. */
+	public static final int SEEK_BAR_MAX = 20;
 }

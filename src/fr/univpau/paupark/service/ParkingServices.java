@@ -2,6 +2,7 @@ package fr.univpau.paupark.service;
 
 import fr.univpau.paupark.model.UserTipParking;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.service.async.listener.OnTaskCompleteListener;
 
 /**
  * Services available on parking.
@@ -26,12 +27,21 @@ public interface ParkingServices
 	}
 	
 	/**
+	 * Allows to do some actions when the service ends a task.
+	 * 
+	 * @param taskCompleteListener listens the event triggered when the service has finish a task.
+	 */
+	public void setOnTaskCompleteListener(
+			OnTaskCompleteListener taskCompleteListener);
+	
+	/**
 	 * Load the list of parking.
 	 * 
 	 * @param source the type of parking information requested (official source or user tips).
 	 * @param destination the list adapter to fill with the loaded parking list.
 	 */
-	public void loadParkingList(ParkingInfoSource source, ParkingListAdapter destination);
+	public void loadParkingList(
+			ParkingInfoSource source, ParkingListAdapter destination);
 	
 	
 	/**

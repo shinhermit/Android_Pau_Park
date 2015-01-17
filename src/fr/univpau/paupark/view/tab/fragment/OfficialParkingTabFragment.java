@@ -1,5 +1,6 @@
 package fr.univpau.paupark.view.tab.fragment;
 
+import fr.univpau.paupark.listener.OnLoadParkingTaskCompleteListener;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
@@ -48,7 +49,12 @@ public class OfficialParkingTabFragment extends AbstractParkingTabFragment
 		ParkingServices services =
 				ParkingServiceImpl.getInstance();
 		
+		services.setOnTaskCompleteListener(
+				new OnLoadParkingTaskCompleteListener(this));
+		
 		services.loadParkingList(
 				ParkingInfoSource.OFFICIAL, adapter);
+		
+		services.setOnTaskCompleteListener(null);
 	}
 }
