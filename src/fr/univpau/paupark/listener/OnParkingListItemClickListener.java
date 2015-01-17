@@ -1,8 +1,6 @@
 package fr.univpau.paupark.listener;
 
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
-import fr.univpau.paupark.view.menu.contextual.OfficialParkingContextualActionModeCallback;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;

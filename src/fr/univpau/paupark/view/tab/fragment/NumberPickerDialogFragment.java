@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.listener.OnNumberPickerOkButtonClickListener;
@@ -22,15 +23,19 @@ public class NumberPickerDialogFragment extends DialogFragment
 	/** The fragment of the list of parking. */
 	private AbstractParkingTabFragment tab;
 	
+	private ViewGroup parent;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param tab the fragment where the list of parking is.
+	 * @param parent Optional view to be the parent of the generated hierarchy.
 	 */
 	public NumberPickerDialogFragment(
-			AbstractParkingTabFragment tab)
+			AbstractParkingTabFragment tab, ViewGroup parent)
 	{
 		this.tab = tab;
+		this.parent = parent;
 	}
 	
     @Override
@@ -40,7 +45,8 @@ public class NumberPickerDialogFragment extends DialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.number_picker, null);
+        View view = inflater.inflate(R.layout.number_picker, this.parent);
+        this.parent = null; // release reference
         
         NumberPicker picker = (NumberPicker)
         		view.findViewById(R.id.number_picker);

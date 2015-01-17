@@ -24,7 +24,8 @@ public class UserTipParkingTabFragment extends AbstractParkingTabFragment
 	public UserTipParkingTabFragment()
 	{
 		super(PauParkPreferences.LAST_NB_USER_TIP_PARKING_ITEMS_PER_PAGE,
-				PauParkPreferences.LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE);
+				PauParkPreferences.LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE,
+				PauParkPreferences.LAST_USER_TIP_PARKING_SELECTED_DISTANCE_FILTER);
 	}
 	
 	@Override

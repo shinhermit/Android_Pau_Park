@@ -27,8 +27,14 @@ public class PauParkPreferences
 	/** Key of the value which saves the last current page of the official parking list. */
 	public static final String LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE = "LAST_OFFICIAL_PARKING_ITEMS_CURRENT_PAGE";
 	
-	/** Key of the value which saves the last current page of the official parking list. */
+	/** Key of the value which saves the last current page of the user tip parking list. */
 	public static final String LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE = "LAST_USER_TIP_PARKING_ITEMS_CURRENT_PAGE";
+	
+	/** Key of the value which saves the last selected distance filter of the official parking list. */
+	public static final String LAST_OFFICIAL_PARKING_SELECTED_DISTANCE_FILTER = "LAST_OFFICIAL_PARKING_SELECTED_DISTANCE_FILTER";
+	
+	/** Key of the value which saves the last selected distance filter of the user tip parking list. */
+	public static final String LAST_USER_TIP_PARKING_SELECTED_DISTANCE_FILTER = "LAST_USER_TIP_PARKING_SELECTED_DISTANCE_FILTER";
 	
 	/** Default value for the pagination state. */
 	public static final boolean DEFAULT_IS_PAGINATION_ON = true;

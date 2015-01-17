@@ -66,7 +66,7 @@ public class OnPagerButtonClickListener implements OnClickListener
 		Activity activity = (Activity)this.tab.getActivity();
 		
 	    DialogFragment newFragment =
-	    		new NumberPickerDialogFragment(this.tab);
+	    		new NumberPickerDialogFragment(this.tab, null);
 	    
 	    newFragment.show(activity.getFragmentManager(), "numberPicker");
 	}

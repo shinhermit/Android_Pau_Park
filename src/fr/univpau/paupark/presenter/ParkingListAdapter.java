@@ -99,6 +99,14 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
 		//Current parking
+		if(position > this.getCount())
+		{
+			android.util.Log.i("getView", "position: "+position);
+			android.util.Log.i("getView", "getCount(): "+this.getCount());
+			android.util.Log.i("getView", "super.getCount(): "+super.getCount());
+			android.util.Log.i("getView", "getPageCount(): "+this.getPageCount());
+			android.util.Log.i("getView", "getNumberOfItemsPerPage(): "+this.getNumberOfItemsPerPage());
+		}
 		AbstractParking parking = this.getItem(position);
 		
 		//Check if an existing view has been passed
@@ -421,6 +429,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 			if (filter.filterOut(object))
 			{
 				filterOut = true;
+				break;
 			}
 		}
 
