@@ -1,6 +1,6 @@
 package fr.univpau.paupark.listener;
 
-import fr.univpau.paupark.filter.DistanceFilter;
+import fr.univpau.paupark.view.presenter.filter.DistanceFilter;
 import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import android.view.View;
 import android.widget.AdapterView;

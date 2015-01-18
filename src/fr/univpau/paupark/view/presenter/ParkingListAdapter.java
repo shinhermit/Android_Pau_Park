@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.filter.AbstractParkingFilter;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.PauParkPreferences;
+import fr.univpau.paupark.view.presenter.filter.AbstractParkingFilter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

@@ -3,8 +3,6 @@ package fr.univpau.paupark.view;
 import java.util.ArrayList;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.filter.DistanceFilter;
-import fr.univpau.paupark.filter.NameFilter;
 import fr.univpau.paupark.listener.OnFilterByNameTextListener;
 import fr.univpau.paupark.listener.OnFilterByNameWidgetCloseListener;
 import fr.univpau.paupark.model.AbstractParking;
@@ -20,6 +18,8 @@ import fr.univpau.paupark.service.PauParkLocation;
 import fr.univpau.paupark.view.presenter.OfficialParkingPreparer;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import fr.univpau.paupark.view.presenter.UserTipParkingPreparer;
+import fr.univpau.paupark.view.presenter.filter.DistanceFilter;
+import fr.univpau.paupark.view.presenter.filter.NameFilter;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import fr.univpau.paupark.view.tab.fragment.UserTipParkingTabFragment;
 import fr.univpau.paupark.view.tab.listener.TabListener;

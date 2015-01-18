@@ -1,4 +1,4 @@
-package fr.univpau.paupark.filter;
+package fr.univpau.paupark.view.presenter.filter;
 
 import fr.univpau.paupark.model.AbstractParking;
 

@@ -1,8 +1,6 @@
 package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.filter.DistanceFilter;
-import fr.univpau.paupark.filter.NameFilter;
 import fr.univpau.paupark.listener.OnFilterByDistanceItemSelectedListener;
 import fr.univpau.paupark.listener.OnParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
@@ -12,6 +10,8 @@ import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
+import fr.univpau.paupark.view.presenter.filter.DistanceFilter;
+import fr.univpau.paupark.view.presenter.filter.NameFilter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;

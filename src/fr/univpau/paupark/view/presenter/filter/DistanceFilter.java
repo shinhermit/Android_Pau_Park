@@ -1,4 +1,4 @@
-package fr.univpau.paupark.filter;
+package fr.univpau.paupark.view.presenter.filter;
 
 import java.util.ArrayList;
 import java.util.List;
