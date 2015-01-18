@@ -1,4 +1,4 @@
-package fr.univpau.paupark.model;
+package fr.univpau.paupark.data;
 
 import java.io.Serializable;
 

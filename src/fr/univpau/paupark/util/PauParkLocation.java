@@ -1,4 +1,4 @@
-package fr.univpau.paupark.remote.service;
+package fr.univpau.paupark.util;
 
 import java.util.List;
 import java.util.Locale;

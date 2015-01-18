@@ -1,11 +1,11 @@
-package fr.univpau.paupark.model;
+package fr.univpau.paupark.util;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.location.Location;
-import fr.univpau.paupark.remote.service.PauParkLocation;
+import fr.univpau.paupark.data.AbstractParking;
 
 /**
  * 
@@ -55,11 +55,11 @@ public class ParkingDistanceComparator implements Comparator<AbstractParking>{
 			}
 			else
 			{
-				Location parkingLoc = new Location("parkingLoc");
-				parkingLoc.setLatitude(parking.coordinates.getLatitude());
-				parkingLoc.setLongitude(parking.coordinates.getLongitude());
+				Location lhsLoc = new Location("lhsLoc");
+				lhsLoc.setLatitude(parking.getCoordinates().getLatitude());
+				lhsLoc.setLongitude(parking.getCoordinates().getLongitude());
 		
-				distance = (int) this.location.distanceTo(parkingLoc);
+				distance = (int) this.location.distanceTo(lhsLoc);
 				
 				this.distances.put(parking, distance);
 			}

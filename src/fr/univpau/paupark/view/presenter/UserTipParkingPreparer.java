@@ -1,7 +1,7 @@
 package fr.univpau.paupark.view.presenter;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.model.UserTipParking;
+import fr.univpau.paupark.data.UserTipParking;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;

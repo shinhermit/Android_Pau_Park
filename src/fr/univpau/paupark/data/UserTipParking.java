@@ -1,4 +1,4 @@
-package fr.univpau.paupark.model;
+package fr.univpau.paupark.data;
 
 /**
  * Represents a parking tip added by a user.

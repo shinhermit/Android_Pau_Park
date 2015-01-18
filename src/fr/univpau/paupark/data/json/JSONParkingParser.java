@@ -1,4 +1,4 @@
-package fr.univpau.paupark.remote.service;
+package fr.univpau.paupark.data.json;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import fr.univpau.paupark.model.AbstractParking;
-import fr.univpau.paupark.model.GeoCoordinate;
-import fr.univpau.paupark.model.OfficialParking;
-import fr.univpau.paupark.model.UserTipParking;
+import fr.univpau.paupark.data.AbstractParking;
+import fr.univpau.paupark.data.GeoCoordinate;
+import fr.univpau.paupark.data.OfficialParking;
+import fr.univpau.paupark.data.UserTipParking;
 
 public class JSONParkingParser
 {

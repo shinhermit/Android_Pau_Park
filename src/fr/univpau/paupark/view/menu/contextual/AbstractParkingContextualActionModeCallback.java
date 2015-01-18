@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.ActionMode;
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.model.AbstractParking;
-import fr.univpau.paupark.model.GeoCoordinate;
+import fr.univpau.paupark.data.AbstractParking;
+import fr.univpau.paupark.data.GeoCoordinate;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**

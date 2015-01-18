@@ -1,4 +1,4 @@
-package fr.univpau.paupark.model;
+package fr.univpau.paupark.util;
 
 /**
  * Holds the constants which represent the keys associated with the values

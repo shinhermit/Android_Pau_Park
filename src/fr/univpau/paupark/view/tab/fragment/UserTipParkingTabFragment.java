@@ -1,10 +1,10 @@
 package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.listener.OnLoadParkingTaskCompleteListener;
-import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.remote.service.RemoteParkingServicesImpl;
 import fr.univpau.paupark.remote.service.RemoteParkingServices;
 import fr.univpau.paupark.remote.service.RemoteParkingServices.ParkingInfoSource;
+import fr.univpau.paupark.util.PauParkPreferences;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import fr.univpau.paupark.view.menu.contextual.UserTipContextualActionModeCallback;

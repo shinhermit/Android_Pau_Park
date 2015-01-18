@@ -6,7 +6,7 @@ import fr.univpau.paupark.listener.OnParkingListItemClickListener;
 import fr.univpau.paupark.listener.OnPagerButtonClickListener;
 import fr.univpau.paupark.listener.OnPagerSeekBarChangeListener;
 import fr.univpau.paupark.listener.OnViewSwitcherGenericMotionListener;
-import fr.univpau.paupark.model.PauParkPreferences;
+import fr.univpau.paupark.util.PauParkPreferences;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;

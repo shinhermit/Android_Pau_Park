@@ -2,7 +2,7 @@ package fr.univpau.paupark.view.presenter.filter;
 
 import java.util.Locale;
 
-import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.data.AbstractParking;
 
 
 /**

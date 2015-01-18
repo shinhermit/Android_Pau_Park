@@ -1,4 +1,4 @@
-package fr.univpau.paupark.model;
+package fr.univpau.paupark.data;
 
 /**
  * Represents a parking obtained from the official pau park opened data.
