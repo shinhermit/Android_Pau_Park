@@ -5,12 +5,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.model.GeoCoordinate;
-import fr.univpau.paupark.model.OfficialParking;
-import fr.univpau.paupark.model.PauParkPreferences;
-import fr.univpau.paupark.model.AbstractParking.CraftType;
-import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.remote.service.PauParkLocation;
+import fr.univpau.paupark.data.GeoCoordinate;
+import fr.univpau.paupark.data.OfficialParking;
+import fr.univpau.paupark.data.UserTipParking;
+import fr.univpau.paupark.data.AbstractParking.CraftType;
+import fr.univpau.paupark.util.PauParkLocation;
+import fr.univpau.paupark.util.PauParkPreferences;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;

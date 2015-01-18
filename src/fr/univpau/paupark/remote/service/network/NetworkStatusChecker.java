@@ -1,4 +1,4 @@
-package fr.univpau.paupark.remote.service;
+package fr.univpau.paupark.remote.service.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

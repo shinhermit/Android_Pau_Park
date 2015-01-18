@@ -4,9 +4,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import fr.univpau.paupark.model.AbstractParking;
-import fr.univpau.paupark.model.ParkingDistanceComparator;
-import fr.univpau.paupark.remote.service.JSONParkingParser;
+import fr.univpau.paupark.data.AbstractParking;
+import fr.univpau.paupark.data.json.JSONParkingParser;
+import fr.univpau.paupark.util.ParkingDistanceComparator;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.util.Log;
 

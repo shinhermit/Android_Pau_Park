@@ -1,6 +1,6 @@
 package fr.univpau.paupark.view.presenter.filter;
 
-import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.data.AbstractParking;
 
 /**
  * Allows to filter a list of parking.

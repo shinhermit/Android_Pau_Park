@@ -1,7 +1,7 @@
 package fr.univpau.paupark.view.menu.contextual;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.model.UserTipParking;
+import fr.univpau.paupark.data.UserTipParking;
 import fr.univpau.paupark.remote.service.RemoteParkingServicesImpl;
 import fr.univpau.paupark.remote.service.RemoteParkingServices;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;

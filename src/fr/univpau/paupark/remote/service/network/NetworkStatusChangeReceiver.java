@@ -1,4 +1,4 @@
-package fr.univpau.paupark.remote.service;
+package fr.univpau.paupark.remote.service.network;
 
 import fr.univpau.paupark.R;
 import android.content.BroadcastReceiver;
