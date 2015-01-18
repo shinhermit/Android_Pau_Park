@@ -1,7 +1,6 @@
 package fr.univpau.paupark.listener;
 
 import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;

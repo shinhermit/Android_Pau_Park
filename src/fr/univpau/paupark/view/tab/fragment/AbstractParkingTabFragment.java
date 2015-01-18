@@ -231,19 +231,6 @@ public abstract class AbstractParkingTabFragment extends Fragment
     		    R.anim.slide_in_right);
     	this.slideOutLeft = AnimationUtils.loadAnimation(activity,
     		    R.anim.slide_out_left);
-    	
-    	// Set presenter
-    	ParkingListAdapter adapter = this.getAdapter();
-    	
-    	parkingListView.setAdapter(adapter);
-    	parkingListView.setOnItemClickListener(
-    			new OnParkingListItemClickListener(
-    					this.createContextualActionModeCallback(adapter)));
-    	
-    	parkingListViewBis.setAdapter(adapter);
-    	parkingListViewBis.setOnItemClickListener(
-    			new OnParkingListItemClickListener(
-    					this.createContextualActionModeCallback(adapter)));
 
     	// Populate distance filter
     	ArrayAdapter<String> spinnerArrayAdapter = 
@@ -251,11 +238,37 @@ public abstract class AbstractParkingTabFragment extends Fragment
     					this.getActivity(), 
     					android.R.layout.simple_spinner_item, 
     					DistanceFilter.getOptionsLabels());
-    	spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    	this.filterByDistanceSpinner.setAdapter(spinnerArrayAdapter);
+    	
+    	spinnerArrayAdapter.setDropDownViewResource(
+    			android.R.layout.simple_spinner_dropdown_item);
+    	
+    	this.filterByDistanceSpinner.setAdapter(
+    			spinnerArrayAdapter);
+    	
+    	// Set list view presenter
+    	this.listViewAdapter = this.getAdapter();
+    	
+    	parkingListView.setAdapter(this.listViewAdapter);
+    	parkingListView.setOnItemClickListener(
+    			new OnParkingListItemClickListener(
+    					this.createContextualActionModeCallback(this.listViewAdapter)));
+    	
+    	parkingListViewBis.setAdapter(this.listViewAdapter);
+    	parkingListViewBis.setOnItemClickListener(
+    			new OnParkingListItemClickListener(
+    					this.createContextualActionModeCallback(this.listViewAdapter)));
+		
+		// Configure pagination
+    	this.listViewAdapter.setPaging(currentPage, nbItemsPerPage);
+    	this.listViewAdapter.setPagingEnabled(isPagingOn);
+    	
+		// Query load parking service
+    	this.loadParkingList(this.listViewAdapter);
+		
+    	// update distance filter
     	this.filterByDistanceSpinner.setSelection(
     			selectedDistanceFilterItem, true);
-    	
+		
     	// Pagination listeners
     	firstPageButton.setOnClickListener(
     			new OnPagerButtonClickListener(this));
@@ -272,24 +285,16 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	this.seekBar.setOnSeekBarChangeListener(
     			new OnPagerSeekBarChangeListener(this));
     	
-    	this.filterByDistanceSpinner.setOnItemSelectedListener(
-    			new OnFilterByDistanceItemSelectedListener(this));
-    	
     	parkingListView.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));
 		
     	parkingListViewBis.setOnTouchListener(
     			new OnViewSwitcherGenericMotionListener(this));
-		
-		// Configure pagination
-    	adapter.setPaging(currentPage, nbItemsPerPage);
-    	adapter.setPagingEnabled(isPagingOn);
     	
-		// Query load parking service
-    	this.loadParkingList(adapter);
-		
+    	this.filterByDistanceSpinner.setOnItemSelectedListener(
+    			new OnFilterByDistanceItemSelectedListener(this));
+
 		// Keep the references
-		this.listViewAdapter = adapter;
     	this.viewSwitcher = viewSwitcher;
     }
     
@@ -459,6 +464,11 @@ public abstract class AbstractParkingTabFragment extends Fragment
     {
     	this.seekBar.setProgress(
     			this.listViewAdapter.getNumberOfItemsPerPage());
+    	
+    	float distanceFilterValue = DistanceFilter.getDistanceByPosition(
+    			this.filterByDistanceSpinner.getSelectedItemPosition());
+    	
+    	this.setFilterByDistanceValue(distanceFilterValue);
     	
     	this.updatePagerSeekBarIndicator(
     			this.listViewAdapter.getNumberOfItemsPerPage());
