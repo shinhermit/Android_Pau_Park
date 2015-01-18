@@ -1,4 +1,4 @@
-package fr.univpau.paupark.service.async.listener;
+package fr.univpau.paupark.service.async.event;
 
 /**
  * Listens for the completion of a task and realises some actions.

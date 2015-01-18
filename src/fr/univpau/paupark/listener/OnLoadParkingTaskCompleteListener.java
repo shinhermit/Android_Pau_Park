@@ -1,6 +1,6 @@
 package fr.univpau.paupark.listener;
 
-import fr.univpau.paupark.service.async.listener.OnTaskCompleteListener;
+import fr.univpau.paupark.service.async.event.OnTaskCompleteListener;
 import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 
 /**

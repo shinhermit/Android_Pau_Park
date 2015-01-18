@@ -12,7 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import fr.univpau.paupark.service.async.listener.OnTaskCompleteListener;
+import fr.univpau.paupark.service.async.event.OnTaskCompleteListener;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.os.AsyncTask;
 import android.util.Log;

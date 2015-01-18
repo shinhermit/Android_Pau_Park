@@ -1,7 +1,7 @@
 package fr.univpau.paupark.service;
 
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.service.async.listener.OnTaskCompleteListener;
+import fr.univpau.paupark.service.async.event.OnTaskCompleteListener;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**
