@@ -1,6 +1,7 @@
 package fr.univpau.paupark.listener;
 
 import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -32,7 +33,8 @@ public class OnViewSwitcherGenericMotionListener implements OnGestureListener, O
 	{
 		this.tab = tab;
 		
-		this.gestureDetector = new GestureDetector(this.tab.getActivity(), this);
+		this.gestureDetector =
+				new GestureDetector(this.tab.getActivity(), this);
 	}
 
 	@Override
@@ -45,19 +47,37 @@ public class OnViewSwitcherGenericMotionListener implements OnGestureListener, O
 	public boolean onFling(MotionEvent e1, MotionEvent e2,
 			float velocityX, float velocityY)
 	{
+		boolean isFling = false;
+		
 		if(this.tab.isPagingOn())
 		{
-			if (e1.getRawY() < e2.getRawY())
+			float width = ( e1.getRawX() > e2.getRawX() ) ?
+					e1.getRawX() - e2.getRawX()
+					: e2.getRawX() - e1.getRawX();
+					
+			float height = ( e1.getRawY() > e2.getRawY() ) ?
+					e1.getRawY() - e2.getRawY()
+					: e2.getRawY() - e1.getRawY();
+					
+			isFling = ( width >= 2 * height );
+			Log.i("onFling", "width: "+width);
+			Log.i("onFling", "height: "+height);
+			Log.i("onFling", "isFling: "+isFling);
+			
+			if(isFling)
 			{
-				this.tab.showNextPage();
-			}
-			else
-			{
-				this.tab.showPreviousPage();
+				if (e1.getRawY() < e2.getRawY())
+				{
+					this.tab.showNextPage();
+				}
+				else
+				{
+					this.tab.showPreviousPage();
+				}
 			}
 		}
 		
-		return true;
+		return isFling;
 	}
 	
 	@Override
