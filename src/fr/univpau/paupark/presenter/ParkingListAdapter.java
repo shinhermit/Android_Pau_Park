@@ -373,21 +373,41 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	}
 
 	/**
-	 * Called when a filter is modified.
+	 * Tests all the filters contained in this presenter and provides a filtered list of parking.
 	 * 
-	 * @return Returns the number of parking after filter has been applied.
+	 * @param parkingList the unfiltered list of parking.
+	 * 
+	 * @return a filtered list of parking.
 	 */
-	private int applyFilters()
+	private List<AbstractParking> applyFilters(
+			List<AbstractParking> parkingList)
 	{
-		List<AbstractParking> currentList =
-			new ArrayList<AbstractParking>(this.unfilteredParkingList);
+		boolean filterOut;
+		List<AbstractParking> filtered =
+				new ArrayList<AbstractParking>();
 		
-		//Clear all parkings
-		this.clear();
-		//Refilter list.
-		this.addAll(currentList);
+		for(AbstractParking parking : this.unfilteredParkingList)
+		{
+			filterOut = false;
+			
+			// Test against all filters
+			for (AbstractParkingFilter filter : this.filters.values())
+			{
+				if (filter.filterOut(parking))
+				{
+					filterOut = true;
+					break;
+				}
+			}
+
+			// Parking meets all filters criteria
+			if (!filterOut)
+			{
+				filtered.add(parking);
+			}
+		}
 		
-		return this.getCount();
+		return filtered;
 	}
 	
 	@Override
@@ -493,15 +513,15 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 				filter.setValue(value);
 				
 				// Apply new filter.
-				int newNumberOfItems = this.applyFilters();
+				List<AbstractParking> filtered =
+						this.applyFilters(this.unfilteredParkingList);
 				
-				if (newNumberOfItems == 0)
+				if (filtered.isEmpty())
 				{
 					// new filter returned no result
 					// reset 
 					filterUpdated = false;
 					filter.restorePreviousFilterValue();
-					this.applyFilters();
 					
 					// notify user
 					Context context = getContext();
@@ -512,9 +532,15 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 					).show();
 		
 				}
-				
-				// Ensure current page is not out of bounds
-				this.setCurrentPage(this.currentPage);
+				else
+				{
+					super.clear();
+					
+					super.addAll(filtered);
+					
+					// Ensure current page is not out of bounds
+					this.setCurrentPage(this.currentPage);
+				}
 				
 				// update view
 				notifyDataSetChanged();
