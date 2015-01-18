@@ -7,7 +7,7 @@ import android.content.Context;
 import android.location.Location;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.AbstractParking;
-import fr.univpau.paupark.service.PauParkLocation;
+import fr.univpau.paupark.remote.service.PauParkLocation;
 
 /**
  *

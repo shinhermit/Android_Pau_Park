@@ -1,4 +1,4 @@
-package fr.univpau.paupark.service;
+package fr.univpau.paupark.remote.service;
 
 import java.util.ArrayList;
 import java.util.List;

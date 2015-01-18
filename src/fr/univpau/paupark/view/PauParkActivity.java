@@ -9,12 +9,12 @@ import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.OfficialParking;
 import fr.univpau.paupark.model.PauParkPreferences;
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.service.NetworkStatusChangeReceiver;
-import fr.univpau.paupark.service.NetworkStatusHolder;
-import fr.univpau.paupark.service.ParkingServiceImpl;
-import fr.univpau.paupark.service.ParkingServices;
-import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
-import fr.univpau.paupark.service.PauParkLocation;
+import fr.univpau.paupark.remote.service.NetworkStatusChangeReceiver;
+import fr.univpau.paupark.remote.service.NetworkStatusHolder;
+import fr.univpau.paupark.remote.service.RemoteParkingServicesImpl;
+import fr.univpau.paupark.remote.service.RemoteParkingServices;
+import fr.univpau.paupark.remote.service.PauParkLocation;
+import fr.univpau.paupark.remote.service.RemoteParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.presenter.OfficialParkingPreparer;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import fr.univpau.paupark.view.presenter.UserTipParkingPreparer;
@@ -85,7 +85,7 @@ public class PauParkActivity extends Activity
 		this.createActionBarTabs();
 		
 		// Initialise services provider 
-		ParkingServiceImpl.create(this);
+		RemoteParkingServicesImpl.create(this);
 		
 		// Allows internationalisation
 		OfficialParking.CraftType.init(this);
@@ -207,8 +207,8 @@ public class PauParkActivity extends Activity
 		case PauParkActivity.ADD_TIP_ACTIVITY_RESQUEST_CODE:
 			if(data != null)
 			{
-				ParkingServices services = 
-					ParkingServiceImpl.getInstance();
+				RemoteParkingServices services = 
+					RemoteParkingServicesImpl.getInstance();
 		
 				services.saveParkingTip(
 						(UserTipParking)data.getSerializableExtra(AddTipActivity.PARKING_EXTRA),
@@ -257,8 +257,8 @@ public class PauParkActivity extends Activity
 	private void refresh(ParkingInfoSource source)
 	{
 		// Query load parking service
-		ParkingServices services =
-				ParkingServiceImpl.getInstance();
+		RemoteParkingServices services =
+				RemoteParkingServicesImpl.getInstance();
 		
 		ParkingListAdapter adapter =
 				(source == ParkingInfoSource.OFFICIAL) ?

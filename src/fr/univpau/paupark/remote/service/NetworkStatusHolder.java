@@ -1,4 +1,4 @@
-package fr.univpau.paupark.service;
+package fr.univpau.paupark.remote.service;
 
 import android.content.Context;
 

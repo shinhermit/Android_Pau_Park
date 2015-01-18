@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.location.Location;
-import fr.univpau.paupark.service.PauParkLocation;
+import fr.univpau.paupark.remote.service.PauParkLocation;
 
 public class ParkingDistanceComparator implements Comparator<AbstractParking>{
 	private Location location;

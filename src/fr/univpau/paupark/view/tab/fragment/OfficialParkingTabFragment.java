@@ -2,9 +2,9 @@ package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.listener.OnLoadParkingTaskCompleteListener;
 import fr.univpau.paupark.model.PauParkPreferences;
-import fr.univpau.paupark.service.ParkingServiceImpl;
-import fr.univpau.paupark.service.ParkingServices;
-import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
+import fr.univpau.paupark.remote.service.RemoteParkingServicesImpl;
+import fr.univpau.paupark.remote.service.RemoteParkingServices;
+import fr.univpau.paupark.remote.service.RemoteParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import fr.univpau.paupark.view.menu.contextual.OfficialParkingContextualActionModeCallback;
@@ -47,8 +47,8 @@ public class OfficialParkingTabFragment extends AbstractParkingTabFragment
 	@Override
 	protected void loadParkingList(ParkingListAdapter adapter)
 	{
-		ParkingServices services =
-				ParkingServiceImpl.getInstance();
+		RemoteParkingServices services =
+				RemoteParkingServicesImpl.getInstance();
 		
 		services.setOnTaskCompleteListener(
 				new OnLoadParkingTaskCompleteListener(this));

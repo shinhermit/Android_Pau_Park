@@ -1,7 +1,7 @@
-package fr.univpau.paupark.service;
+package fr.univpau.paupark.remote.service;
 
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.service.async.event.OnTaskCompleteListener;
+import fr.univpau.paupark.remote.service.async.event.OnTaskCompleteListener;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**
@@ -10,7 +10,7 @@ import fr.univpau.paupark.view.presenter.ParkingListAdapter;
  * @author Josuah Aron
  *
  */
-public interface ParkingServices
+public interface RemoteParkingServices
 {
 	/**
 	 * Represents the type of parking information requested.

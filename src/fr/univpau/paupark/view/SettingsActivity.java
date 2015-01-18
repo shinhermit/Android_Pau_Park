@@ -2,7 +2,7 @@ package fr.univpau.paupark.view;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.PauParkPreferences;
-import fr.univpau.paupark.service.PauParkLocation;
+import fr.univpau.paupark.remote.service.PauParkLocation;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;

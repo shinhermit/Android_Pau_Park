@@ -1,6 +1,6 @@
 package fr.univpau.paupark.listener;
 
-import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
+import fr.univpau.paupark.remote.service.RemoteParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.tab.fragment.AbstractParkingTabFragment;
 import android.app.Fragment;

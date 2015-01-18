@@ -1,4 +1,4 @@
-package fr.univpau.paupark.service.async;
+package fr.univpau.paupark.remote.service.async;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,7 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import fr.univpau.paupark.service.async.event.OnTaskCompleteListener;
+import fr.univpau.paupark.remote.service.async.event.OnTaskCompleteListener;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.os.AsyncTask;
 import android.util.Log;

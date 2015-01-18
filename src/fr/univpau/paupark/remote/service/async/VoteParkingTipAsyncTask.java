@@ -1,4 +1,4 @@
-package fr.univpau.paupark.service.async;
+package fr.univpau.paupark.remote.service.async;
 
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -7,7 +7,7 @@ import java.util.List;
 import android.util.Log;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.service.JSONParkingParser;
+import fr.univpau.paupark.remote.service.JSONParkingParser;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**

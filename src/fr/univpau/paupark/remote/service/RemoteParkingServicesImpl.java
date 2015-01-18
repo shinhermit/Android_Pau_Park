@@ -1,4 +1,4 @@
-package fr.univpau.paupark.service;
+package fr.univpau.paupark.remote.service;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -10,10 +10,10 @@ import android.util.Log;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.service.async.LoadParkingListAsyncTask;
-import fr.univpau.paupark.service.async.SaveParkingAsyncTask;
-import fr.univpau.paupark.service.async.VoteParkingTipAsyncTask;
-import fr.univpau.paupark.service.async.event.OnTaskCompleteListener;
+import fr.univpau.paupark.remote.service.async.LoadParkingListAsyncTask;
+import fr.univpau.paupark.remote.service.async.SaveParkingAsyncTask;
+import fr.univpau.paupark.remote.service.async.VoteParkingTipAsyncTask;
+import fr.univpau.paupark.remote.service.async.event.OnTaskCompleteListener;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**
@@ -22,7 +22,7 @@ import fr.univpau.paupark.view.presenter.ParkingListAdapter;
  * @author Josuah Aron
  *
  */
-public class ParkingServiceImpl implements ParkingServices
+public class RemoteParkingServicesImpl implements RemoteParkingServices
 {
 	/** Allows to perform some actions when the service finish*/
 	private OnTaskCompleteListener onTaskCompleteListener = null;
@@ -46,7 +46,7 @@ public class ParkingServiceImpl implements ParkingServices
 	private static URL DOWNVOTE_USER_TIP;
 	
 	/** The singleton instance of this class. */
-	private static ParkingServiceImpl instance;
+	private static RemoteParkingServicesImpl instance;
 	
 	/**
 	 * Creates the singleton instance of this class.
@@ -57,41 +57,41 @@ public class ParkingServiceImpl implements ParkingServices
 	 */
 	public static final void create(Context context)
 	{
-		if(ParkingServiceImpl.instance == null)
+		if(RemoteParkingServicesImpl.instance == null)
 		{
 			// Create singleton
-			ParkingServiceImpl.instance =
-					new ParkingServiceImpl();
+			RemoteParkingServicesImpl.instance =
+					new RemoteParkingServicesImpl();
 			
 			// Initialise class
 			try
 			{
-				ParkingServiceImpl.QUERY_OFFICIAL_PARKING = URI.create(
+				RemoteParkingServicesImpl.QUERY_OFFICIAL_PARKING = URI.create(
 						context.getString(R.string.parking_official_source)
 						).toURL();
 				
-				ParkingServiceImpl.QUERY_ALL_USER_TIPS = URI.create(
+				RemoteParkingServicesImpl.QUERY_ALL_USER_TIPS = URI.create(
 						context.getString(R.string.parking_user_tip_all)
 						).toURL();
 				
-				ParkingServiceImpl.SELECT_USER_TIPS = URI.create(
+				RemoteParkingServicesImpl.SELECT_USER_TIPS = URI.create(
 						context.getString(R.string.parking_user_tip_select)
 						).toURL();
 				
-				ParkingServiceImpl.ADD_USER_TIP = URI.create(
+				RemoteParkingServicesImpl.ADD_USER_TIP = URI.create(
 						context.getString(R.string.parking_user_tip_add)
 						).toURL();
 				
-				ParkingServiceImpl.UPVOTE_USER_TIP = URI.create(
+				RemoteParkingServicesImpl.UPVOTE_USER_TIP = URI.create(
 						context.getString(R.string.parking_user_tip_upvote)).toURL();
 				
-				ParkingServiceImpl.DOWNVOTE_USER_TIP = URI.create(
+				RemoteParkingServicesImpl.DOWNVOTE_USER_TIP = URI.create(
 						context.getString(R.string.parking_user_tip_downvote)
 						).toURL();
 			}
 			catch (MalformedURLException e)
 			{
-				Log.e(ParkingServiceImpl.class.getName(), null, e);
+				Log.e(RemoteParkingServicesImpl.class.getName(), null, e);
 			}
 		}
 	}
@@ -103,9 +103,9 @@ public class ParkingServiceImpl implements ParkingServices
 	 * 
 	 * @return the singleton instance of this class.
 	 */
-	public static final ParkingServices getInstance()
+	public static final RemoteParkingServices getInstance()
 	{
-		return ParkingServiceImpl.instance;
+		return RemoteParkingServicesImpl.instance;
 	}
 	
 	@Override
@@ -124,11 +124,11 @@ public class ParkingServiceImpl implements ParkingServices
 		switch(source)
 		{
 		case OFFICIAL:
-			query = ParkingServiceImpl.QUERY_OFFICIAL_PARKING;
+			query = RemoteParkingServicesImpl.QUERY_OFFICIAL_PARKING;
 			break;
 			
 		case USERS:
-			query = ParkingServiceImpl.QUERY_ALL_USER_TIPS;
+			query = RemoteParkingServicesImpl.QUERY_ALL_USER_TIPS;
 			break;
 		}
 		
@@ -149,11 +149,11 @@ public class ParkingServiceImpl implements ParkingServices
 		switch(source)
 		{
 		case OFFICIAL:
-			base = ParkingServiceImpl.QUERY_OFFICIAL_PARKING;
+			base = RemoteParkingServicesImpl.QUERY_OFFICIAL_PARKING;
 			break;
 			
 		case USERS:
-			base = ParkingServiceImpl.QUERY_ALL_USER_TIPS;
+			base = RemoteParkingServicesImpl.QUERY_ALL_USER_TIPS;
 			break;
 		}
 		
@@ -181,7 +181,7 @@ public class ParkingServiceImpl implements ParkingServices
 	public void saveParkingTip(UserTipParking parking,
 			ParkingListAdapter adapter)
 	{
-		URL base = ParkingServiceImpl.ADD_USER_TIP;
+		URL base = RemoteParkingServicesImpl.ADD_USER_TIP;
 		GeoCoordinate coordinates = parking.getCoordinates();
 		
 		Uri queryUri = Uri.parse(base.toString())
@@ -229,7 +229,7 @@ public class ParkingServiceImpl implements ParkingServices
 	{
 		URL query = null;
 		
-		Uri queryUri = Uri.parse(ParkingServiceImpl.UPVOTE_USER_TIP.toString())
+		Uri queryUri = Uri.parse(RemoteParkingServicesImpl.UPVOTE_USER_TIP.toString())
 				.buildUpon()
 				.appendQueryParameter("id", String.valueOf(id))
 				.build();
@@ -253,7 +253,7 @@ public class ParkingServiceImpl implements ParkingServices
 	{
 		URL query = null;
 		
-		Uri queryUri = Uri.parse(ParkingServiceImpl.DOWNVOTE_USER_TIP.toString())
+		Uri queryUri = Uri.parse(RemoteParkingServicesImpl.DOWNVOTE_USER_TIP.toString())
 				.buildUpon()
 				.appendQueryParameter("id", String.valueOf(id))
 				.build();

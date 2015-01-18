@@ -2,8 +2,8 @@ package fr.univpau.paupark.view.menu.contextual;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.service.ParkingServiceImpl;
-import fr.univpau.paupark.service.ParkingServices;
+import fr.univpau.paupark.remote.service.RemoteParkingServicesImpl;
+import fr.univpau.paupark.remote.service.RemoteParkingServices;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -80,8 +80,8 @@ public class UserTipContextualActionModeCallback
 	 */
 	private void upvoteParkingTip()
 	{
-		ParkingServices services = 
-				ParkingServiceImpl.getInstance();
+		RemoteParkingServices services = 
+				RemoteParkingServicesImpl.getInstance();
 		
 		UserTipParking parking = (UserTipParking)
 				this.parkingListAdapter.getItem((int)this.selectedItem);
@@ -99,8 +99,8 @@ public class UserTipContextualActionModeCallback
 	 */
 	private void downvoteParkingTip()
 	{
-		ParkingServices services = 
-				ParkingServiceImpl.getInstance();
+		RemoteParkingServices services = 
+				RemoteParkingServicesImpl.getInstance();
 		
 		UserTipParking parking = (UserTipParking)
 				this.parkingListAdapter.getItem((int)this.selectedItem);

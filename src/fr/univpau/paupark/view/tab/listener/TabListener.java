@@ -1,7 +1,7 @@
 package fr.univpau.paupark.view.tab.listener;
 import java.io.ObjectInputStream.GetField;
 
-import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
+import fr.univpau.paupark.remote.service.RemoteParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
 import android.app.ActionBar;
