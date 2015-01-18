@@ -39,7 +39,7 @@ public class OnParkingListItemClickListener implements OnItemClickListener
 	{
 		Context context = view.getContext();
 		
-		this.actionModeCallBack.setSelectedItem(id);
+		this.actionModeCallBack.setSelectedItem(position);
 		
 		((Activity)context)
 				.startActionMode(this.actionModeCallBack);
