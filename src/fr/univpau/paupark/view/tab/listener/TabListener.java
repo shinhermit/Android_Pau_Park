@@ -1,4 +1,6 @@
 package fr.univpau.paupark.view.tab.listener;
+import java.io.ObjectInputStream.GetField;
+
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.tab.fragment.OfficialParkingTabFragment;
@@ -6,7 +8,9 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Bundle;
 
 /**
  * The Tab listener which allows to switch tabs when the user clicks
@@ -43,8 +47,19 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener
         mActivity = activity;
         mTag = tag;
         mClass = clz;
+        
+        // Fix screen rotation bug.
+        // Check to see if we already have a fragment for this tab, probably
+        // from a previously saved state.  If so, deactivate it, because our
+        // initial state is that a tab isn't shown.
+        mFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
+        if (mFragment != null && !mFragment.isDetached()) {
+            FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
+            ft.detach(mFragment);
+            ft.commit();
+        }
     }
-
+    
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft)
     {

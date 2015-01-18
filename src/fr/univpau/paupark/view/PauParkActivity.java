@@ -192,7 +192,6 @@ public class PauParkActivity extends Activity
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		
 		unregisterReceiver(this.networkStatusChangeReceiver);
