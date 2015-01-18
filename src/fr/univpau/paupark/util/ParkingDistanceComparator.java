@@ -55,11 +55,11 @@ public class ParkingDistanceComparator implements Comparator<AbstractParking>{
 			}
 			else
 			{
-				Location lhsLoc = new Location("lhsLoc");
-				lhsLoc.setLatitude(parking.getCoordinates().getLatitude());
-				lhsLoc.setLongitude(parking.getCoordinates().getLongitude());
+				Location parkingLocation = new Location("parkingLocation");
+				parkingLocation.setLatitude(parking.getCoordinates().getLatitude());
+				parkingLocation.setLongitude(parking.getCoordinates().getLongitude());
 		
-				distance = (int) this.location.distanceTo(lhsLoc);
+				distance = (int) this.location.distanceTo(parkingLocation);
 				
 				this.distances.put(parking, distance);
 			}
