@@ -21,18 +21,24 @@ public class ParkingDistanceComparator implements Comparator<AbstractParking>{
 		this.location = PauParkLocation.getInstance().getLocation();
 	}	
 
+	/**
+	 * Returns :
+	 *  - int > 0 if rhs is closer than lhs
+	 *  - int == 0 if rhs and lhs are at the same distance
+	 *  - int < 0 if lhs is closer than rhs
+	 */
 	@Override
 	public int compare(AbstractParking lhs, AbstractParking rhs) 
 	{
-		int dToLhs = this.distanceToParking(lhs);
-		int dToRhs = this.distanceToParking(rhs);
+		int distanceToLhs = this.distanceToParking(lhs);
+		int distanceToRhs = this.distanceToParking(rhs);
 				
-		return dToLhs - dToRhs;
+		return distanceToLhs - distanceToRhs;
 	}
 
 	/**
 	 * Returns the distance from current location to argument or 0 if
-	 * current location is unknownk
+	 * current location is unknown.
 	 * 
 	 * @param parking
 	 * @return
@@ -49,11 +55,11 @@ public class ParkingDistanceComparator implements Comparator<AbstractParking>{
 			}
 			else
 			{
-				Location lhsLoc = new Location("lhsLoc");
-				lhsLoc.setLatitude(parking.coordinates.getLatitude());
-				lhsLoc.setLongitude(parking.coordinates.getLongitude());
+				Location parkingLoc = new Location("parkingLoc");
+				parkingLoc.setLatitude(parking.coordinates.getLatitude());
+				parkingLoc.setLongitude(parking.coordinates.getLongitude());
 		
-				distance = (int) this.location.distanceTo(lhsLoc);
+				distance = (int) this.location.distanceTo(parkingLoc);
 				
 				this.distances.put(parking, distance);
 			}
