@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import fr.univpau.paupark.presenter.ParkingListAdapter;
@@ -95,8 +96,8 @@ public abstract class AsbtractAsyncTask extends AsyncTask<URL, Integer, Long>
 
 			httpEntity = response.getEntity();
 			
-			responseString =
-					EntityUtils.toString(httpEntity);
+			responseString = 
+					EntityUtils.toString(httpEntity, HTTP.UTF_8);
 			
 		}
 		catch (ClientProtocolException e)
