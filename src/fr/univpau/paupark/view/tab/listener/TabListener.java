@@ -60,25 +60,6 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener
         }
     }
     
-    public void storeFragment(Bundle outState)
-    {
-    	this.mActivity.getFragmentManager().putFragment(
-			outState,
-			this.mClass.getName(), 
-			this.mFragment
-		);
-    }
-    // Recover fragment from activity from savedInstanceState
-    public void restoreFragment(Bundle savedInstanceState)
-    {
-    	if (savedInstanceState != null)
-    	{
-    		this.mFragment =
-    				mClass.cast(mActivity.getFragmentManager().getFragment(
-    						savedInstanceState, this.mClass.getName()));
-    	}	
-    }
-    
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft)
     {
