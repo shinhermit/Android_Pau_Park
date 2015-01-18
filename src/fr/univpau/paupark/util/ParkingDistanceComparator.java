@@ -7,6 +7,11 @@ import java.util.Map;
 import android.location.Location;
 import fr.univpau.paupark.data.AbstractParking;
 
+/**
+ * 
+ * Used to compare parkings by distance from current location to them.
+ *
+ */
 public class ParkingDistanceComparator implements Comparator<AbstractParking>{
 	private Location location;
 	private Map<AbstractParking, Integer> distances = 
@@ -19,43 +24,41 @@ public class ParkingDistanceComparator implements Comparator<AbstractParking>{
 	@Override
 	public int compare(AbstractParking lhs, AbstractParking rhs) 
 	{
-		int dToLhs = 0;
-		int dToRhs = 0;
-		
-		if (this.location != null)
-		{
-			if (this.distances.containsKey(lhs))
-			{
-				dToLhs = this.distances.get(lhs);
-			}
-			else
-			{
-				Location lhsLoc = new Location("lhsLoc");
-				lhsLoc.setLatitude(lhs.getCoordinates().getLatitude());
-				lhsLoc.setLongitude(lhs.getCoordinates().getLongitude());
-		
-				dToLhs = (int) this.location.distanceTo(lhsLoc);
-				
-				this.distances.put(lhs, dToLhs);
-			}
-			
-			if (this.distances.containsKey(rhs))
-			{
-				dToRhs = this.distances.get(rhs);
-			}
-			else
-			{
-				Location rhsLoc = new Location("rhsLoc");
-				rhsLoc.setLatitude(rhs.getCoordinates().getLatitude());
-				rhsLoc.setLongitude(rhs.getCoordinates().getLongitude());
-		
-				dToRhs = (int) this.location.distanceTo(rhsLoc);
-				
-				this.distances.put(rhs, dToRhs);
-			}
-		}
+		int dToLhs = this.distanceToParking(lhs);
+		int dToRhs = this.distanceToParking(rhs);
 				
 		return dToLhs - dToRhs;
 	}
 
+	/**
+	 * Returns the distance from current location to argument or 0 if
+	 * current location is unknownk
+	 * 
+	 * @param parking
+	 * @return
+	 */
+	private int distanceToParking(AbstractParking parking)
+	{
+		int distance = 0;
+
+		if (this.location != null)
+		{
+			if (this.distances.containsKey(parking))
+			{
+				distance = this.distances.get(parking);
+			}
+			else
+			{
+				Location lhsLoc = new Location("lhsLoc");
+				lhsLoc.setLatitude(parking.getCoordinates().getLatitude());
+				lhsLoc.setLongitude(parking.getCoordinates().getLongitude());
+		
+				distance = (int) this.location.distanceTo(lhsLoc);
+				
+				this.distances.put(parking, distance);
+			}
+		}
+		
+		return distance;
+	}
 }
