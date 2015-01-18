@@ -60,9 +60,6 @@ public class OnViewSwitcherGenericMotionListener implements OnGestureListener, O
 					: e2.getRawY() - e1.getRawY();
 					
 			isFling = ( width >= 2 * height );
-			Log.i("onFling", "width: "+width);
-			Log.i("onFling", "height: "+height);
-			Log.i("onFling", "isFling: "+isFling);
 			
 			if(isFling)
 			{

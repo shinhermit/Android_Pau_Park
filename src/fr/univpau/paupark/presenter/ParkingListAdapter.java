@@ -100,14 +100,6 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
 		//Current parking
-		if(position > this.getCount())
-		{
-			android.util.Log.i("getView", "position: "+position);
-			android.util.Log.i("getView", "getCount(): "+this.getCount());
-			android.util.Log.i("getView", "super.getCount(): "+super.getCount());
-			android.util.Log.i("getView", "getPageCount(): "+this.getPageCount());
-			android.util.Log.i("getView", "getNumberOfItemsPerPage(): "+this.getNumberOfItemsPerPage());
-		}
 		AbstractParking parking = this.getItem(position);
 		
 		//Check if an existing view has been passed
@@ -125,7 +117,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	public int getCount()
 	{
 		return (this.isPaginOn) ?
-				this.getPageSize(this.currentPage)
+				this.getPageItemCount(this.currentPage)
 				: super.getCount();
 	}
 	
@@ -284,9 +276,10 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 	/**
 	 * Provides the number of item for this given page.
 	 * 
+	 * @param the page for which the number of item is being look up.
 	 * @return the number of item for this given page.
 	 */
-	public int getPageSize(int page)
+	public int getPageItemCount(int page)
 	{
 		if(page != this.getLastPage())
 		{
@@ -448,6 +441,9 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		super.remove(object);
 		
 		this.unfilteredParkingList.remove(object);
+		
+		// Ensure current page is not out of bounds
+		this.setCurrentPage(this.currentPage);
 	}
 
 	@Override
@@ -456,6 +452,9 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		super.clear();
 		
 		this.unfilteredParkingList.clear();
+		
+		// Ensure current page is not out of bounds
+		this.setCurrentPage(this.currentPage);
 	}
 	
 	/**
@@ -514,9 +513,8 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 		
 				}
 				
-				//Usefulness ?
-				// Reset pager
-				//this.setPaging(0, this.getNumberOfItemsPerPage());
+				// Ensure current page is not out of bounds
+				this.setCurrentPage(this.currentPage);
 				
 				// update view
 				notifyDataSetChanged();
