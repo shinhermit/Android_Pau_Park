@@ -429,7 +429,7 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 
 		if (!filterOut)
 		{
-			// parking meeets filters criteria
+			// parking meets filters criteria
 			// add to adapter for display.
 			super.insert(object, index);
 		}

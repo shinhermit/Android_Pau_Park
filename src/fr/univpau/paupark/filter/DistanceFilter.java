@@ -133,7 +133,7 @@ public class DistanceFilter extends AbstractParkingFilter {
 	
 	@Override
 	public boolean filterOut(AbstractParking parking) {
-		boolean filterOut = true;
+		boolean filterOut = false;
 		
 		//Reference point for distance measurement.
 		Location currentLocation = PauParkLocation.getInstance().getLocation();
@@ -145,17 +145,11 @@ public class DistanceFilter extends AbstractParkingFilter {
 			parkingLoc.setLatitude(parking.getCoordinates().getLatitude());
 			parkingLoc.setLongitude(parking.getCoordinates().getLongitude());
 			
-			if (currentLocation.distanceTo(parkingLoc) < this.distanceFilter)
+			if (currentLocation.distanceTo(parkingLoc) > this.distanceFilter)
 			{
 				//parking is close enough
-				filterOut = false;
+				filterOut = true;
 			}
-		}
-		else
-		{
-			// Current location unknown 
-			// or no distance selected => filter disabled.
-			filterOut = false;
 		}
 		
 		return filterOut;
@@ -171,7 +165,7 @@ public class DistanceFilter extends AbstractParkingFilter {
 	@Override
 	public boolean isNewValue(Object value)
 	{
-		return this.distanceFilter.equals((Float) value) == false;		
+		return !this.distanceFilter.equals((Float) value);		
 	}
 
 	@Override

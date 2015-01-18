@@ -232,7 +232,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
     	this.slideOutLeft = AnimationUtils.loadAnimation(activity,
     		    R.anim.slide_out_left);
 
-    	// Populate distance filter
+    	// Populate distance filter spinner
     	ArrayAdapter<String> spinnerArrayAdapter = 
     			new ArrayAdapter<String>(
     					this.getActivity(), 
@@ -292,7 +292,7 @@ public abstract class AbstractParkingTabFragment extends Fragment
     			new OnViewSwitcherGenericMotionListener(this));
     	
     	this.filterByDistanceSpinner.setOnItemSelectedListener(
-    			new OnFilterByDistanceItemSelectedListener(this));
+    			new OnFilterByDistanceItemSelectedListener(this, selectedDistanceFilterItem));
 
 		// Keep the references
     	this.viewSwitcher = viewSwitcher;
@@ -462,14 +462,17 @@ public abstract class AbstractParkingTabFragment extends Fragment
      */
     public void updatePager()
     {
+    	// Update seekbar view
     	this.seekBar.setProgress(
     			this.listViewAdapter.getNumberOfItemsPerPage());
     	
+    	// update distance filter spinner view
     	float distanceFilterValue = DistanceFilter.getDistanceByPosition(
     			this.filterByDistanceSpinner.getSelectedItemPosition());
     	
     	this.setFilterByDistanceValue(distanceFilterValue);
     	
+    	// update informations
     	this.updatePagerSeekBarIndicator(
     			this.listViewAdapter.getNumberOfItemsPerPage());
     	

@@ -24,6 +24,20 @@ public class OnFilterByDistanceItemSelectedListener implements OnItemSelectedLis
 	 * Constructor.
 	 * 
 	 * @param tab the fragment where the list of parking is.
+	 * @param lastSelectedItemPosition forces the value of the position of the last selected item (for start-up updates).
+	 */
+	public OnFilterByDistanceItemSelectedListener(
+			AbstractParkingTabFragment tab,
+			int lastSelectedItemPosition)
+	{
+		this.tab = tab;
+		this.lastPosition = lastSelectedItemPosition;
+	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param tab the fragment where the list of parking is.
 	 */
 	public OnFilterByDistanceItemSelectedListener(
 			AbstractParkingTabFragment tab)
@@ -58,6 +72,4 @@ public class OnFilterByDistanceItemSelectedListener implements OnItemSelectedLis
 	public void onNothingSelected(AdapterView<?> parent) {
 		//Do nothing
 	}
-
-
 }
