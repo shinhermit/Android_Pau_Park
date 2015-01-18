@@ -5,8 +5,8 @@ import java.net.URL;
 import java.util.List;
 
 import fr.univpau.paupark.model.AbstractParking;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.JSONParkingParser;
+import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.util.Log;
 
 /**

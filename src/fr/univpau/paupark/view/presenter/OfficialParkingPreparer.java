@@ -1,4 +1,4 @@
-package fr.univpau.paupark.presenter;
+package fr.univpau.paupark.view.presenter;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.OfficialParking;

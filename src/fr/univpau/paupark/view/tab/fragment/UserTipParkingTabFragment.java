@@ -2,13 +2,13 @@ package fr.univpau.paupark.view.tab.fragment;
 
 import fr.univpau.paupark.listener.OnLoadParkingTaskCompleteListener;
 import fr.univpau.paupark.model.PauParkPreferences;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
 import fr.univpau.paupark.service.ParkingServices.ParkingInfoSource;
 import fr.univpau.paupark.view.PauParkActivity;
 import fr.univpau.paupark.view.menu.contextual.AbstractParkingContextualActionModeCallback;
 import fr.univpau.paupark.view.menu.contextual.UserTipContextualActionModeCallback;
+import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**
  * Fragment of the tab of the official parking list.

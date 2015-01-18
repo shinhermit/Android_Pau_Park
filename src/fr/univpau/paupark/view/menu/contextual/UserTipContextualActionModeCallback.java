@@ -2,9 +2,9 @@ package fr.univpau.paupark.view.menu.contextual;
 
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.ParkingServiceImpl;
 import fr.univpau.paupark.service.ParkingServices;
+import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;

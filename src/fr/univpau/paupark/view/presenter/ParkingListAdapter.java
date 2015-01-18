@@ -1,4 +1,4 @@
-package fr.univpau.paupark.presenter;
+package fr.univpau.paupark.view.presenter;
 
 import java.util.ArrayList;
 import java.util.Collection;

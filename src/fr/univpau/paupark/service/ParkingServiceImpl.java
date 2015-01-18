@@ -10,11 +10,11 @@ import android.util.Log;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.GeoCoordinate;
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.async.LoadParkingListAsyncTask;
 import fr.univpau.paupark.service.async.SaveParkingAsyncTask;
 import fr.univpau.paupark.service.async.VoteParkingTipAsyncTask;
 import fr.univpau.paupark.service.async.listener.OnTaskCompleteListener;
+import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**
  * Implementation of the services available on parking.

@@ -1,7 +1,7 @@
 package fr.univpau.paupark.view.menu.contextual;
 
 import fr.univpau.paupark.R;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;

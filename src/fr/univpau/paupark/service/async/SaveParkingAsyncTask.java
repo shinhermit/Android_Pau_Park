@@ -7,8 +7,8 @@ import java.util.List;
 import android.util.Log;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.UserTipParking;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
 import fr.univpau.paupark.service.JSONParkingParser;
+import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**
  * An async task which allows to save a parking tip and updates a provided presenter (adapter) when it completes.

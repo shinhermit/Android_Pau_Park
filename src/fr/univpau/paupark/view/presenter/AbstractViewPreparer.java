@@ -1,4 +1,4 @@
-package fr.univpau.paupark.presenter;
+package fr.univpau.paupark.view.presenter;
 
 import android.content.Context;
 import android.view.View;

@@ -7,7 +7,7 @@ import android.view.ActionMode;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.model.AbstractParking;
 import fr.univpau.paupark.model.GeoCoordinate;
-import fr.univpau.paupark.presenter.ParkingListAdapter;
+import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 
 /**
  * Common base for contextual menus callback.
