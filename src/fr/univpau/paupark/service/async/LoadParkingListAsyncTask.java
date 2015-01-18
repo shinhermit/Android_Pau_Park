@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 
 import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.model.ParkingDistanceComparator;
 import fr.univpau.paupark.service.JSONParkingParser;
 import fr.univpau.paupark.view.presenter.ParkingListAdapter;
 import android.util.Log;
@@ -71,6 +72,11 @@ public class LoadParkingListAsyncTask extends AsbtractAsyncTask
 			{
 				this.adapter.add(parking);
 			}
+			
+			// sort parkings by distance
+			ParkingDistanceComparator distanceToParkingComparator =
+					new ParkingDistanceComparator();
+			this.adapter.sort(distanceToParkingComparator);
 		}
 		
 		super.onPostExecute(result);

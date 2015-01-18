@@ -9,6 +9,7 @@ import java.util.Map;
 import fr.univpau.paupark.R;
 import fr.univpau.paupark.filter.AbstractParkingFilter;
 import fr.univpau.paupark.model.AbstractParking;
+import fr.univpau.paupark.model.ParkingDistanceComparator;
 import fr.univpau.paupark.model.PauParkPreferences;
 import android.content.Context;
 import android.view.View;
@@ -42,10 +43,12 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 			PauParkPreferences.DEFAULT_IS_PAGINATION_ON;
 	
 	/** The raw list of parkings */
-	private List<AbstractParking> unfilteredParkingList = new ArrayList<AbstractParking>();
+	private List<AbstractParking> unfilteredParkingList = 
+			new ArrayList<AbstractParking>();
 	
 	/** Filters to tell whether an element should be shown or not. */
-	private Map<String, AbstractParkingFilter> filters = new HashMap<String, AbstractParkingFilter>();
+	private Map<String, AbstractParkingFilter> filters = 
+			new HashMap<String, AbstractParkingFilter>();
 	/**
 	 * Constructor.
 	 * 
@@ -538,12 +541,18 @@ public class ParkingListAdapter extends ArrayAdapter<AbstractParking>
 					
 					super.addAll(filtered);
 					
+					// sort list of parkings by distance
+					ParkingDistanceComparator distanceToParkingComparator =
+							new ParkingDistanceComparator();
+					this.sort(distanceToParkingComparator);
+					
 					// Ensure current page is not out of bounds
 					this.setCurrentPage(this.currentPage);
 				}
 				
-				// update view
-				notifyDataSetChanged();
+				// update view : unnecessary if list unmodified ??
+				// sort calls notifyDataSetChanged : useless if list modified
+				// notifyDataSetChanged();
 			}
 		}
 		
