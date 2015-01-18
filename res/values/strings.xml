@@ -78,7 +78,7 @@
     <string name="parking_isnotFree">Payant</string>
     <string name="parking_vacancy">place</string>
     <string name="parking_vacancyPlural">places</string>
-    <string name="parking_noVacancy">Complet</string>
+    <string name="parking_noVacancy">Non renseigné</string>
     
     <string name="parking_craft_opened">Plein air</string>
     <string name="parking_craft_underground">Souterrain</string>
